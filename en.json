@@ -1,0 +1,314 @@
+{
+  "chat": {
+    "unavailable": "聊天仅供拥有昵称的账户使用",
+    "isOffline": "聊天离线",
+    "isReconnecting": "聊天已离线，正在重连中…",
+    "reconnect": "重连",
+    "conversation": {
+      "editName": "重命名",
+      "delete": "删除会话",
+      "listNames": "{friend}和你"
+    },
+    "friendlist": {
+      "label": "好友",
+      "online": "在线",
+      "all": "全部",
+      "deleteFriendFromList": "删除好友",
+      "confirmDelete": "你确定要将{pseudo}从好友列表中删除？"
+    },
+    "invites": {
+      "noBlockedContacts": "没有已屏蔽的玩家",
+      "inviteFriend": "添加好友",
+      "sentInvites": "发出的邀请",
+      "pendingInvites": "收到的邀请",
+      "noPendingInvites": "没有收到的邀请",
+      "blockedContacts": "已屏蔽",
+      "receiveInvite": "{pseudo}想成为你的好友",
+      "noInviteSent": "没有发出的邀请",
+      "noResult": "未找到该昵称的搜索结果",
+      "inviteAlreadySentTo": "已向{pseudo}发送邀请",
+      "isAlreadyFriend": "{pseudo}已经是你的好友了"
+    },
+    "status": {
+      "online": "在线",
+      "afk": "离开",
+      "busy": "勿扰"
+    }
+  },
+  "disk": {
+    "error": {
+      "unableToGetDriveInfo": "无法检索磁盘信息",
+      "invalidPath": "路径无效"
+    }
+  },
+  "haapi": {
+    "error": {
+      "generic": "验证登录时出现错误",
+      "ban": "账户已被封禁",
+      "blacklist": "IP地址已被列入黑名单",
+      "locked": "账户已被锁定",
+      "deleted": "账户已被删除",
+      "resetAnkama": "账户需要在账户管理中重置",
+      "otpTimeFailed": "你必须通过Ankama Authenticator解锁账户",
+      "securityCard": "账户需要一张安全卡",
+      "bruteForce": "由于出现暴力破解攻击，你的IP地址已被列入黑名单",
+      "failed": "账户或密码错误",
+      "partner": "由于合作伙伴的限制，该帐户未获得授权",
+      "invalidEmail": "你必须在账户管理中验证邮箱",
+      "notFound": "账户不存在",
+      "linkedAccount": "账户已关联",
+      "invalidAccount": "无效账户",
+      "shieldedAccount": "无法关联Facebook账户至已激活Shield的Ankama账户",
+      "notCertifiedAccount": "无法关联Facebook账户至未验证的Ankama账户"
+    }
+  },
+  "header": {
+    "menu": {
+      "games": "游戏",
+      "news" : "新闻",
+      "chat" : "聊天"
+    }
+  },
+  "invalidMail" : {
+    "title" : "登录遭拒",
+    "message" : "你还未验证你的电子邮箱地址",
+    "continue" : "完成注册"
+  },
+  "logbox": {
+    "offline": "离线",
+    "account": "我的账户",
+    "help": "客服",
+    "logout": "登出",
+    "choosePseudo": "设置用户名",
+    "pseudoCompte": "账户昵称",
+    "info": "3至29个字符: a-z, A-Z, -, 0-9.",
+    "abonne": "会员",
+    "nonAbonne": "非会员",
+    "ancienAbonne": "会员已过期",
+    "jusquau": "至 "
+  },
+  "login": {
+    "connectionTitle": "登录",
+    "socialTitle": "其他登录方式",
+    "login": "账户",
+    "password": "密码",
+    "stayLoggedIn": "自动登录",
+    "signIn": "登录",
+    "cannotSignIn": "无法登录？",
+    "signUp": "创建Ankama账户",
+    "support": "联系客服",
+    "alreadyHaveAnkamaAccount": "你是否已经拥有一个Ankama账户?",
+    "yes": "是",
+    "no": "否",
+    "facebook": "Facebook",
+    "facebookLink": "关联",
+    "facebookGhost": "继续",
+    "facebookCancel": "取消",
+    "validateEmail": "确认邮箱",
+    "acceptCgu": "点击“继续”，确认我已阅读、理解并接受：",
+    "subscribeNewsletter": "我想订阅更多Ankama关于Dofus的新闻信息",
+    "cgu": "使用条款",
+    "policy": "隐私政策"
+  },
+  "news": {
+    "showOnline": "在浏览器中查看"
+  },
+  "notification": {
+    "confirm": "确认",
+    "cancel": "取消",
+    "accept": "接受",
+    "reject": "拒绝",
+    "ignore": "忽略"
+  },
+  "rgpd" : {
+    "pending": {
+      "title": "Registration pending",
+      "message": "Your registration is pending confirmation by your parent or legal guardian. The games are temporarily unavailable to you.",
+      "resend": "Re-send the email to one of your parents or legal guardians"
+    },
+    "refused": {
+      "title": "Registration refused",
+      "message": "The games are not available to you. Your parents or legal guardians refused your registration.",
+      "close": "Close"
+    }
+  },
+  "release": {
+    "error": {
+      "cannotInstallInANonEmptyFolder": "选定的文件夹不是空的",
+      "cannotInstallReadWritePermissions": "你没有权限读取或写入该文件夹",
+      "cannotInstallNotEnoughSpace": "空间不足",
+      "cannotCreateDestinationFolder": "无法创建文件夹",
+      "cannotMoveNotInstalled": "游戏还未完成安装; 移动前请等待",
+      "cannotMoveWhileMoving": "游戏正在移动中",
+      "cannotMoveSameFolder": "目标路径与当前路径一致",
+      "cannotMoveReadWritePermissions": "你没有权限读取或写入该文件夹",
+      "cannotMoveWhileUpdating": "游戏正在更新",
+      "cannotMoveWhileRunning": "游戏正在运行中",
+      "cannotMoveNotEnoughSpace": "空间不足",
+      "cannotUpdateNoLocation": "未指定目标",
+      "cannotUpdateOffline": "你的计算机没有连接到互联网",
+      "cannotUpdateGameIsRunning": "游戏正在运行中",
+      "cannotUpdateAlreadyRunning": "正在进行一项更新",
+      "cannotUpdateReleaseIsMoving": "游戏正在移动中",
+      "cannotStartNotInstalled": "游戏未安装",
+      "cannotStartWhileUpdating": "正在进行一项更新",
+      "cannotStartUpdateAvailable": "有可用更新",
+      "cannotStartMaxInstancesReached": "已达到游戏最大同时运行实例数目",
+      "cannotStartReleaseIsMoving": "游戏正在移动中",
+      "cannotUpdateCytrusVersionNotHandled": "该游戏的版本与你的Ankama Launcher版本不兼容"
+    }
+  },
+  "releaseActionBar": {
+    "options": "选项",
+    "update": "更新",
+    "play": "开始游戏",
+    "launching": "启动中…",
+    "playing": "正在运行…",
+    "downloadPending": "等待下载中",
+    "downloadPaused": "下载已暂停",
+    "launchDownload": "开始下载",
+    "resume": "继续下载",
+    "pause": "暂停",
+    "install": "安装",
+    "repair": "修复",
+    "runningInstances": "{runningInstancesCount}个游戏实例正在运行…",
+
+    "downloadSpeed": "正在下载：{downloadSpeed}/s",
+    "remainingTime": "剩余时间：{remainingTime} ",
+    "remainingFilesToCheck": "仍需下载：{filesToCheck}",
+
+    "installWaiting": "安装等待中",
+    "installPaused": "安装已暂停",
+
+    "fetching": "连接酷洛宇宙",
+    "finilizing": "获取神明审批",
+    "repairing": "排除异常干扰",
+    "downloading": "下载酷洛宇宙",
+    "untarPacks": "打开英雄礼包"
+  },
+  "releaseInstall": {
+    "install": "安装",
+    "chooseInstallFolder": "游戏安装文件夹",
+    "selectFolder": "选择文件夹",
+    "space": {
+      "required": "需求空间：",
+      "free": "可用空间："
+    },
+    "cancelButton": "取消",
+    "installButton": "安装"
+  },
+  "releaseSettings": {
+    "title": "{releaseName} 设置",
+    "tabs": {
+      "general": {
+        "title": "综合选项",
+        "autoUpdate": "自动更新",
+        "displayAllReleases": "显示其他版本({releaseList})",
+        "repairTitle": "修复",
+        "repairExplanation": "如果游戏无法正常运行，选择修复可以通过验证计算机上游戏文件夹的完整性来解决问题。",
+        "repair": "修复",
+        "toolsTitle": "工具",
+        "toolsExplanation": "查看游戏文件夹或日志文件夹。日志文件可用于Bug反馈。",
+        "openLogs": "查看日志",
+        "openReleaseFolder": "打开游戏文件夹",
+        "uninstallTitle": "卸载",
+        "uninstallExplanation": "删除安装文件夹及游戏快捷方式",
+        "uninstall": "卸载{fullGameName}"
+      },
+      "move": {
+        "title": "更改路径",
+        "moveButton": "移动",
+        "space": {
+          "required": "需求空间：",
+          "free": "可用空间：",
+          "sameDisk": "(相同磁盘)"
+        },
+        "moving": "正在移动…",
+        "success": "游戏移动成功"
+      },
+      "licenses": {
+        "title": "版权许可"
+      }
+    }
+  },
+  "releaseUninstall": {
+    "uninstalling": "卸载",
+    "sentence": "你确定要卸载{releaseName}吗?",
+    "cancelButton": "取消",
+    "uninstallButton": "卸载",
+    "deleteConfirmation": "已成功卸载游戏"
+  },
+  "releaseView": {
+    "version": "版本{version}",
+    "changelog": "查看更新日志",
+    "shop": "商店",
+    "forum": "论坛"
+  },
+
+  "systray": {
+    "open": "打开",
+    "parameters": "设置",
+    "checkUpdates": "检查更新",
+    "exit": "退出"
+  },
+  "terms": {
+    "title": "使用条款",
+    "accept": "接受",
+    "reject": "拒绝"
+  },
+  "zaapAutoUpdate": {
+    "updateRequired": "需要更新",
+    "willRestartAutomatically": "Ankama Launcher将会自动重启以安装更新。",
+    "restartIn": "将在 {countdown} 秒后重启…",
+    "restartNow": "重启",
+    "restarting": "正在重启…"
+  },
+  "zaapSettings": {
+    "title": "设置",
+    "tabs": {
+      "general": {
+        "title": "综合选项",
+        "language": "语言",
+        "launchAtStartup": "开机时启动Ankama Launcher",
+        "minimizeAtReleaseLaunch": "当游戏启动时最小化到系统托盘",
+        "disableAnimation": "关闭动画效果",
+        "preRelease": "预览模式",
+        "atClose": {
+          "title": "当我点击关闭Ankama Launcher时",
+          "tray": "最小化到系统托盘",
+          "quit": "退出Ankama Launcher"
+        },
+        "atMinimize": {
+          "title": "当我点击最小化Ankama Launcher时",
+          "taskbar": "最小化到任务栏",
+          "tray": "最小化到系统托盘"
+        }
+      },
+      "about": {
+        "title": "关于",
+        "version": "版本"
+      },
+      "chat": {
+        "title": "聊天",
+        "censoredWords": "过滤敏感词"
+      },
+      "audio": {
+        "title": "声音",
+        "mute": "关闭Launcher的声音",
+        "generalVolume": "主音量",
+        "soundGestion": "Launcher声音选项",
+        "messageNotification": "当Launcher位于后台时禁用新消息的提示音",
+        "notification": "禁用通知提示音",
+        "updateEnded": "禁用更新安装完成提示音"
+      },
+      "terms": {
+        "title": "使用条款"
+      },
+      "logs": {
+        "title": "日志",
+        "open": "打开日志文件夹",
+        "forum" : "在论坛提交Bug"
+      }
+    }
+  }
+}
