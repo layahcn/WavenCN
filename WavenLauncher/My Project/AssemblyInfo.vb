@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 '查看程序集特性的值
 
 <Assembly: AssemblyTitle("WavenLauncher")>
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyDescription("Waven汉化启动器")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("WavenLauncher")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
+<Assembly: AssemblyCopyright("Copyright © layah 2019")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

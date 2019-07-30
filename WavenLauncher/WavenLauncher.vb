@@ -1,7 +1,8 @@
-﻿Imports System.ComponentModel
-Imports System.Linq
+﻿Imports System.ComponentModel  '实现组件和控件的运行时和设计时行为
+Imports System.Linq  '允许对任何数据类型进行查询
+
 Public Class WavenLauncher
-    Const VersionWL As UInt32 = 20190729  ' 汉化启动器版本号
+    Const VersionWL As UInt32 = 20190730  ' 汉化启动器版本号
     Const VersionAL As String = "2.9.20"  ' 适用战网版本号
     Dim bFormDragging As Boolean = False    ' 判断窗体是否被拖动
     Dim oPointClicked As Point  ' 记录鼠标拖动位置
@@ -13,48 +14,57 @@ Public Class WavenLauncher
     Private Sub WavenLauncher_Load(sender As Object, e As EventArgs) Handles Me.Load
         ' 窗体载入时的动作
         Try
+            Visible = False
+            Opacity = 0  '先隐藏窗体，等全部控件刷新完后再显示，避免控件背景重绘造成的闪烁
             ToolTip1.SetToolTip(ALVersion, "点击下载Ankama Launcher官方客户端")
             WLVersion.Text = WLVersion.Text _
                              & VersionWL
             ALVersion.Text = ALVersion.Text _
                              & VersionAL  ' 显示版本号
-            CloseForm = My.Settings.CloseForm
-            LocAL = My.Settings.LocAL
-            LocGame = My.Settings.LocGame  ' 获取用户设置
+            If CheckSetting() Then '检测用户设置是否合法
+                CloseForm = My.Settings.CloseForm
+                LocAL = My.Settings.LocAL
+                LocGame = My.Settings.LocGame  ' 获取用户设置
+            End If
             CheckVersion()
             ' 调用检查版本函数
+            Timer1.Enabled = True  '加载完窗体再触发time显示窗体
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Load Form Error")
         End Try
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles QuitForm.Click
-        Try   ' 右上角退出程序叉叉
+        '点击右上角退出程序叉叉
+        Try
             Select Case CloseForm
                 Case 0
-                    Close()
+                    Close()  '关闭主窗体=退出程序
+                    'Application.Exit()   '直接退出程序而不触发窗体Closing事件
                 Case 1
-                    WindowState = FormWindowState.Minimized
+                    WindowState = FormWindowState.Minimized  '最小化窗体
                 Case 2
                     Hide()
-                    SysTrayIcon.Visible = True
-                    SysTrayIcon.ShowBalloonTip(3000, "我在这儿", "我在这儿", ToolTipIcon.Info)
+                    SysTrayIcon.Visible = True  '隐藏窗体，最小化到系统托盘
             End Select
-
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Close Form Button Error")
         End Try
     End Sub
 
-
     Private Sub Form1_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles Me.MouseDown
+        '位于窗体内鼠标按下
         bFormDragging = True
         oPointClicked = New Point(e.X, e.Y)
     End Sub
+
     Private Sub Form1_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseUp
+        '鼠标松开
         bFormDragging = False
     End Sub
+
     Private Sub Form1_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseMove
+        '鼠标拖拽
         Try
             If bFormDragging Then
                 Dim oMoveToPoint As Point
@@ -68,8 +78,8 @@ Public Class WavenLauncher
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Move Form Error")
         End Try
-
     End Sub
+
     Private Sub CheckVersion()
 
     End Sub
@@ -97,9 +107,10 @@ Public Class WavenLauncher
     End Sub
 
     Private Sub Settings_Click(sender As Object, e As EventArgs) Handles OpenSettings.Click
+        '点击打开或关闭设置面板
         Try
             If PanelVisible = False Then
-                SettingPanel.Visible = True
+                SettingPanel.Visible = True  '显示设置面板
                 OpenSettings.Text = "保存设置"
                 PanelVisible = True
                 Try   '读取设置显示在设置界面
@@ -110,9 +121,15 @@ Public Class WavenLauncher
                             CloseForm1.Checked = True
                         Case 2
                             CloseForm2.Checked = True
+                        Case Else
+                            CloseForm = 0
+                            CloseForm0.Checked = True
+                            Exit Select
                     End Select
                     If LocAL = True Then
                         LocALCheck.Checked = True
+                    Else
+                        LocAL = False
                     End If
                     If LocGame = True Then
                         LocGameCheck.Checked = True
@@ -137,7 +154,7 @@ Public Class WavenLauncher
                 Catch ex As Exception
                     MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Save CloseFormAction Error")
                 End Try
-                SettingPanel.Visible = False
+                SettingPanel.Visible = False  '隐藏设置面板
                 OpenSettings.Text = "打开设置"
                 PanelVisible = False
             End If
@@ -146,18 +163,73 @@ Public Class WavenLauncher
         End Try
     End Sub
 
-    Private Sub WavenLauncher_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+    Private Sub SysTrayIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SysTrayIcon.MouseDoubleClick
+        '双击托盘小图标显示程序窗体
+        DisplayForm()
+    End Sub
+
+    Public Sub DisplayForm()
+        '显示程序窗体方法
         Try
-            My.Settings.Save()    '关闭窗体前保存用户设置
+            Opacity = 0
+            Show()   '显示主窗体
+            Focus()  '前台窗体
+            WindowState = FormWindowState.Normal   '正常化窗体，避免仍处于最小化到任务栏
+            SysTrayIcon.Visible = False   '隐藏系统托盘小图标
+            Timer1.Enabled = True
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Form Closing Error")
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "DisplayForm Error")
         End Try
     End Sub
 
-    Private Sub SysTrayIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SysTrayIcon.MouseDoubleClick
-        Show()
-        Focus()
-        WindowState = FormWindowState.Normal
-        SysTrayIcon.Visible = False
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        '计时器只是作为一个窗体加载完成触发的入口
+        Opacity = 1
+        Timer1.Enabled = False
+    End Sub
+
+    Protected Overrides Sub WndProc(ByRef m As Message)
+        Try
+            Select Case m.Msg
+                Case &H5
+                    ' 为避免加载窗体或还原窗体时绘制出现黑框，处理Windows消息
+                    'change size: WM_SIZE
+                    If True Then
+                        Select Case m.WParam.ToInt32()
+                            Case 0
+                                'SIZE_RESTORED
+                                Timer1.Enabled = True
+                            Case 1
+                                'SIZE_MINIMIZED
+                                Opacity = 0
+                            Case 2
+                                'SIZE_MAXIMIZED
+                            Case Else
+                                Exit Select
+                        End Select
+                    End If
+                    Exit Select
+                Case Else
+                    Exit Select
+            End Select
+            MyBase.WndProc(m)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Overrides WndProc Error")
+        End Try
+    End Sub
+
+    Private Function CheckSetting() As Boolean
+        If TypeName(My.Settings.CloseForm) = "Integer" Then
+
+        End If
+        Return True
+    End Function
+
+    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
+        DisplayForm()
+    End Sub
+
+    Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
+        Close()
     End Sub
 End Class
