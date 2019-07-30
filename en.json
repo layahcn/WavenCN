@@ -5,7 +5,6 @@
     "isReconnecting": "聊天已离线，正在重连中…",
     "reconnect": "重连",
     "conversation": {
-      "editName": "重命名",
       "delete": "删除会话",
       "listNames": "{friend}和你"
     },
@@ -14,7 +13,13 @@
       "online": "在线",
       "all": "全部",
       "deleteFriendFromList": "删除好友",
-      "confirmDelete": "你确定要将{pseudo}从好友列表中删除？"
+      "confirmDelete": "你确定要将{pseudo}从好友列表中删除？",
+      "changeGroup": "Changer de groupe",
+	  "addToGroup": "Ajouter à un groupe",
+      "deleteGroupConfirm": "Êtes-vous certain de vouloir supprimer ce groupe ?",
+      "addContactTo": "Ajouter {pseudo} à :",
+      "noGroup": "Aucun groupe",
+      "newGroup": "Nouveau groupe"
     },
     "invites": {
       "noBlockedContacts": "没有已屏蔽的玩家",
@@ -27,7 +32,8 @@
       "noInviteSent": "没有发出的邀请",
       "noResult": "未找到该昵称的搜索结果",
       "inviteAlreadySentTo": "已向{pseudo}发送邀请",
-      "isAlreadyFriend": "{pseudo}已经是你的好友了"
+      "isAlreadyFriend": "{pseudo}已经是你的好友了",
+      "cannotSelfInvite": "你不能邀请你自己"
     },
     "status": {
       "online": "在线",
@@ -118,7 +124,10 @@
     "cancel": "取消",
     "accept": "接受",
     "reject": "拒绝",
-    "ignore": "忽略"
+    "ignore": "忽略",
+    "editName": "重命名",
+    "delete": "删除",
+    "validate": "验证"
   },
   "rgpd" : {
     "pending": {

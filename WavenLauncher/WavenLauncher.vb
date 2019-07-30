@@ -93,9 +93,7 @@ Public Class WavenLauncher
         End Try
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles StartGame.Click
-        MsgBox("咕咕咕，在做了")
-    End Sub
+
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles StartAL.Click
         ' 汉化Ankama Launcher

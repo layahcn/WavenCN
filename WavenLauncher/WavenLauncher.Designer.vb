@@ -25,7 +25,6 @@ Partial Class WavenLauncher
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WavenLauncher))
         Me.StartAL = New System.Windows.Forms.Button()
-        Me.StartGame = New System.Windows.Forms.Button()
         Me.WLVersion = New System.Windows.Forms.Label()
         Me.ALVersion = New System.Windows.Forms.Label()
         Me.QuitForm = New System.Windows.Forms.Button()
@@ -47,9 +46,9 @@ Partial Class WavenLauncher
         Me.SysTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SettingPanel.SuspendLayout()
         Me.CloseAction.SuspendLayout()
@@ -62,25 +61,12 @@ Partial Class WavenLauncher
         Me.StartAL.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.StartAL.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.StartAL.ForeColor = System.Drawing.Color.Yellow
-        Me.StartAL.Location = New System.Drawing.Point(449, 350)
+        Me.StartAL.Location = New System.Drawing.Point(563, 350)
         Me.StartAL.Name = "StartAL"
         Me.StartAL.Size = New System.Drawing.Size(115, 45)
         Me.StartAL.TabIndex = 1
         Me.StartAL.Text = "启动战网"
         Me.StartAL.UseVisualStyleBackColor = False
-        '
-        'StartGame
-        '
-        Me.StartGame.BackColor = System.Drawing.Color.Teal
-        Me.StartGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.StartGame.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.StartGame.ForeColor = System.Drawing.Color.Yellow
-        Me.StartGame.Location = New System.Drawing.Point(569, 350)
-        Me.StartGame.Name = "StartGame"
-        Me.StartGame.Size = New System.Drawing.Size(115, 45)
-        Me.StartGame.TabIndex = 2
-        Me.StartGame.Text = "开始游戏"
-        Me.StartGame.UseVisualStyleBackColor = False
         '
         'WLVersion
         '
@@ -193,7 +179,7 @@ Partial Class WavenLauncher
         Me.OpenSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.OpenSettings.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.OpenSettings.ForeColor = System.Drawing.Color.Yellow
-        Me.OpenSettings.Location = New System.Drawing.Point(328, 350)
+        Me.OpenSettings.Location = New System.Drawing.Point(438, 350)
         Me.OpenSettings.Name = "OpenSettings"
         Me.OpenSettings.Size = New System.Drawing.Size(115, 45)
         Me.OpenSettings.TabIndex = 12
@@ -306,29 +292,29 @@ Partial Class WavenLauncher
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator1, Me.ToolStripMenuItem2})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 76)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(137, 54)
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Image = CType(resources.GetObject("ToolStripMenuItem1.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(136, 22)
         Me.ToolStripMenuItem1.Text = "显示主界面"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(133, 6)
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(136, 22)
         Me.ToolStripMenuItem2.Text = "退出"
         '
         'Timer1
         '
         Me.Timer1.Interval = 10
-        '
-        'ToolStripSeparator1
-        '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'WavenLauncher
         '
@@ -347,7 +333,6 @@ Partial Class WavenLauncher
         Me.Controls.Add(Me.QuitForm)
         Me.Controls.Add(Me.ALVersion)
         Me.Controls.Add(Me.WLVersion)
-        Me.Controls.Add(Me.StartGame)
         Me.Controls.Add(Me.StartAL)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -365,7 +350,6 @@ Partial Class WavenLauncher
 
     End Sub
     Friend WithEvents StartAL As Button
-    Friend WithEvents StartGame As Button
     Friend WithEvents WLVersion As Label
     Friend WithEvents ALVersion As Label
     Friend WithEvents QuitForm As Button
