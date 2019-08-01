@@ -89,6 +89,30 @@ Namespace My
                 Me("LocGame") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property ALDir() As String
+            Get
+                Return CType(Me("ALDir"),String)
+            End Get
+            Set
+                Me("ALDir") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property GMDir() As String
+            Get
+                Return CType(Me("GMDir"),String)
+            End Get
+            Set
+                Me("GMDir") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

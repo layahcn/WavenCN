@@ -1,15 +1,20 @@
 ﻿Imports System.ComponentModel  '实现组件和控件的运行时和设计时行为
 Imports System.Linq  '允许对任何数据类型进行查询
 
+
 Public Class WavenLauncher
-    Const VersionWL As UInt32 = 20190730  ' 汉化启动器版本号
+    Const VersionWL As UInt32 = 20190801  ' 汉化启动器版本号
     Const VersionAL As String = "2.9.20"  ' 适用战网版本号
     Dim bFormDragging As Boolean = False    ' 判断窗体是否被拖动
     Dim oPointClicked As Point  ' 记录鼠标拖动位置
     Dim PanelVisible As Boolean = False   ' 设置界面默认隐藏
     Dim CloseForm As UShort = 0
     Dim LocAL As Boolean = True
-    Dim LocGame As Boolean = True   '预设用户设置条目
+    Dim LocGM As Boolean = True   '预设用户设置条目
+    Dim ALDir As String  '存储战网路径
+    Dim GMDir As String  '存储游戏路径
+
+
 
     Private Sub WavenLauncher_Load(sender As Object, e As EventArgs) Handles Me.Load
         ' 窗体载入时的动作
@@ -21,11 +26,32 @@ Public Class WavenLauncher
                              & VersionWL
             ALVersion.Text = ALVersion.Text _
                              & VersionAL  ' 显示版本号
-            If CheckSetting() Then '检测用户设置是否合法
-                CloseForm = My.Settings.CloseForm
-                LocAL = My.Settings.LocAL
-                LocGame = My.Settings.LocGame  ' 获取用户设置
-            End If
+            Try
+                '获取用户设置
+                Select Case My.Settings.CloseForm
+                    Case 0, 1, 2
+                        CloseForm = My.Settings.CloseForm
+                    Case Else
+                        My.Settings.CloseForm = 0
+                End Select
+                Select Case My.Settings.LocAL
+                    Case True, False
+                        LocAL = My.Settings.LocAL
+                    Case Else
+                        My.Settings.LocAL = True
+                End Select
+                Select Case My.Settings.LocGame
+                    Case True, False
+                        LocGM = My.Settings.LocGame
+                    Case Else
+                        My.Settings.LocGame = True
+                End Select
+                ALDir = My.Settings.ALDir
+                GMDir = My.Settings.GMDir
+
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Read Settings Error")
+            End Try
             CheckVersion()
             ' 调用检查版本函数
             Timer1.Enabled = True  '加载完窗体再触发time显示窗体
@@ -129,11 +155,17 @@ Public Class WavenLauncher
                     Else
                         LocAL = False
                     End If
-                    If LocGame = True Then
+                    If LocGM = True Then
                         LocGameCheck.Checked = True
                     End If
+                    If ALDir <> "" Then
+                        LabelDirAL.Text = ALDir
+                    End If
+                    If GMDir <> "" Then
+                        LabelDirGM.Text = GMDir
+                    End If
                 Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Get CloseFormAction Error")
+                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Get Settings Error")
                     CloseForm0.Checked = True
                 End Try
             Else
@@ -144,13 +176,16 @@ Public Class WavenLauncher
                             .FirstOrDefault(Function(r) r.Checked = True)
                     CloseForm = rButton.Name.Substring(9)  '截取单选按钮的编号
                     LocAL = LocALCheck.Checked
-                    LocGame = LocGameCheck.Checked
+                    LocGM = LocGameCheck.Checked
+
                     My.Settings.CloseForm = CloseForm '保存最小化的操作
                     My.Settings.LocAL = LocAL '保存是否汉化启动战网
-                    My.Settings.LocGame = LocGame '保存是否汉化启动游戏
+                    My.Settings.LocGame = LocGM '保存是否汉化启动游戏
+                    My.Settings.ALDir = ALDir
+                    My.Settings.GMDir = GMDir
                     My.Settings.Save()  '保存所有设置
                 Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Save CloseFormAction Error")
+                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Save Settings Error")
                 End Try
                 SettingPanel.Visible = False  '隐藏设置面板
                 OpenSettings.Text = "打开设置"
@@ -216,18 +251,34 @@ Public Class WavenLauncher
         End Try
     End Sub
 
-    Private Function CheckSetting() As Boolean
-        If TypeName(My.Settings.CloseForm) = "Integer" Then
-
-        End If
-        Return True
-    End Function
-
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
+        '系统托盘图标右键菜单，打开主界面
         DisplayForm()
     End Sub
 
     Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
+        '系统托盘图标右键菜单，关闭程序
         Close()
+    End Sub
+
+    Private Sub SetDirAL()
+        Try
+            If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                LabelDirAL.Text = OpenFileDialog1.FileName
+                ALDir = OpenFileDialog1.FileName
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SetDirAL Error")
+        End Try
+    End Sub
+
+    Private Sub LabelDirAL_Click(sender As Object, e As EventArgs) Handles LabelDirAL.Click
+        '点击选择战网路径
+        SetDirAL()
+    End Sub
+
+    Private Sub ButtonDirAL_Click(sender As Object, e As EventArgs) Handles ButtonDirAL.Click
+        '点击选择战网路径
+        SetDirAL()
     End Sub
 End Class
