@@ -1,5 +1,4 @@
-﻿Imports System.ComponentModel  '实现组件和控件的运行时和设计时行为
-Imports System.Linq  '允许对任何数据类型进行查询
+﻿Imports System.IO
 
 
 Public Class WavenLauncher
@@ -13,6 +12,7 @@ Public Class WavenLauncher
     Dim LocGM As Boolean = True   '预设用户设置条目
     Dim ALDir As String  '存储战网路径
     Dim GMDir As String  '存储游戏路径
+    Dim AnkamaLaucher As FileInfo
 
 
 
@@ -46,7 +46,9 @@ Public Class WavenLauncher
                     Case Else
                         My.Settings.LocGame = True
                 End Select
+                CheckFileExisting(My.Settings.ALDir) '验证路径合法性
                 ALDir = My.Settings.ALDir
+                CheckFileExisting(My.Settings.GMDir)  '验证路径合法性
                 GMDir = My.Settings.GMDir
 
             Catch ex As Exception
@@ -54,7 +56,7 @@ Public Class WavenLauncher
             End Try
             CheckVersion()
             ' 调用检查版本函数
-            Timer1.Enabled = True  '加载完窗体再触发time显示窗体
+            Timer1.Enabled = True  '加载完窗体再触发计时器延时显示窗体
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Load Form Error")
         End Try
@@ -124,6 +126,15 @@ Public Class WavenLauncher
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles StartAL.Click
         ' 汉化Ankama Launcher
         Try
+            If ALDir = "" Then
+                OpenOrSaveSetting(True)
+            Else
+                Try
+                    Process.Start(ALDir)
+                Catch ex As Exception
+                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "战网启动失败")
+                End Try
+            End If
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Localisation Error")
@@ -132,6 +143,11 @@ Public Class WavenLauncher
 
     Private Sub Settings_Click(sender As Object, e As EventArgs) Handles OpenSettings.Click
         '点击打开或关闭设置面板
+        OpenOrSaveSetting(False)
+    End Sub
+
+    Private Sub OpenOrSaveSetting(ByVal KeepOpening As Boolean)
+        'KeepOpening判断是否需要一直打开设置面板（因为想启动战网却没设置路径所以需要一直开着）
         Try
             If PanelVisible = False Then
                 SettingPanel.Visible = True  '显示设置面板
@@ -169,33 +185,37 @@ Public Class WavenLauncher
                     CloseForm0.Checked = True
                 End Try
             Else
-                Try
-                    Dim rButton As RadioButton =   '判断GroupBox控件中是哪一个单选按钮被选中
+                If Not KeepOpening Then '如果不需要一直开着就保存
+                    Try
+
+                        Dim rButton As RadioButton =   '判断GroupBox控件中是哪一个单选按钮被选中
                             CloseAction.Controls _
                             .OfType(Of RadioButton) _
                             .FirstOrDefault(Function(r) r.Checked = True)
-                    CloseForm = rButton.Name.Substring(9)  '截取单选按钮的编号
-                    LocAL = LocALCheck.Checked
-                    LocGM = LocGameCheck.Checked
+                        CloseForm = rButton.Name.Substring(9)  '截取单选按钮的编号
+                        LocAL = LocALCheck.Checked
+                        LocGM = LocGameCheck.Checked
+                        With My.Settings
+                            .CloseForm = CloseForm '保存最小化的操作
+                            .LocAL = LocAL '保存是否汉化启动战网
+                            .LocGame = LocGM '保存是否汉化启动游戏
+                            .ALDir = ALDir  '保存战网路径
+                            .GMDir = GMDir  '保存游戏路径
+                            .Save()  '保存所有设置
+                        End With
 
-                    My.Settings.CloseForm = CloseForm '保存最小化的操作
-                    My.Settings.LocAL = LocAL '保存是否汉化启动战网
-                    My.Settings.LocGame = LocGM '保存是否汉化启动游戏
-                    My.Settings.ALDir = ALDir
-                    My.Settings.GMDir = GMDir
-                    My.Settings.Save()  '保存所有设置
-                Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Save Settings Error")
-                End Try
-                SettingPanel.Visible = False  '隐藏设置面板
-                OpenSettings.Text = "打开设置"
-                PanelVisible = False
+                    Catch ex As Exception
+                        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Save Settings Error")
+                    End Try
+                    SettingPanel.Visible = False  '隐藏设置面板
+                    OpenSettings.Text = "打开设置"
+                    PanelVisible = False
+                End If
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Settings Error")
         End Try
     End Sub
-
     Private Sub SysTrayIcon_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles SysTrayIcon.MouseDoubleClick
         '双击托盘小图标显示程序窗体
         DisplayForm()
@@ -261,12 +281,29 @@ Public Class WavenLauncher
         Close()
     End Sub
 
-    Private Sub SetDirAL()
+    Private Sub SetDir(ByVal LaunchWhat As String)
         Try
-            If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                LabelDirAL.Text = OpenFileDialog1.FileName
-                ALDir = OpenFileDialog1.FileName
-            End If
+            Select Case LaunchWhat
+                Case "AL"
+                    With OpenFileDialog1
+                        .Title = "选择Ankama Launcher战网路径"
+                        .Filter = "Ankama战网|Ankama Launcher.exe"
+                    End With
+                    If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                        LabelDirAL.Text = OpenFileDialog1.FileName
+                        ALDir = OpenFileDialog1.FileName
+                    End If
+                Case "GM"
+                    With OpenFileDialog1
+                        .Title = "选择Waven游戏路径"
+                        .Filter = "Waven游戏|Waven.exe"
+                    End With
+                    If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                        LabelDirGM.Text = OpenFileDialog1.FileName
+                        GMDir = OpenFileDialog1.FileName
+                    End If
+            End Select
+
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SetDirAL Error")
         End Try
@@ -274,11 +311,85 @@ Public Class WavenLauncher
 
     Private Sub LabelDirAL_Click(sender As Object, e As EventArgs) Handles LabelDirAL.Click
         '点击选择战网路径
-        SetDirAL()
+        SetDir("AL")
     End Sub
 
     Private Sub ButtonDirAL_Click(sender As Object, e As EventArgs) Handles ButtonDirAL.Click
         '点击选择战网路径
-        SetDirAL()
+        SetDir("AL")
+    End Sub
+
+    Private Sub LabelDirGM_Click(sender As Object, e As EventArgs) Handles LabelDirGM.Click
+        '点击选择游戏路径
+        SetDir("GM")
+    End Sub
+
+    Private Sub ButtonDirGM_Click(sender As Object, e As EventArgs) Handles ButtonDirGM.Click
+        '点击选择游戏路径
+        SetDir("GM")
+    End Sub
+
+    Private Sub CheckFileExisting(ByRef Dir As String)
+        '验证路径合法性
+        Try
+            If Not IO.File.Exists(Dir) Then
+                Dir = ""  '如果不合法重置为空值
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "CheckFileExisting Error")
+        End Try
+    End Sub
+
+    Private Function CheckProcessRunning(ByVal Program As String) As Boolean
+        '查询程序进程判断程序是否运行，传递程序名
+        Try
+            Dim IsRunning As Boolean = False
+            Dim ProcessName As String  '程序名
+            Dim ProcessPath As String  '程序路径
+            Dim ProcessList() As Process
+            If Program = "AL" Then
+                ProcessName = "Ankama Launcher"
+                ProcessPath = ALDir
+            ElseIf Program = "GM" Then
+                ProcessName = "Waven"
+                ProcessPath = GMDir
+            Else
+                Return False
+                Exit Try
+            End If
+
+            '测试用
+            TestLabel1.Text = "设定路径- " & ProcessPath
+            TestLabel2.Text = ""
+            '测试用
+
+            ProcessList = Process.GetProcessesByName(ProcessName)
+            '获取程序系统进程列表
+
+
+            For Each LaunchProcess In ProcessList
+                '测试用
+                TestLabel2.Text += "内存路径- " & LaunchProcess.MainModule.FileName & Chr(13) & Chr(10)
+                '测试用
+                If LaunchProcess.MainModule.FileName.Equals(  '忽略大小写比较路径
+                    ProcessPath, StringComparison.OrdinalIgnoreCase) Then
+                    IsRunning = True
+                    Exit For
+                End If
+
+            Next
+
+            Return IsRunning
+        Catch ex32 As ComponentModel.Win32Exception
+            TestLabel2.Text = "报错"
+            Return False
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "CheckProcessRunning Error")
+            Return False
+        End Try
+    End Function
+
+    Private Sub TestLabel1_Click(sender As Object, e As EventArgs) Handles TestLabel1.Click
+        CheckProcessRunning("AL")
     End Sub
 End Class
