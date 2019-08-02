@@ -113,6 +113,18 @@ Namespace My
                 Me("GMDir") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2.9.20")>  _
+        Public Property VersionAL() As String
+            Get
+                Return CType(Me("VersionAL"),String)
+            End Get
+            Set
+                Me("VersionAL") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

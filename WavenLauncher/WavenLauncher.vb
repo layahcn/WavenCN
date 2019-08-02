@@ -1,9 +1,7 @@
 ﻿Imports System.IO
 
-
 Public Class WavenLauncher
-    Const VersionWL As UInt32 = 20190801  ' 汉化启动器版本号
-    Const VersionAL As String = "2.9.20"  ' 适用战网版本号
+    Const VersionWL As UInt32 = 20190802  ' 汉化启动器版本号
     Dim bFormDragging As Boolean = False    ' 判断窗体是否被拖动
     Dim oPointClicked As Point  ' 记录鼠标拖动位置
     Dim PanelVisible As Boolean = False   ' 设置界面默认隐藏
@@ -12,22 +10,20 @@ Public Class WavenLauncher
     Dim LocGM As Boolean = True   '预设用户设置条目
     Dim ALDir As String  '存储战网路径
     Dim GMDir As String  '存储游戏路径
-    Dim AnkamaLaucher As FileInfo
-
-
+    Dim VersionAL As String ' 存储战网汉化适用战网版本号
 
     Private Sub WavenLauncher_Load(sender As Object, e As EventArgs) Handles Me.Load
         ' 窗体载入时的动作
         Try
             Visible = False
             Opacity = 0  '先隐藏窗体，等全部控件刷新完后再显示，避免控件背景重绘造成的闪烁
-            ToolTip1.SetToolTip(ALVersion, "点击下载Ankama Launcher官方客户端")
-            WLVersion.Text = WLVersion.Text _
+            ToolTip1.SetToolTip(ALVersionLabel, "点击下载Ankama Launcher官方客户端")
+            WLVersionLabel.Text = WLVersionLabel.Text _
                              & VersionWL
-            ALVersion.Text = ALVersion.Text _
+            VersionAL = My.Settings.VersionAL
+            ALVersionLabel.Text = ALVersionLabel.Text _
                              & VersionAL  ' 显示版本号
-            Try
-                '获取用户设置
+            Try   '获取用户设置
                 Select Case My.Settings.CloseForm
                     Case 0, 1, 2
                         CloseForm = My.Settings.CloseForm
@@ -54,6 +50,10 @@ Public Class WavenLauncher
             Catch ex As Exception
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Read Settings Error")
             End Try
+            If CheckProcessRunning("AL") Then '检测战网运行状态，如果在运行，则按钮改为开始游戏
+                StartButton.Text = "开始游戏"
+                LayoutLabel("战网运行中，如需汉化战网请关闭战网后重启本程序")
+            End If
             CheckVersion()
             ' 调用检查版本函数
             Timer1.Enabled = True  '加载完窗体再触发计时器延时显示窗体
@@ -112,7 +112,7 @@ Public Class WavenLauncher
 
     End Sub
 
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles ALVersion.Click
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles ALVersionLabel.Click
         ' 直接调用浏览器下载Ankama Launcher
         Try
             Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
@@ -123,7 +123,7 @@ Public Class WavenLauncher
 
 
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles StartAL.Click
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles StartButton.Click
         ' 汉化Ankama Launcher
         Try
             If ALDir = "" Then
@@ -151,7 +151,7 @@ Public Class WavenLauncher
         Try
             If PanelVisible = False Then
                 SettingPanel.Visible = True  '显示设置面板
-                OpenSettings.Text = "保存设置"
+                OpenSettings.Text = "保存"
                 PanelVisible = True
                 Try   '读取设置显示在设置界面
                     Select Case CloseForm
@@ -208,7 +208,7 @@ Public Class WavenLauncher
                         MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Save Settings Error")
                     End Try
                     SettingPanel.Visible = False  '隐藏设置面板
-                    OpenSettings.Text = "打开设置"
+                    OpenSettings.Text = "设置"
                     PanelVisible = False
                 End If
             End If
@@ -366,11 +366,13 @@ Public Class WavenLauncher
             ProcessList = Process.GetProcessesByName(ProcessName)
             '获取程序系统进程列表
 
-
+            Dim LaunchProcess As Process
             For Each LaunchProcess In ProcessList
+
                 '测试用
                 TestLabel2.Text += "内存路径- " & LaunchProcess.MainModule.FileName & Chr(13) & Chr(10)
                 '测试用
+
                 If LaunchProcess.MainModule.FileName.Equals(  '忽略大小写比较路径
                     ProcessPath, StringComparison.OrdinalIgnoreCase) Then
                     IsRunning = True
@@ -381,7 +383,9 @@ Public Class WavenLauncher
 
             Return IsRunning
         Catch ex32 As ComponentModel.Win32Exception
-            TestLabel2.Text = "报错"
+            TestLabel2.Text = "Win32Exception报错"
+            '32位程序读取64位程序时报错，应将debug中选any cpu，并在项目设置里取消勾选首选32位
+            '另外无法获取管理员权限运行进程的路径时也会报错
             Return False
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "CheckProcessRunning Error")
@@ -390,6 +394,13 @@ Public Class WavenLauncher
     End Function
 
     Private Sub TestLabel1_Click(sender As Object, e As EventArgs) Handles TestLabel1.Click
-        CheckProcessRunning("AL")
+        '此事件仅供测试用
+        'CheckProcessRunning("AL")
+        CheckProcessRunning("GM")
+    End Sub
+
+    Private Sub LayoutLabel(ByVal Text As String, Optional ByVal KeyWord As String = "状态：")
+        '显示当前状态信息提示
+        StateLabel.Text = KeyWord & Text
     End Sub
 End Class

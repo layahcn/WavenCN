@@ -24,13 +24,10 @@ Partial Class WavenLauncher
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WavenLauncher))
-        Me.StartAL = New System.Windows.Forms.Button()
-        Me.WLVersion = New System.Windows.Forms.Label()
-        Me.ALVersion = New System.Windows.Forms.Label()
+        Me.StartButton = New System.Windows.Forms.Button()
+        Me.WLVersionLabel = New System.Windows.Forms.Label()
+        Me.ALVersionLabel = New System.Windows.Forms.Label()
         Me.QuitForm = New System.Windows.Forms.Button()
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
-        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
-        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
         Me.FormTitle = New System.Windows.Forms.Label()
         Me.IcoPicture = New System.Windows.Forms.PictureBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -56,48 +53,49 @@ Partial Class WavenLauncher
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.TestLabel2 = New System.Windows.Forms.Label()
         Me.TestLabel1 = New System.Windows.Forms.Label()
+        Me.StateLabel = New System.Windows.Forms.Label()
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SettingPanel.SuspendLayout()
         Me.CloseAction.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'StartAL
+        'StartButton
         '
-        Me.StartAL.BackColor = System.Drawing.Color.Teal
-        Me.StartAL.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.StartAL.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.StartAL.ForeColor = System.Drawing.Color.Yellow
-        Me.StartAL.Location = New System.Drawing.Point(563, 350)
-        Me.StartAL.Name = "StartAL"
-        Me.StartAL.Size = New System.Drawing.Size(115, 45)
-        Me.StartAL.TabIndex = 1
-        Me.StartAL.Text = "启动战网"
-        Me.StartAL.UseVisualStyleBackColor = False
+        Me.StartButton.BackColor = System.Drawing.Color.Teal
+        Me.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.StartButton.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.StartButton.ForeColor = System.Drawing.Color.Yellow
+        Me.StartButton.Location = New System.Drawing.Point(563, 350)
+        Me.StartButton.Name = "StartButton"
+        Me.StartButton.Size = New System.Drawing.Size(115, 45)
+        Me.StartButton.TabIndex = 1
+        Me.StartButton.Text = "启动战网"
+        Me.StartButton.UseVisualStyleBackColor = False
         '
-        'WLVersion
+        'WLVersionLabel
         '
-        Me.WLVersion.AutoSize = True
-        Me.WLVersion.BackColor = System.Drawing.Color.Transparent
-        Me.WLVersion.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.WLVersion.ForeColor = System.Drawing.Color.Yellow
-        Me.WLVersion.Location = New System.Drawing.Point(281, 19)
-        Me.WLVersion.Name = "WLVersion"
-        Me.WLVersion.Size = New System.Drawing.Size(63, 15)
-        Me.WLVersion.TabIndex = 3
-        Me.WLVersion.Text = "版本号："
+        Me.WLVersionLabel.AutoSize = True
+        Me.WLVersionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.WLVersionLabel.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.WLVersionLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.WLVersionLabel.Location = New System.Drawing.Point(281, 19)
+        Me.WLVersionLabel.Name = "WLVersionLabel"
+        Me.WLVersionLabel.Size = New System.Drawing.Size(63, 15)
+        Me.WLVersionLabel.TabIndex = 3
+        Me.WLVersionLabel.Text = "版本号："
         '
-        'ALVersion
+        'ALVersionLabel
         '
-        Me.ALVersion.AutoSize = True
-        Me.ALVersion.BackColor = System.Drawing.Color.Transparent
-        Me.ALVersion.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ALVersion.ForeColor = System.Drawing.Color.Yellow
-        Me.ALVersion.Location = New System.Drawing.Point(22, 350)
-        Me.ALVersion.Name = "ALVersion"
-        Me.ALVersion.Size = New System.Drawing.Size(205, 19)
-        Me.ALVersion.TabIndex = 4
-        Me.ALVersion.Text = "适用Ankama Launcher版本："
+        Me.ALVersionLabel.AutoSize = True
+        Me.ALVersionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.ALVersionLabel.Location = New System.Drawing.Point(22, 350)
+        Me.ALVersionLabel.Name = "ALVersionLabel"
+        Me.ALVersionLabel.Size = New System.Drawing.Size(205, 19)
+        Me.ALVersionLabel.TabIndex = 4
+        Me.ALVersionLabel.Text = "适用Ankama Launcher版本："
         '
         'QuitForm
         '
@@ -110,45 +108,6 @@ Partial Class WavenLauncher
         Me.QuitForm.TabIndex = 0
         Me.QuitForm.Text = "×"
         Me.QuitForm.UseVisualStyleBackColor = False
-        '
-        'LinkLabel1
-        '
-        Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel1.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LinkLabel1.LinkColor = System.Drawing.Color.Yellow
-        Me.LinkLabel1.Location = New System.Drawing.Point(23, 376)
-        Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(75, 17)
-        Me.LinkLabel1.TabIndex = 7
-        Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "广告位招租1"
-        '
-        'LinkLabel2
-        '
-        Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel2.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LinkLabel2.LinkColor = System.Drawing.Color.Yellow
-        Me.LinkLabel2.Location = New System.Drawing.Point(125, 376)
-        Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(75, 17)
-        Me.LinkLabel2.TabIndex = 8
-        Me.LinkLabel2.TabStop = True
-        Me.LinkLabel2.Text = "广告位招租2"
-        '
-        'LinkLabel3
-        '
-        Me.LinkLabel3.AutoSize = True
-        Me.LinkLabel3.BackColor = System.Drawing.Color.Transparent
-        Me.LinkLabel3.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LinkLabel3.LinkColor = System.Drawing.Color.Yellow
-        Me.LinkLabel3.Location = New System.Drawing.Point(222, 376)
-        Me.LinkLabel3.Name = "LinkLabel3"
-        Me.LinkLabel3.Size = New System.Drawing.Size(75, 17)
-        Me.LinkLabel3.TabIndex = 9
-        Me.LinkLabel3.TabStop = True
-        Me.LinkLabel3.Text = "广告位招租3"
         '
         'FormTitle
         '
@@ -212,11 +171,11 @@ Partial Class WavenLauncher
         Me.OpenSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.OpenSettings.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.OpenSettings.ForeColor = System.Drawing.Color.Yellow
-        Me.OpenSettings.Location = New System.Drawing.Point(438, 350)
+        Me.OpenSettings.Location = New System.Drawing.Point(473, 350)
         Me.OpenSettings.Name = "OpenSettings"
-        Me.OpenSettings.Size = New System.Drawing.Size(115, 45)
+        Me.OpenSettings.Size = New System.Drawing.Size(80, 45)
         Me.OpenSettings.TabIndex = 12
-        Me.OpenSettings.Text = "打开设置"
+        Me.OpenSettings.Text = "设置"
         Me.OpenSettings.UseVisualStyleBackColor = False
         '
         'SettingPanel
@@ -393,12 +352,25 @@ Partial Class WavenLauncher
         Me.TestLabel1.TabIndex = 16
         Me.TestLabel1.Text = "测试输出用，发布请隐藏"
         '
+        'StateLabel
+        '
+        Me.StateLabel.AutoSize = True
+        Me.StateLabel.BackColor = System.Drawing.Color.Transparent
+        Me.StateLabel.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.StateLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.StateLabel.Location = New System.Drawing.Point(22, 375)
+        Me.StateLabel.Name = "StateLabel"
+        Me.StateLabel.Size = New System.Drawing.Size(79, 20)
+        Me.StateLabel.TabIndex = 17
+        Me.StateLabel.Text = "状态：就绪"
+        '
         'WavenLauncher
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.ClientSize = New System.Drawing.Size(696, 411)
+        Me.Controls.Add(Me.StateLabel)
         Me.Controls.Add(Me.TestLabel1)
         Me.Controls.Add(Me.TestLabel2)
         Me.Controls.Add(Me.VersionState)
@@ -406,13 +378,10 @@ Partial Class WavenLauncher
         Me.Controls.Add(Me.OpenSettings)
         Me.Controls.Add(Me.IcoPicture)
         Me.Controls.Add(Me.FormTitle)
-        Me.Controls.Add(Me.LinkLabel3)
-        Me.Controls.Add(Me.LinkLabel2)
-        Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.QuitForm)
-        Me.Controls.Add(Me.ALVersion)
-        Me.Controls.Add(Me.WLVersion)
-        Me.Controls.Add(Me.StartAL)
+        Me.Controls.Add(Me.ALVersionLabel)
+        Me.Controls.Add(Me.WLVersionLabel)
+        Me.Controls.Add(Me.StartButton)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "WavenLauncher"
@@ -428,13 +397,10 @@ Partial Class WavenLauncher
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents StartAL As Button
-    Friend WithEvents WLVersion As Label
-    Friend WithEvents ALVersion As Label
+    Friend WithEvents StartButton As Button
+    Friend WithEvents WLVersionLabel As Label
+    Friend WithEvents ALVersionLabel As Label
     Friend WithEvents QuitForm As Button
-    Friend WithEvents LinkLabel1 As LinkLabel
-    Friend WithEvents LinkLabel2 As LinkLabel
-    Friend WithEvents LinkLabel3 As LinkLabel
     Friend WithEvents FormTitle As Label
     Friend WithEvents IcoPicture As PictureBox
     Friend WithEvents ToolTip1 As ToolTip
@@ -460,4 +426,5 @@ Partial Class WavenLauncher
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents TestLabel2 As Label
     Friend WithEvents TestLabel1 As Label
+    Friend WithEvents StateLabel As Label
 End Class

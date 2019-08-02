@@ -17,5 +17,8 @@
     <Setting Name="GMDir" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="VersionAL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2.9.20</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
