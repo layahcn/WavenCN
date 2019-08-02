@@ -56,6 +56,7 @@ Partial Class WavenLauncher
         Me.StatusLabel = New System.Windows.Forms.Label()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.UpdateLoc = New System.Windows.Forms.Button()
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SettingPanel.SuspendLayout()
         Me.CloseAction.SuspendLayout()
@@ -69,7 +70,7 @@ Partial Class WavenLauncher
         Me.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.StartButton.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.StartButton.ForeColor = System.Drawing.Color.Yellow
-        Me.StartButton.Location = New System.Drawing.Point(575, 350)
+        Me.StartButton.Location = New System.Drawing.Point(571, 350)
         Me.StartButton.Name = "StartButton"
         Me.StartButton.Size = New System.Drawing.Size(115, 45)
         Me.StartButton.TabIndex = 1
@@ -82,7 +83,7 @@ Partial Class WavenLauncher
         Me.WLVersionLabel.BackColor = System.Drawing.Color.Transparent
         Me.WLVersionLabel.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.WLVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.WLVersionLabel.Location = New System.Drawing.Point(281, 19)
+        Me.WLVersionLabel.Location = New System.Drawing.Point(340, 26)
         Me.WLVersionLabel.Name = "WLVersionLabel"
         Me.WLVersionLabel.Size = New System.Drawing.Size(63, 15)
         Me.WLVersionLabel.TabIndex = 3
@@ -94,7 +95,7 @@ Partial Class WavenLauncher
         Me.ALVersionLabel.BackColor = System.Drawing.Color.Transparent
         Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.ALVersionLabel.Location = New System.Drawing.Point(23, 158)
+        Me.ALVersionLabel.Location = New System.Drawing.Point(18, 120)
         Me.ALVersionLabel.Name = "ALVersionLabel"
         Me.ALVersionLabel.Size = New System.Drawing.Size(178, 17)
         Me.ALVersionLabel.TabIndex = 4
@@ -116,11 +117,11 @@ Partial Class WavenLauncher
         '
         Me.FormTitle.AutoSize = True
         Me.FormTitle.BackColor = System.Drawing.Color.Transparent
-        Me.FormTitle.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.FormTitle.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.FormTitle.ForeColor = System.Drawing.Color.Yellow
-        Me.FormTitle.Location = New System.Drawing.Point(45, 17)
+        Me.FormTitle.Location = New System.Drawing.Point(61, 22)
         Me.FormTitle.Name = "FormTitle"
-        Me.FormTitle.Size = New System.Drawing.Size(230, 17)
+        Me.FormTitle.Size = New System.Drawing.Size(272, 20)
         Me.FormTitle.TabIndex = 10
         Me.FormTitle.Text = "Waven汉化启动器 by layah"
         '
@@ -128,9 +129,9 @@ Partial Class WavenLauncher
         '
         Me.IcoPicture.BackColor = System.Drawing.Color.Transparent
         Me.IcoPicture.Image = CType(resources.GetObject("IcoPicture.Image"), System.Drawing.Image)
-        Me.IcoPicture.Location = New System.Drawing.Point(10, 10)
+        Me.IcoPicture.Location = New System.Drawing.Point(2, 7)
         Me.IcoPicture.Name = "IcoPicture"
-        Me.IcoPicture.Size = New System.Drawing.Size(30, 30)
+        Me.IcoPicture.Size = New System.Drawing.Size(63, 52)
         Me.IcoPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.IcoPicture.TabIndex = 11
         Me.IcoPicture.TabStop = False
@@ -147,20 +148,21 @@ Partial Class WavenLauncher
         Me.LabelDirAL.BackColor = System.Drawing.Color.White
         Me.LabelDirAL.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LabelDirAL.ForeColor = System.Drawing.Color.Black
-        Me.LabelDirAL.Location = New System.Drawing.Point(24, 92)
+        Me.LabelDirAL.Location = New System.Drawing.Point(67, 44)
         Me.LabelDirAL.Name = "LabelDirAL"
         Me.LabelDirAL.Size = New System.Drawing.Size(437, 21)
         Me.LabelDirAL.TabIndex = 3
         Me.LabelDirAL.Text = "选择Ankama Launcher战网路径"
         Me.LabelDirAL.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip1.SetToolTip(Me.LabelDirAL, "选择Ankama Launcher战网路径")
+        Me.LabelDirAL.Visible = False
         '
         'LabelDirGM
         '
         Me.LabelDirGM.BackColor = System.Drawing.Color.White
         Me.LabelDirGM.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LabelDirGM.ForeColor = System.Drawing.Color.Black
-        Me.LabelDirGM.Location = New System.Drawing.Point(24, 124)
+        Me.LabelDirGM.Location = New System.Drawing.Point(22, 17)
         Me.LabelDirGM.Name = "LabelDirGM"
         Me.LabelDirGM.Size = New System.Drawing.Size(437, 21)
         Me.LabelDirGM.TabIndex = 4
@@ -174,7 +176,7 @@ Partial Class WavenLauncher
         Me.OpenSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.OpenSettings.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.OpenSettings.ForeColor = System.Drawing.Color.Yellow
-        Me.OpenSettings.Location = New System.Drawing.Point(489, 350)
+        Me.OpenSettings.Location = New System.Drawing.Point(485, 350)
         Me.OpenSettings.Name = "OpenSettings"
         Me.OpenSettings.Size = New System.Drawing.Size(80, 45)
         Me.OpenSettings.TabIndex = 12
@@ -185,25 +187,24 @@ Partial Class WavenLauncher
         '
         Me.SettingPanel.BackColor = System.Drawing.Color.Teal
         Me.SettingPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.SettingPanel.Controls.Add(Me.UpdateLoc)
         Me.SettingPanel.Controls.Add(Me.ButtonDirGM)
         Me.SettingPanel.Controls.Add(Me.ALVersionLabel)
-        Me.SettingPanel.Controls.Add(Me.ButtonDirAL)
         Me.SettingPanel.Controls.Add(Me.LabelDirGM)
-        Me.SettingPanel.Controls.Add(Me.LabelDirAL)
         Me.SettingPanel.Controls.Add(Me.LocGameCheck)
         Me.SettingPanel.Controls.Add(Me.LocALCheck)
         Me.SettingPanel.Controls.Add(Me.CloseAction)
         Me.SettingPanel.ForeColor = System.Drawing.Color.Yellow
-        Me.SettingPanel.Location = New System.Drawing.Point(201, 153)
+        Me.SettingPanel.Location = New System.Drawing.Point(201, 187)
         Me.SettingPanel.Name = "SettingPanel"
-        Me.SettingPanel.Size = New System.Drawing.Size(483, 191)
+        Me.SettingPanel.Size = New System.Drawing.Size(483, 157)
         Me.SettingPanel.TabIndex = 13
         Me.SettingPanel.Visible = False
         '
         'ButtonDirGM
         '
         Me.ButtonDirGM.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ButtonDirGM.Location = New System.Drawing.Point(438, 125)
+        Me.ButtonDirGM.Location = New System.Drawing.Point(436, 18)
         Me.ButtonDirGM.Name = "ButtonDirGM"
         Me.ButtonDirGM.Size = New System.Drawing.Size(22, 19)
         Me.ButtonDirGM.TabIndex = 6
@@ -214,13 +215,14 @@ Partial Class WavenLauncher
         'ButtonDirAL
         '
         Me.ButtonDirAL.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.ButtonDirAL.Location = New System.Drawing.Point(438, 93)
+        Me.ButtonDirAL.Location = New System.Drawing.Point(481, 45)
         Me.ButtonDirAL.Name = "ButtonDirAL"
         Me.ButtonDirAL.Size = New System.Drawing.Size(22, 19)
         Me.ButtonDirAL.TabIndex = 5
         Me.ButtonDirAL.Text = "…"
         Me.ButtonDirAL.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ButtonDirAL.UseVisualStyleBackColor = True
+        Me.ButtonDirAL.Visible = False
         '
         'LocGameCheck
         '
@@ -228,7 +230,7 @@ Partial Class WavenLauncher
         Me.LocGameCheck.BackColor = System.Drawing.Color.Transparent
         Me.LocGameCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LocGameCheck.ForeColor = System.Drawing.Color.Yellow
-        Me.LocGameCheck.Location = New System.Drawing.Point(362, 51)
+        Me.LocGameCheck.Location = New System.Drawing.Point(367, 88)
         Me.LocGameCheck.Name = "LocGameCheck"
         Me.LocGameCheck.Size = New System.Drawing.Size(99, 21)
         Me.LocGameCheck.TabIndex = 2
@@ -241,7 +243,7 @@ Partial Class WavenLauncher
         Me.LocALCheck.BackColor = System.Drawing.Color.Transparent
         Me.LocALCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LocALCheck.ForeColor = System.Drawing.Color.Yellow
-        Me.LocALCheck.Location = New System.Drawing.Point(362, 20)
+        Me.LocALCheck.Location = New System.Drawing.Point(367, 57)
         Me.LocALCheck.Name = "LocALCheck"
         Me.LocALCheck.Size = New System.Drawing.Size(99, 21)
         Me.LocALCheck.TabIndex = 1
@@ -255,7 +257,7 @@ Partial Class WavenLauncher
         Me.CloseAction.Controls.Add(Me.CloseForm0)
         Me.CloseAction.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.CloseAction.ForeColor = System.Drawing.Color.Yellow
-        Me.CloseAction.Location = New System.Drawing.Point(23, 20)
+        Me.CloseAction.Location = New System.Drawing.Point(20, 57)
         Me.CloseAction.Name = "CloseAction"
         Me.CloseAction.Size = New System.Drawing.Size(310, 52)
         Me.CloseAction.TabIndex = 0
@@ -346,7 +348,7 @@ Partial Class WavenLauncher
         'TestLabel2
         '
         Me.TestLabel2.AutoSize = True
-        Me.TestLabel2.Location = New System.Drawing.Point(12, 65)
+        Me.TestLabel2.Location = New System.Drawing.Point(68, 94)
         Me.TestLabel2.Name = "TestLabel2"
         Me.TestLabel2.Size = New System.Drawing.Size(137, 12)
         Me.TestLabel2.TabIndex = 15
@@ -355,7 +357,7 @@ Partial Class WavenLauncher
         'TestLabel1
         '
         Me.TestLabel1.AutoSize = True
-        Me.TestLabel1.Location = New System.Drawing.Point(12, 43)
+        Me.TestLabel1.Location = New System.Drawing.Point(68, 75)
         Me.TestLabel1.Name = "TestLabel1"
         Me.TestLabel1.Size = New System.Drawing.Size(137, 12)
         Me.TestLabel1.TabIndex = 16
@@ -395,6 +397,17 @@ Partial Class WavenLauncher
         Me.Panel1.Size = New System.Drawing.Size(478, 50)
         Me.Panel1.TabIndex = 19
         '
+        'UpdateLoc
+        '
+        Me.UpdateLoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.UpdateLoc.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.UpdateLoc.Location = New System.Drawing.Point(374, 116)
+        Me.UpdateLoc.Name = "UpdateLoc"
+        Me.UpdateLoc.Size = New System.Drawing.Size(88, 25)
+        Me.UpdateLoc.TabIndex = 7
+        Me.UpdateLoc.Text = "更新汉化"
+        Me.UpdateLoc.UseVisualStyleBackColor = True
+        '
         'WavenLauncher
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -403,8 +416,10 @@ Partial Class WavenLauncher
         Me.ClientSize = New System.Drawing.Size(696, 411)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.ProgressBar1)
+        Me.Controls.Add(Me.ButtonDirAL)
         Me.Controls.Add(Me.TestLabel1)
         Me.Controls.Add(Me.TestLabel2)
+        Me.Controls.Add(Me.LabelDirAL)
         Me.Controls.Add(Me.VersionState)
         Me.Controls.Add(Me.SettingPanel)
         Me.Controls.Add(Me.OpenSettings)
@@ -462,4 +477,5 @@ Partial Class WavenLauncher
     Friend WithEvents StatusLabel As Label
     Friend WithEvents ProgressBar1 As ProgressBar
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents UpdateLoc As Button
 End Class

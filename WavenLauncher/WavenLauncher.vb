@@ -1,4 +1,5 @@
-﻿Imports System.Net
+﻿Imports System.IO
+Imports System.Net
 
 Public Class WavenLauncher
     Const VersionWL As UInt32 = 20190802  ' 汉化启动器版本号
@@ -13,13 +14,14 @@ Public Class WavenLauncher
     Dim VersionAL As String ' 存储战网汉化适用战网版本号
     Dim DownloadClient As New WebClient '用于下载资源
     ReadOnly DefaultFileAddress As String = Application.StartupPath  '默认文件下载位置为同目录
-    Dim DownloadFilePath As String
+    Dim DownloadFilePath As String  '正在下载文件的本地存储路径
 
     Private Enum StartStatus As Byte  '用于改变开始游戏按钮文本与行为
         SetDir = 0
         StartAL = 1
         StartGM = 2
         Running = 3
+        Downloading = 4
     End Enum
     Private Sub WavenLauncher_Load(sender As Object, e As EventArgs) Handles Me.Load
         ' 窗体载入时的动作
@@ -136,10 +138,10 @@ Public Class WavenLauncher
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles ALVersionLabel.Click
 
         Try
-            ' 直接调用浏览器下载Ankama Launcher
-            'Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
+            '直接调用浏览器下载Ankama Launcher
+            Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
             '测试用WebClint类的DownloadFile方法下载
-            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama Launcher-Setup.exe")
+            'DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama Launcher-Setup.exe")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Download Ankama Launcher Error")
         End Try
@@ -154,6 +156,13 @@ Public Class WavenLauncher
                 OpenOrSaveSetting(True)  '若未选择路径则提示选择
             Else
                 Try
+                    'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
+                    Try  '替换战网汉化文件
+                        Dim LocALpath = Path.GetDirectoryName(ALDir) & "\resources\static\langs"
+                        ReplaceFile(LocALpath, "en.json")
+                    Catch ex As Exception
+                        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "替换战网汉化文件失败")
+                    End Try
                     Process.Start(ALDir)
                 Catch ex As Exception
                     MsgBox(ex.Message, MsgBoxStyle.Exclamation, "战网启动失败")
@@ -420,9 +429,15 @@ Public Class WavenLauncher
     End Function
 
     Private Sub DownloadFile(ByVal url As String, ByVal filename As String)
+        '下载文件
         Try
-            DownloadFilePath = $"{DefaultFileAddress}\{filename}"
-            DownloadClient.DownloadFileAsync(New Uri(url), DownloadFilePath)
+            If DownloadClient.IsBusy = False Then
+                ToolTip1.SetToolTip(StatusLabel, "点击取消下载")
+                DownloadFilePath = $"{DefaultFileAddress}\{filename}"
+                LayoutLabel(DownloadFilePath, "下载中(0%)：")
+                ProgressBar1.Value = 0
+                DownloadClient.DownloadFileAsync(New Uri(url), DownloadFilePath)
+            End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "DownloadFile Error")
         End Try
@@ -431,6 +446,7 @@ Public Class WavenLauncher
     End Sub
 
     Private Sub ShowDownProgress(ByVal sender As Object, ByVal e As DownloadProgressChangedEventArgs)
+        '显示下载进度
         Try
             Invoke(New Action(Of Integer)(Sub(i) ProgressBar1.Value = i), e.ProgressPercentage)
             LayoutLabel(DownloadFilePath, "下载中(" & ProgressBar1.Value & "%)：")
@@ -441,25 +457,59 @@ Public Class WavenLauncher
     End Sub
 
     Sub DownloadFileCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
+        '下载完成
         Try
-            TestLabel1.Text = "下载成功"
-            LayoutLabel(DownloadFilePath, "下载成功：")
+            If ProgressBar1.Value = 100 Then
+                LayoutLabel(DownloadFilePath, "下载成功：")
+            Else
+                LayoutLabel(DownloadFilePath, "下载失败：")
+            End If
+
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "DownloadData Not Completed Error")
         End Try
 
     End Sub
 
+    Private Sub ReplaceFile(ByVal tFilePath As String, ByVal FileName As String)
+        '替换文件
+        Try
+            Dim oPath As String = $"{DefaultFileAddress}/{FileName}"
+            Dim tPath As String = $"{tFilePath}/{FileName}"
+            Dim bakPath As String = oPath & ".bak" '备份文件后加bak
+            Dim oFile As FileInfo = New FileInfo(oPath)
+            Dim tFile As FileInfo = New FileInfo(tPath)
+            Dim bakFile As FileInfo = New FileInfo(bakPath)
+            bakFile.Delete()
+            tFile.CopyTo(bakPath) '备份要替换的文件
+            tFile.Delete()
+            oFile.CopyTo(tPath) '替换文件
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ReplaceFile Error")
+        End Try
+    End Sub
 
     Private Sub TestLabel1_Click(sender As Object, e As EventArgs) Handles TestLabel1.Click
         '此事件仅供测试用
         'CheckProcessRunning("AL")
-        CheckProcessRunning("GM")
-        ProgressBar1.Value = 50
+        'CheckProcessRunning("GM")
+        'ProgressBar1.Value = 50
+        '战网汉化文件地址 https://github.com/layahcn/WavenCN/raw/master/en.json
+        DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
     End Sub
 
     Private Sub LayoutLabel(ByVal Text As String, Optional ByVal KeyWord As String = "状态：")
         '显示当前状态信息提示
         StatusLabel.Text = KeyWord & Text
+    End Sub
+
+    Private Sub StatusLabel_Click(sender As Object, e As EventArgs) Handles StatusLabel.Click
+        DownloadClient.CancelAsync()
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles UpdateLoc.Click
+        DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
     End Sub
 End Class
