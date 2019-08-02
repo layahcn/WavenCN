@@ -53,11 +53,14 @@ Partial Class WavenLauncher
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.TestLabel2 = New System.Windows.Forms.Label()
         Me.TestLabel1 = New System.Windows.Forms.Label()
-        Me.StateLabel = New System.Windows.Forms.Label()
+        Me.StatusLabel = New System.Windows.Forms.Label()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SettingPanel.SuspendLayout()
         Me.CloseAction.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'StartButton
@@ -66,7 +69,7 @@ Partial Class WavenLauncher
         Me.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.StartButton.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.StartButton.ForeColor = System.Drawing.Color.Yellow
-        Me.StartButton.Location = New System.Drawing.Point(563, 350)
+        Me.StartButton.Location = New System.Drawing.Point(575, 350)
         Me.StartButton.Name = "StartButton"
         Me.StartButton.Size = New System.Drawing.Size(115, 45)
         Me.StartButton.TabIndex = 1
@@ -89,11 +92,11 @@ Partial Class WavenLauncher
         '
         Me.ALVersionLabel.AutoSize = True
         Me.ALVersionLabel.BackColor = System.Drawing.Color.Transparent
-        Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.ALVersionLabel.Location = New System.Drawing.Point(22, 350)
+        Me.ALVersionLabel.Location = New System.Drawing.Point(23, 158)
         Me.ALVersionLabel.Name = "ALVersionLabel"
-        Me.ALVersionLabel.Size = New System.Drawing.Size(205, 19)
+        Me.ALVersionLabel.Size = New System.Drawing.Size(178, 17)
         Me.ALVersionLabel.TabIndex = 4
         Me.ALVersionLabel.Text = "适用Ankama Launcher版本："
         '
@@ -102,7 +105,7 @@ Partial Class WavenLauncher
         Me.QuitForm.BackColor = System.Drawing.Color.Red
         Me.QuitForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.QuitForm.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.QuitForm.Location = New System.Drawing.Point(659, 10)
+        Me.QuitForm.Location = New System.Drawing.Point(664, 5)
         Me.QuitForm.Name = "QuitForm"
         Me.QuitForm.Size = New System.Drawing.Size(27, 27)
         Me.QuitForm.TabIndex = 0
@@ -171,7 +174,7 @@ Partial Class WavenLauncher
         Me.OpenSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.OpenSettings.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.OpenSettings.ForeColor = System.Drawing.Color.Yellow
-        Me.OpenSettings.Location = New System.Drawing.Point(473, 350)
+        Me.OpenSettings.Location = New System.Drawing.Point(489, 350)
         Me.OpenSettings.Name = "OpenSettings"
         Me.OpenSettings.Size = New System.Drawing.Size(80, 45)
         Me.OpenSettings.TabIndex = 12
@@ -183,6 +186,7 @@ Partial Class WavenLauncher
         Me.SettingPanel.BackColor = System.Drawing.Color.Teal
         Me.SettingPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.SettingPanel.Controls.Add(Me.ButtonDirGM)
+        Me.SettingPanel.Controls.Add(Me.ALVersionLabel)
         Me.SettingPanel.Controls.Add(Me.ButtonDirAL)
         Me.SettingPanel.Controls.Add(Me.LabelDirGM)
         Me.SettingPanel.Controls.Add(Me.LabelDirAL)
@@ -190,9 +194,9 @@ Partial Class WavenLauncher
         Me.SettingPanel.Controls.Add(Me.LocALCheck)
         Me.SettingPanel.Controls.Add(Me.CloseAction)
         Me.SettingPanel.ForeColor = System.Drawing.Color.Yellow
-        Me.SettingPanel.Location = New System.Drawing.Point(201, 173)
+        Me.SettingPanel.Location = New System.Drawing.Point(201, 153)
         Me.SettingPanel.Name = "SettingPanel"
-        Me.SettingPanel.Size = New System.Drawing.Size(483, 171)
+        Me.SettingPanel.Size = New System.Drawing.Size(483, 191)
         Me.SettingPanel.TabIndex = 13
         Me.SettingPanel.Visible = False
         '
@@ -221,6 +225,7 @@ Partial Class WavenLauncher
         'LocGameCheck
         '
         Me.LocGameCheck.AutoSize = True
+        Me.LocGameCheck.BackColor = System.Drawing.Color.Transparent
         Me.LocGameCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LocGameCheck.ForeColor = System.Drawing.Color.Yellow
         Me.LocGameCheck.Location = New System.Drawing.Point(362, 51)
@@ -228,11 +233,12 @@ Partial Class WavenLauncher
         Me.LocGameCheck.Size = New System.Drawing.Size(99, 21)
         Me.LocGameCheck.TabIndex = 2
         Me.LocGameCheck.Text = "启用游戏汉化"
-        Me.LocGameCheck.UseVisualStyleBackColor = True
+        Me.LocGameCheck.UseVisualStyleBackColor = False
         '
         'LocALCheck
         '
         Me.LocALCheck.AutoSize = True
+        Me.LocALCheck.BackColor = System.Drawing.Color.Transparent
         Me.LocALCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LocALCheck.ForeColor = System.Drawing.Color.Yellow
         Me.LocALCheck.Location = New System.Drawing.Point(362, 20)
@@ -240,7 +246,7 @@ Partial Class WavenLauncher
         Me.LocALCheck.Size = New System.Drawing.Size(99, 21)
         Me.LocALCheck.TabIndex = 1
         Me.LocALCheck.Text = "启用战网汉化"
-        Me.LocALCheck.UseVisualStyleBackColor = True
+        Me.LocALCheck.UseVisualStyleBackColor = False
         '
         'CloseAction
         '
@@ -259,35 +265,38 @@ Partial Class WavenLauncher
         'CloseForm2
         '
         Me.CloseForm2.AutoSize = True
+        Me.CloseForm2.BackColor = System.Drawing.Color.Transparent
         Me.CloseForm2.Location = New System.Drawing.Point(176, 23)
         Me.CloseForm2.Name = "CloseForm2"
         Me.CloseForm2.Size = New System.Drawing.Size(122, 21)
         Me.CloseForm2.TabIndex = 2
         Me.CloseForm2.TabStop = True
         Me.CloseForm2.Text = "最小化到系统托盘"
-        Me.CloseForm2.UseVisualStyleBackColor = True
+        Me.CloseForm2.UseVisualStyleBackColor = False
         '
         'CloseForm1
         '
         Me.CloseForm1.AutoSize = True
+        Me.CloseForm1.BackColor = System.Drawing.Color.Transparent
         Me.CloseForm1.Location = New System.Drawing.Point(99, 23)
         Me.CloseForm1.Name = "CloseForm1"
         Me.CloseForm1.Size = New System.Drawing.Size(62, 21)
         Me.CloseForm1.TabIndex = 1
         Me.CloseForm1.TabStop = True
         Me.CloseForm1.Text = "最小化"
-        Me.CloseForm1.UseVisualStyleBackColor = True
+        Me.CloseForm1.UseVisualStyleBackColor = False
         '
         'CloseForm0
         '
         Me.CloseForm0.AutoSize = True
+        Me.CloseForm0.BackColor = System.Drawing.Color.Transparent
         Me.CloseForm0.Location = New System.Drawing.Point(14, 23)
         Me.CloseForm0.Name = "CloseForm0"
         Me.CloseForm0.Size = New System.Drawing.Size(74, 21)
         Me.CloseForm0.TabIndex = 0
         Me.CloseForm0.TabStop = True
         Me.CloseForm0.Text = "退出程序"
-        Me.CloseForm0.UseVisualStyleBackColor = True
+        Me.CloseForm0.UseVisualStyleBackColor = False
         '
         'VersionState
         '
@@ -337,7 +346,7 @@ Partial Class WavenLauncher
         'TestLabel2
         '
         Me.TestLabel2.AutoSize = True
-        Me.TestLabel2.Location = New System.Drawing.Point(24, 65)
+        Me.TestLabel2.Location = New System.Drawing.Point(12, 65)
         Me.TestLabel2.Name = "TestLabel2"
         Me.TestLabel2.Size = New System.Drawing.Size(137, 12)
         Me.TestLabel2.TabIndex = 15
@@ -346,23 +355,45 @@ Partial Class WavenLauncher
         'TestLabel1
         '
         Me.TestLabel1.AutoSize = True
-        Me.TestLabel1.Location = New System.Drawing.Point(24, 43)
+        Me.TestLabel1.Location = New System.Drawing.Point(12, 43)
         Me.TestLabel1.Name = "TestLabel1"
         Me.TestLabel1.Size = New System.Drawing.Size(137, 12)
         Me.TestLabel1.TabIndex = 16
         Me.TestLabel1.Text = "测试输出用，发布请隐藏"
         '
-        'StateLabel
+        'StatusLabel
         '
-        Me.StateLabel.AutoSize = True
-        Me.StateLabel.BackColor = System.Drawing.Color.Transparent
-        Me.StateLabel.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.StateLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.StateLabel.Location = New System.Drawing.Point(22, 375)
-        Me.StateLabel.Name = "StateLabel"
-        Me.StateLabel.Size = New System.Drawing.Size(79, 20)
-        Me.StateLabel.TabIndex = 17
-        Me.StateLabel.Text = "状态：就绪"
+        Me.StatusLabel.AutoSize = True
+        Me.StatusLabel.BackColor = System.Drawing.Color.Transparent
+        Me.StatusLabel.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.StatusLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.StatusLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.StatusLabel.Location = New System.Drawing.Point(0, 33)
+        Me.StatusLabel.MaximumSize = New System.Drawing.Size(450, 100)
+        Me.StatusLabel.Name = "StatusLabel"
+        Me.StatusLabel.Size = New System.Drawing.Size(68, 17)
+        Me.StatusLabel.TabIndex = 17
+        Me.StatusLabel.Text = "状态：就绪"
+        '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.BackColor = System.Drawing.Color.Teal
+        Me.ProgressBar1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.ProgressBar1.ForeColor = System.Drawing.Color.Yellow
+        Me.ProgressBar1.Location = New System.Drawing.Point(0, 401)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(696, 10)
+        Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
+        Me.ProgressBar1.TabIndex = 18
+        '
+        'Panel1
+        '
+        Me.Panel1.BackColor = System.Drawing.Color.Transparent
+        Me.Panel1.Controls.Add(Me.StatusLabel)
+        Me.Panel1.Location = New System.Drawing.Point(5, 348)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(478, 50)
+        Me.Panel1.TabIndex = 19
         '
         'WavenLauncher
         '
@@ -370,7 +401,8 @@ Partial Class WavenLauncher
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.ClientSize = New System.Drawing.Size(696, 411)
-        Me.Controls.Add(Me.StateLabel)
+        Me.Controls.Add(Me.Panel1)
+        Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.TestLabel1)
         Me.Controls.Add(Me.TestLabel2)
         Me.Controls.Add(Me.VersionState)
@@ -379,7 +411,6 @@ Partial Class WavenLauncher
         Me.Controls.Add(Me.IcoPicture)
         Me.Controls.Add(Me.FormTitle)
         Me.Controls.Add(Me.QuitForm)
-        Me.Controls.Add(Me.ALVersionLabel)
         Me.Controls.Add(Me.WLVersionLabel)
         Me.Controls.Add(Me.StartButton)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -393,6 +424,8 @@ Partial Class WavenLauncher
         Me.CloseAction.ResumeLayout(False)
         Me.CloseAction.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -426,5 +459,7 @@ Partial Class WavenLauncher
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents TestLabel2 As Label
     Friend WithEvents TestLabel1 As Label
-    Friend WithEvents StateLabel As Label
+    Friend WithEvents StatusLabel As Label
+    Friend WithEvents ProgressBar1 As ProgressBar
+    Friend WithEvents Panel1 As Panel
 End Class

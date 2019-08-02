@@ -1,4 +1,4 @@
-﻿Imports System.IO
+﻿Imports System.Net
 
 Public Class WavenLauncher
     Const VersionWL As UInt32 = 20190802  ' 汉化启动器版本号
@@ -11,7 +11,16 @@ Public Class WavenLauncher
     Dim ALDir As String  '存储战网路径
     Dim GMDir As String  '存储游戏路径
     Dim VersionAL As String ' 存储战网汉化适用战网版本号
+    Dim DownloadClient As New WebClient '用于下载资源
+    ReadOnly DefaultFileAddress As String = Application.StartupPath  '默认文件下载位置为同目录
+    Dim DownloadFilePath As String
 
+    Private Enum StartStatus As Byte  '用于改变开始游戏按钮文本与行为
+        SetDir = 0
+        StartAL = 1
+        StartGM = 2
+        Running = 3
+    End Enum
     Private Sub WavenLauncher_Load(sender As Object, e As EventArgs) Handles Me.Load
         ' 窗体载入时的动作
         Try
@@ -50,10 +59,22 @@ Public Class WavenLauncher
             Catch ex As Exception
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Read Settings Error")
             End Try
-            If CheckProcessRunning("AL") Then '检测战网运行状态，如果在运行，则按钮改为开始游戏
-                StartButton.Text = "开始游戏"
-                LayoutLabel("战网运行中，如需汉化战网请关闭战网后重启本程序")
-            End If
+            Try
+                If CheckProcessRunning("AL") Then '检测战网运行状态，如果在运行，则按钮改为开始游戏
+                    StartButton.Text = "开始游戏"
+                    If LocAL Then
+                        LayoutLabel("战网运行中，如需汉化战网请关闭战网后重启本程序")
+                    End If
+                End If
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ChangeButtonStatus Error")
+            End Try
+            Try
+                AddHandler DownloadClient.DownloadProgressChanged, AddressOf ShowDownProgress
+                AddHandler DownloadClient.DownloadFileCompleted, AddressOf DownloadFileCompleted
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "AddHandler Error")
+            End Try
             CheckVersion()
             ' 调用检查版本函数
             Timer1.Enabled = True  '加载完窗体再触发计时器延时显示窗体
@@ -113,9 +134,12 @@ Public Class WavenLauncher
     End Sub
 
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles ALVersionLabel.Click
-        ' 直接调用浏览器下载Ankama Launcher
+
         Try
-            Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
+            ' 直接调用浏览器下载Ankama Launcher
+            'Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
+            '测试用WebClint类的DownloadFile方法下载
+            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama Launcher-Setup.exe")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Download Ankama Launcher Error")
         End Try
@@ -127,7 +151,7 @@ Public Class WavenLauncher
         ' 汉化Ankama Launcher
         Try
             If ALDir = "" Then
-                OpenOrSaveSetting(True)
+                OpenOrSaveSetting(True)  '若未选择路径则提示选择
             Else
                 Try
                     Process.Start(ALDir)
@@ -282,6 +306,7 @@ Public Class WavenLauncher
     End Sub
 
     Private Sub SetDir(ByVal LaunchWhat As String)
+        '选择战网或游戏路径
         Try
             Select Case LaunchWhat
                 Case "AL"
@@ -290,6 +315,7 @@ Public Class WavenLauncher
                         .Filter = "Ankama战网|Ankama Launcher.exe"
                     End With
                     If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                        '路径合法则存储
                         LabelDirAL.Text = OpenFileDialog1.FileName
                         ALDir = OpenFileDialog1.FileName
                     End If
@@ -299,13 +325,13 @@ Public Class WavenLauncher
                         .Filter = "Waven游戏|Waven.exe"
                     End With
                     If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                        '路径合法则存储
                         LabelDirGM.Text = OpenFileDialog1.FileName
                         GMDir = OpenFileDialog1.FileName
                     End If
             End Select
-
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SetDirAL Error")
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Set Path Error")
         End Try
     End Sub
 
@@ -393,14 +419,47 @@ Public Class WavenLauncher
         End Try
     End Function
 
+    Private Sub DownloadFile(ByVal url As String, ByVal filename As String)
+        Try
+            DownloadFilePath = $"{DefaultFileAddress}\{filename}"
+            DownloadClient.DownloadFileAsync(New Uri(url), DownloadFilePath)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "DownloadFile Error")
+        End Try
+
+
+    End Sub
+
+    Private Sub ShowDownProgress(ByVal sender As Object, ByVal e As DownloadProgressChangedEventArgs)
+        Try
+            Invoke(New Action(Of Integer)(Sub(i) ProgressBar1.Value = i), e.ProgressPercentage)
+            LayoutLabel(DownloadFilePath, "下载中(" & ProgressBar1.Value & "%)：")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ShowDownProgress Error")
+        End Try
+
+    End Sub
+
+    Sub DownloadFileCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
+        Try
+            TestLabel1.Text = "下载成功"
+            LayoutLabel(DownloadFilePath, "下载成功：")
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "DownloadData Not Completed Error")
+        End Try
+
+    End Sub
+
+
     Private Sub TestLabel1_Click(sender As Object, e As EventArgs) Handles TestLabel1.Click
         '此事件仅供测试用
         'CheckProcessRunning("AL")
         CheckProcessRunning("GM")
+        ProgressBar1.Value = 50
     End Sub
 
     Private Sub LayoutLabel(ByVal Text As String, Optional ByVal KeyWord As String = "状态：")
         '显示当前状态信息提示
-        StateLabel.Text = KeyWord & Text
+        StatusLabel.Text = KeyWord & Text
     End Sub
 End Class
