@@ -7,28 +7,29 @@ Public Class WavenLauncher
     Dim oPointClicked As Point  ' 记录鼠标拖动位置
     Dim PanelVisible As Boolean = False   ' 设置界面默认隐藏
     Dim CloseForm As UShort = 0
-    Dim LocAL As Boolean = True
+    Dim LocAL As Boolean = False   '默认不汉化战网
     Dim LocGM As Boolean = True   '预设用户设置条目
-    Dim ALDir As String  '存储战网路径
+    Dim ALDir As String '存储战网路径
     Dim GMDir As String  '存储游戏路径
     Dim VersionAL As String ' 存储战网汉化适用战网版本号
-    Dim DownloadClient As New WebClient '用于下载资源
+    Dim DownloadClient As New WebClient  '用于下载资源
     ReadOnly DefaultFileAddress As String = Application.StartupPath  '默认文件下载位置为同目录
     Dim DownloadFilePath As String  '正在下载文件的本地存储路径
 
+
     Private Enum StartStatus As Byte  '用于改变开始游戏按钮文本与行为
-        SetDir = 0
+        DownloadAL = 0
         StartAL = 1
-        StartGM = 2
-        Running = 3
-        Downloading = 4
+        LocGM = 2
+        Setdir = 3
+        Quit = 4
     End Enum
     Private Sub WavenLauncher_Load(sender As Object, e As EventArgs) Handles Me.Load
         ' 窗体载入时的动作
         Try
             Visible = False
             Opacity = 0  '先隐藏窗体，等全部控件刷新完后再显示，避免控件背景重绘造成的闪烁
-            ToolTip1.SetToolTip(ALVersionLabel, "点击下载Ankama Launcher官方客户端")
+            'ToolTip1.SetToolTip(ALVersionLabel, "点击下载Ankama Launcher官方客户端")
             WLVersionLabel.Text = WLVersionLabel.Text _
                              & VersionWL
             VersionAL = My.Settings.VersionAL
@@ -53,8 +54,13 @@ Public Class WavenLauncher
                     Case Else
                         My.Settings.LocGame = True
                 End Select
-                CheckFileExisting(My.Settings.ALDir) '验证路径合法性
-                ALDir = My.Settings.ALDir
+                'CheckFileExisting(My.Settings.ALDir) '验证路径合法性
+                'ALDir = My.Settings.ALDir
+                ALDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) & "\AppData\Local\Programs\zaap\Ankama Launcher.exe"
+                '直接设置战网路径，因为安装时根本选不了路径，都是默认安装在这路径下的
+                If Not IO.File.Exists(ALDir) Then  '检测是否安装战网
+                    ButtonStatus(StartStatus.DownloadAL)
+                End If
                 CheckFileExisting(My.Settings.GMDir)  '验证路径合法性
                 GMDir = My.Settings.GMDir
 
@@ -62,11 +68,22 @@ Public Class WavenLauncher
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Read Settings Error")
             End Try
             Try
-                If CheckProcessRunning("AL") Then '检测战网运行状态，如果在运行，则按钮改为开始游戏
-                    StartButton.Text = "开始游戏"
-                    If LocAL Then
-                        LayoutLabel("战网运行中，如需汉化战网请关闭战网后重启本程序")
+                If CheckProcessRunning("AL") Then '检测战网运行状态
+
+                    If IO.File.Exists(GMDir) Then
+                        If LocGM Then
+                            ButtonStatus(StartStatus.LocGM)
+                            LayoutLabel("请检查游戏是否处于最新状态后再汉化")
+                        Else
+                            ButtonStatus(StartStatus.Quit)
+                            LayoutLabel("不汉化游戏你开我作甚！哼！")
+                        End If
+                    Else
+                        ButtonStatus(StartStatus.Setdir)
+                        LayoutLabel("请设置Waven游戏路径")
                     End If
+                Else
+                    ButtonStatus(StartStatus.StartAL)  '战网没运行则显示启动战网
                 End If
             Catch ex As Exception
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ChangeButtonStatus Error")
@@ -139,9 +156,10 @@ Public Class WavenLauncher
 
         Try
             '直接调用浏览器下载Ankama Launcher
-            Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
+            'Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
             '测试用WebClint类的DownloadFile方法下载
-            'DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama Launcher-Setup.exe")
+            DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
+            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama Launcher-Setup.exe")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Download Ankama Launcher Error")
         End Try
@@ -150,28 +168,57 @@ Public Class WavenLauncher
 
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles StartButton.Click
-        ' 汉化Ankama Launcher
-        Try
-            If ALDir = "" Then
-                OpenOrSaveSetting(True)  '若未选择路径则提示选择
-            Else
-                Try
-                    'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
-                    Try  '替换战网汉化文件
-                        Dim LocALpath = Path.GetDirectoryName(ALDir) & "\resources\static\langs"
-                        ReplaceFile(LocALpath, "en.json")
-                    Catch ex As Exception
-                        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "替换战网汉化文件失败")
-                    End Try
-                    Process.Start(ALDir)
-                Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "战网启动失败")
-                End Try
-            End If
+        ' 根据按钮状态执行不同过程
+        ButtonAction(True)
+        ButtonAction(False)
 
+    End Sub
+
+    Private Sub ButtonStatus(Status As StartStatus)
+        Try
+            Select Case Status
+                Case StartStatus.DownloadAL
+                    StartButton.Text = "下载战网"
+                Case StartStatus.StartAL
+                    StartButton.Text = "启动战网"
+                Case StartStatus.LocGM
+                    StartButton.Text = "汉化游戏"
+                    LayoutLabel("请等待战网自动更新后再汉化游戏", "提示：")
+                Case StartStatus.Setdir
+                    StartButton.Text = "设置路径"
+                    LayoutLabel("请在设置里选择游戏路径，若未安装请用前往战网安装", "提示：")
+                Case StartStatus.Quit
+                    StartButton.Text = "退出程序"
+                    LayoutLabel("可以关闭汉化启动器了，下次启动战网前请先开本程序", "提示：")
+            End Select
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Localisation Error")
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ButtonStatus Error")
         End Try
+
+    End Sub
+
+    Private Sub ButtonAction(Optional Action As Boolean = False)
+        '按钮动作，False表示只改变按钮状态
+
+        If IO.File.Exists(ALDir) Then
+            '判断战网是否存在
+            Try
+                'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
+                Try  '替换战网汉化文件
+                    Dim LocALpath = Path.GetDirectoryName(ALDir) & "\resources\static\langs"
+                    ReplaceFile(LocALpath, "en.json")
+                Catch ex As Exception
+                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "替换战网汉化文件失败")
+                End Try
+                Process.Start(ALDir)
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Exclamation, "战网启动失败")
+            End Try
+        Else
+            '提示下载战网
+            ButtonStatus(StartStatus.DownloadAL)
+        End If
+
     End Sub
 
     Private Sub Settings_Click(sender As Object, e As EventArgs) Handles OpenSettings.Click
@@ -180,7 +227,7 @@ Public Class WavenLauncher
     End Sub
 
     Private Sub OpenOrSaveSetting(ByVal KeepOpening As Boolean)
-        'KeepOpening判断是否需要一直打开设置面板（因为想启动战网却没设置路径所以需要一直开着）
+        'KeepOpening判断是否需要一直打开设置面板（因为战网不存在所以需要一直开着）
         Try
             If PanelVisible = False Then
                 SettingPanel.Visible = True  '显示设置面板
@@ -207,9 +254,9 @@ Public Class WavenLauncher
                     If LocGM = True Then
                         LocGameCheck.Checked = True
                     End If
-                    If ALDir <> "" Then
-                        LabelDirAL.Text = ALDir
-                    End If
+                    'If ALDir <> "" Then
+                    '    LabelDirAL.Text = ALDir
+                    'End If
                     If GMDir <> "" Then
                         LabelDirGM.Text = GMDir
                     End If
@@ -344,15 +391,15 @@ Public Class WavenLauncher
         End Try
     End Sub
 
-    Private Sub LabelDirAL_Click(sender As Object, e As EventArgs) Handles LabelDirAL.Click
-        '点击选择战网路径
-        SetDir("AL")
-    End Sub
+    'Private Sub LabelDirAL_Click(sender As Object, e As EventArgs) Handles LabelDirAL.Click
+    '点击选择战网路径
+    '    SetDir("AL")
+    'End Sub
 
-    Private Sub ButtonDirAL_Click(sender As Object, e As EventArgs) Handles ButtonDirAL.Click
-        '点击选择战网路径
-        SetDir("AL")
-    End Sub
+    'Private Sub ButtonDirAL_Click(sender As Object, e As EventArgs) Handles ButtonDirAL.Click
+    '点击选择战网路径
+    '    SetDir("AL")
+    'End Sub
 
     Private Sub LabelDirGM_Click(sender As Object, e As EventArgs) Handles LabelDirGM.Click
         '点击选择游戏路径
@@ -368,7 +415,8 @@ Public Class WavenLauncher
         '验证路径合法性
         Try
             If Not IO.File.Exists(Dir) Then
-                Dir = ""  '如果不合法重置为空值
+                Dir = ""
+                '如果不合法重置为空值
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "CheckFileExisting Error")
@@ -464,7 +512,7 @@ Public Class WavenLauncher
             Else
                 LayoutLabel(DownloadFilePath, "下载失败：")
             End If
-
+            ToolTip1.SetToolTip(StatusLabel, "")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "DownloadData Not Completed Error")
         End Try
@@ -476,19 +524,30 @@ Public Class WavenLauncher
         Try
             Dim oPath As String = $"{DefaultFileAddress}/{FileName}"
             Dim tPath As String = $"{tFilePath}/{FileName}"
-            Dim bakPath As String = oPath & ".bak" '备份文件后加bak
+            'Dim bakPath As String = oPath & ".bak" '备份文件后加bak
             Dim oFile As FileInfo = New FileInfo(oPath)
             Dim tFile As FileInfo = New FileInfo(tPath)
-            Dim bakFile As FileInfo = New FileInfo(bakPath)
-            bakFile.Delete()
-            tFile.CopyTo(bakPath) '备份要替换的文件
-            tFile.Delete()
-            oFile.CopyTo(tPath) '替换文件
+            'Dim bakFile As FileInfo = New FileInfo(bakPath)
+            If IO.File.Exists(oPath) Then
+                'bakFile.Delete()
+                'tFile.CopyTo(bakPath) '备份要替换的文件
+                tFile.Delete()
+                oFile.CopyTo(tPath) '替换文件
+            End If
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ReplaceFile Error")
         End Try
     End Sub
+
+    'Private Sub RecoverFile(ByVal tFilePath As String, ByVal FileName As String)
+    '    Try
+
+    '    Catch ex As Exception
+    '        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "RecoverFile Error")
+    '    End Try
+    'End Sub
+
 
     Private Sub TestLabel1_Click(sender As Object, e As EventArgs) Handles TestLabel1.Click
         '此事件仅供测试用
@@ -496,7 +555,12 @@ Public Class WavenLauncher
         'CheckProcessRunning("GM")
         'ProgressBar1.Value = 50
         '战网汉化文件地址 https://github.com/layahcn/WavenCN/raw/master/en.json
-        DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
+        'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
+        Process.Start(ALDir)
+        LayoutLabel("汉化已完成，正在返回Ankama Launcher")
+        StartButton.Enabled = False
+
+
     End Sub
 
     Private Sub LayoutLabel(ByVal Text As String, Optional ByVal KeyWord As String = "状态：")
@@ -510,6 +574,7 @@ Public Class WavenLauncher
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles UpdateLoc.Click
+        DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
         DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
     End Sub
 End Class
