@@ -2,7 +2,7 @@
 Imports System.Net
 
 Public Class WavenLauncher
-    Const VersionWL As UInt32 = 20190802  ' 汉化启动器版本号
+    Const VersionWL As UInt32 = 20190805  ' 汉化启动器版本号
     Dim bFormDragging As Boolean = False    ' 判断窗体是否被拖动
     Dim oPointClicked As Point  ' 记录鼠标拖动位置
     Dim PanelVisible As Boolean = False   ' 设置界面默认隐藏
@@ -13,9 +13,11 @@ Public Class WavenLauncher
     Dim GMDir As String  '存储游戏路径
     Dim VersionAL As String ' 存储战网汉化适用战网版本号
     Dim DownloadClient As New WebClient  '用于下载资源
-    ReadOnly DefaultFileAddress As String = Application.StartupPath  '默认文件下载位置为同目录
+    ReadOnly DefaultFileAddress As String = Application.StartupPath & "\Download"  '默认文件下载目录
+    ReadOnly tempUpdatePath As String = Application.StartupPath & "\Temp\"  '默认软件更新文件临时下载目录
     Dim DownloadFilePath As String  '正在下载文件的本地存储路径
     Dim DownloadFileName As String  '正在下载文件的名称
+    Dim mainAppExe As String = "WavenLauncher.exe"
 
 
     Private Enum StartStatus As Byte  '用于改变开始游戏按钮文本与行为
@@ -159,7 +161,7 @@ Public Class WavenLauncher
             'Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
             '测试用WebClint类的DownloadFile方法下载
             DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
-            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe")
+            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe", DefaultFileAddress)
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Download Ankama Launcher Error")
         End Try
@@ -226,7 +228,7 @@ Public Class WavenLauncher
         Else
             '下载战网
             DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
-            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe")
+            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe", DefaultFileAddress)
 
 
         End If
@@ -234,29 +236,27 @@ Public Class WavenLauncher
     End Sub
     Private Sub AfterDownload()
         Try
-            If DownloadFileName = "Ankama_Launcher-Setup.exe" Then  '如果成功下载战网则直接打开
-                Try
-                    Process.Start(DownloadFilePath)
-                    Close()
-                Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "打开战网安装文件失败")
-                End Try
-            End If
-            If DownloadFileName = "en.json" Then  '如果是战网的汉化下载完成
-                Try  '替换战网汉化文件
-
-
-                    Dim LocALpath = Path.GetDirectoryName(ALDir) & "\resources\static\langs"
-                    LayoutLabel(LocALpath & "\en.json", "汉化战网文件中：")
-                    ReplaceFile(LocALpath, "en.json")
-                    Process.Start(ALDir)
-                    LayoutLabel("汉化战网成功，启动战网")
-                Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "汉化战网失败")
-                End Try
-
-            End If
-
+            Select Case DownloadFileName
+                Case "Ankama_Launcher-Setup.exe"  '如果成功下载战网则直接打开
+                    Try
+                        Process.Start(DownloadFilePath)
+                        Close()
+                    Catch ex As Exception
+                        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "打开战网安装文件失败")
+                    End Try
+                Case "en.json"  '如果是战网的汉化下载完成
+                    Try  '替换战网汉化文件
+                        Dim LocALpath = Path.GetDirectoryName(ALDir) & "\resources\static\langs"
+                        LayoutLabel(LocALpath & "\en.json", "汉化战网文件中：")
+                        ReplaceFile(LocALpath, "en.json")
+                        Process.Start(ALDir)
+                        LayoutLabel("汉化战网成功，启动战网")
+                    Catch ex As Exception
+                        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "汉化战网失败")
+                    End Try
+                Case mainAppExe  '如果是下载软件
+                    KillSelfThenRun()
+            End Select
 
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "AfterDownload Error")
@@ -518,13 +518,16 @@ Public Class WavenLauncher
         End Try
     End Function
 
-    Private Sub DownloadFile(ByVal url As String, ByVal filename As String)
+    Private Sub DownloadFile(ByVal url As String, ByVal filename As String, ByVal savepath As String)
         '下载文件
         Try
+            If Not Directory.Exists(savepath) Then
+                Directory.CreateDirectory(savepath)
+            End If
             If DownloadClient.IsBusy = False Then
                 ToolTip1.SetToolTip(StatusLabel, "点击取消下载")
                 DownloadFileName = filename
-                DownloadFilePath = $"{DefaultFileAddress}\{DownloadFileName}"
+                DownloadFilePath = $"{savepath}\{DownloadFileName}"
                 LayoutLabel(DownloadFilePath, "下载中(0%)：")
                 ProgressBar1.Value = 0
                 DownloadClient.DownloadFileAsync(New Uri(url), DownloadFilePath)
@@ -606,12 +609,18 @@ Public Class WavenLauncher
         'StartButton.Enabled = False
         'DFileCN("战网安装文件", "Ankama_Launcher-Setup.exe")
         'DFileCN("战网汉化文件", "en.json")
+        DFileCN("软件更新地址", mainAppExe, Application.StartupPath & "\Temp")
+
+
 
     End Sub
 
-    Private Sub DFileCN(ByVal FileNameCN As String, ByVal filename As String)
+    Private Sub DFileCN(ByVal FileNameCN As String, ByVal filename As String, ByVal savepath As String)
         '官网的获取网页文字的方法，没啥改动，恐怕很容易报错
         Try
+            If Not Directory.Exists(savepath) Then
+                Directory.CreateDirectory(savepath)
+            End If
             Dim request As WebRequest =
               WebRequest.Create("http://layah.lofter.com/")  '用轻博客获取版本号等内容
             ' If required by the server, set the credentials.  
@@ -635,7 +644,7 @@ Public Class WavenLauncher
                     Console.WriteLine(responseFromServer)  '测试输出
                     responseFromServer = responseFromServer.Substring(0, 16)
                     TestLabel2.Text = responseFromServer   '测试输出
-                    DownloadFile($"https://attachments-cdn.shimo.im/{responseFromServer}/{filename}", filename)
+                    DownloadFile($"https://attachments-cdn.shimo.im/{responseFromServer}/{filename}", filename, savepath)
                     '石墨文档的附件，比GitHub上载快多了
                 End If
                 'Console.WriteLine(responseFromServer)
@@ -659,9 +668,40 @@ Public Class WavenLauncher
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles UpdateLoc.Click
         DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
-        DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
+        DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json", DefaultFileAddress)
         'DownloadFile("https://attachments-cdn.shimo.im/5T4dV8xSX40DjREE/en.json", "en.json")
 
 
+    End Sub
+
+
+    Private Sub KillSelfThenRun()   '自爆型更新程序
+        Dim strXCopyFiles As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "XCopyFiles.bat")
+
+        Using swXcopy As StreamWriter = File.CreateText(strXCopyFiles)
+            Dim strOriginalPath As String = tempUpdatePath.Substring(0, tempUpdatePath.Length - 1)
+            swXcopy.WriteLine(String.Format("
+                @echo off
+                xcopy /y/s/e/v " & strOriginalPath & " " & Directory.GetCurrentDirectory() & "", AppDomain.CurrentDomain.FriendlyName))
+        End Using
+
+        Dim filename As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "killmyself.bat")
+
+        Using bat As StreamWriter = File.CreateText(filename)
+            bat.WriteLine(String.Format("
+                @echo off
+                :selfkill
+                attrib -a -r -s -h ""{0}""
+                del ""{0}""
+                if exist ""{0}"" goto selfkill
+                call XCopyFiles.bat
+                del XCopyFiles.bat
+                del /f/q " & tempUpdatePath + Environment.NewLine & " rd " + tempUpdatePath + Environment.NewLine & " start " + mainAppExe + Environment.NewLine & " del %0 ", AppDomain.CurrentDomain.FriendlyName))
+        End Using
+
+        Dim info As ProcessStartInfo = New ProcessStartInfo(filename)
+        info.WindowStyle = ProcessWindowStyle.Hidden
+        Process.Start(info)
+        Environment.[Exit](0)
     End Sub
 End Class

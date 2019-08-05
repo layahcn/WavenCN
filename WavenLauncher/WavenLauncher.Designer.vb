@@ -95,7 +95,7 @@ Partial Class WavenLauncher
         Me.ALVersionLabel.BackColor = System.Drawing.Color.Transparent
         Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.ALVersionLabel.Location = New System.Drawing.Point(219, 72)
+        Me.ALVersionLabel.Location = New System.Drawing.Point(140, 72)
         Me.ALVersionLabel.Name = "ALVersionLabel"
         Me.ALVersionLabel.Size = New System.Drawing.Size(178, 17)
         Me.ALVersionLabel.TabIndex = 4
