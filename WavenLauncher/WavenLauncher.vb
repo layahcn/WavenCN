@@ -15,6 +15,7 @@ Public Class WavenLauncher
     Dim DownloadClient As New WebClient  '用于下载资源
     ReadOnly DefaultFileAddress As String = Application.StartupPath  '默认文件下载位置为同目录
     Dim DownloadFilePath As String  '正在下载文件的本地存储路径
+    Dim DownloadFileName As String  '正在下载文件的名称
 
 
     Private Enum StartStatus As Byte  '用于改变开始游戏按钮文本与行为
@@ -59,9 +60,10 @@ Public Class WavenLauncher
                 ALDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) & "\AppData\Local\Programs\zaap\Ankama Launcher.exe"
                 '直接设置战网路径，因为安装时根本选不了路径，都是默认安装在这路径下的
                 If Not IO.File.Exists(ALDir) Then  '检测是否安装战网
-                    ButtonStatus(StartStatus.DownloadAL)
+                    ButtonStatus(StartStatus.DownloadAL)  '路径下不存在战网则按钮显示下载战网
+
                 End If
-                CheckFileExisting(My.Settings.GMDir)  '验证路径合法性
+                CheckFileExisting(My.Settings.GMDir)  '验证游戏路径合法性
                 GMDir = My.Settings.GMDir
 
             Catch ex As Exception
@@ -71,16 +73,14 @@ Public Class WavenLauncher
                 If CheckProcessRunning("AL") Then '检测战网运行状态
 
                     If IO.File.Exists(GMDir) Then
-                        If LocGM Then
-                            ButtonStatus(StartStatus.LocGM)
-                            LayoutLabel("请检查游戏是否处于最新状态后再汉化")
+                        If LocGM Then  '检测用户是否要汉化游戏，默认要
+                            ButtonStatus(StartStatus.LocGM)   '按钮显示汉化游戏
                         Else
-                            ButtonStatus(StartStatus.Quit)
+                            ButtonStatus(StartStatus.Quit)  '显示退出程序
                             LayoutLabel("不汉化游戏你开我作甚！哼！")
                         End If
                     Else
-                        ButtonStatus(StartStatus.Setdir)
-                        LayoutLabel("请设置Waven游戏路径")
+                        ButtonStatus(StartStatus.Setdir)  '显示设置路径
                     End If
                 Else
                     ButtonStatus(StartStatus.StartAL)  '战网没运行则显示启动战网
@@ -95,7 +95,7 @@ Public Class WavenLauncher
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "AddHandler Error")
             End Try
             CheckVersion()
-            ' 调用检查版本函数
+            ' 调用检查版本过程
             Timer1.Enabled = True  '加载完窗体再触发计时器延时显示窗体
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Load Form Error")
@@ -159,7 +159,7 @@ Public Class WavenLauncher
             'Process.Start("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe")
             '测试用WebClint类的DownloadFile方法下载
             DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
-            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama Launcher-Setup.exe")
+            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Download Ankama Launcher Error")
         End Try
@@ -179,11 +179,12 @@ Public Class WavenLauncher
             Select Case Status
                 Case StartStatus.DownloadAL
                     StartButton.Text = "下载战网"
+                    LayoutLabel("请点击下载战网，安装好战网后再打开本程序", "提示：")
                 Case StartStatus.StartAL
                     StartButton.Text = "启动战网"
                 Case StartStatus.LocGM
                     StartButton.Text = "汉化游戏"
-                    LayoutLabel("请等待战网自动更新后再汉化游戏", "提示：")
+                    LayoutLabel("请检查游戏是否处于最新状态后再汉化", "提示：")
                 Case StartStatus.Setdir
                     StartButton.Text = "设置路径"
                     LayoutLabel("请在设置里选择游戏路径，若未安装请用前往战网安装", "提示：")
@@ -203,22 +204,63 @@ Public Class WavenLauncher
         If IO.File.Exists(ALDir) Then
             '判断战网是否存在
             Try
+                If CheckProcessRunning("AL") Then  '检测战网是否运行
+
+                Else
+
+                    If LocAL Then
+                        If Action Then
+
+                        End If
+
+                    End If
+                    Process.Start(ALDir)
+                End If
+
                 'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
-                Try  '替换战网汉化文件
-                    Dim LocALpath = Path.GetDirectoryName(ALDir) & "\resources\static\langs"
-                    ReplaceFile(LocALpath, "en.json")
-                Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "替换战网汉化文件失败")
-                End Try
+
                 Process.Start(ALDir)
             Catch ex As Exception
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "战网启动失败")
             End Try
         Else
-            '提示下载战网
-            ButtonStatus(StartStatus.DownloadAL)
+            '下载战网
+            DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
+            DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe")
+
+
         End If
 
+    End Sub
+    Private Sub AfterDownload()
+        Try
+            If DownloadFileName = "Ankama_Launcher-Setup.exe" Then  '如果成功下载战网则直接打开
+                Try
+                    Process.Start(DownloadFilePath)
+                    Close()
+                Catch ex As Exception
+                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "打开战网安装文件失败")
+                End Try
+            End If
+            If DownloadFileName = "en.json" Then  '如果是战网的汉化下载完成
+                Try  '替换战网汉化文件
+
+
+                    Dim LocALpath = Path.GetDirectoryName(ALDir) & "\resources\static\langs"
+                    LayoutLabel(LocALpath & "\en.json", "汉化战网文件中：")
+                    ReplaceFile(LocALpath, "en.json")
+                    Process.Start(ALDir)
+                    LayoutLabel("汉化战网成功，启动战网")
+                Catch ex As Exception
+                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "汉化战网失败")
+                End Try
+
+            End If
+
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "AfterDownload Error")
+        End Try
     End Sub
 
     Private Sub Settings_Click(sender As Object, e As EventArgs) Handles OpenSettings.Click
@@ -481,7 +523,8 @@ Public Class WavenLauncher
         Try
             If DownloadClient.IsBusy = False Then
                 ToolTip1.SetToolTip(StatusLabel, "点击取消下载")
-                DownloadFilePath = $"{DefaultFileAddress}\{filename}"
+                DownloadFileName = filename
+                DownloadFilePath = $"{DefaultFileAddress}\{DownloadFileName}"
                 LayoutLabel(DownloadFilePath, "下载中(0%)：")
                 ProgressBar1.Value = 0
                 DownloadClient.DownloadFileAsync(New Uri(url), DownloadFilePath)
@@ -509,6 +552,7 @@ Public Class WavenLauncher
         Try
             If ProgressBar1.Value = 100 Then
                 LayoutLabel(DownloadFilePath, "下载成功：")
+                AfterDownload()
             Else
                 LayoutLabel(DownloadFilePath, "下载失败：")
             End If
@@ -518,6 +562,7 @@ Public Class WavenLauncher
         End Try
 
     End Sub
+
 
     Private Sub ReplaceFile(ByVal tFilePath As String, ByVal FileName As String)
         '替换文件
@@ -556,13 +601,52 @@ Public Class WavenLauncher
         'ProgressBar1.Value = 50
         '战网汉化文件地址 https://github.com/layahcn/WavenCN/raw/master/en.json
         'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
-        Process.Start(ALDir)
-        LayoutLabel("汉化已完成，正在返回Ankama Launcher")
-        StartButton.Enabled = False
-
+        'Process.Start(ALDir)
+        'LayoutLabel("汉化已完成，正在返回Ankama Launcher")
+        'StartButton.Enabled = False
+        'DFileCN("战网安装文件", "Ankama_Launcher-Setup.exe")
+        'DFileCN("战网汉化文件", "en.json")
 
     End Sub
 
+    Private Sub DFileCN(ByVal FileNameCN As String, ByVal filename As String)
+        '官网的获取网页文字的方法，没啥改动，恐怕很容易报错
+        Try
+            Dim request As WebRequest =
+              WebRequest.Create("http://layah.lofter.com/")  '用轻博客获取版本号等内容
+            ' If required by the server, set the credentials.  
+            request.Credentials = CredentialCache.DefaultCredentials
+            ' Get the response.  
+            Dim response As WebResponse = request.GetResponse()
+            ' Display the status.  
+            LayoutLabel(CType(response, HttpWebResponse).StatusDescription， "连接更新服务器：")
+            'Console.WriteLine(CType(response, HttpWebResponse).StatusDescription)
+            ' Get the stream containing content returned by the server. 
+            ' The using block ensures the stream is automatically closed.
+            Using dataStream As Stream = response.GetResponseStream()
+                ' Open the stream using a StreamReader for easy access.  
+                Dim reader As New StreamReader(dataStream)
+                ' Read the content.  
+                Dim responseFromServer As String = reader.ReadToEnd()
+                ' Display the content.  
+                Dim LocALFileLink As String = ""
+                If responseFromServer.Contains(FileNameCN) Then
+                    responseFromServer = responseFromServer.Remove(0, responseFromServer.IndexOf(FileNameCN) + FileNameCN.Length + 1)
+                    Console.WriteLine(responseFromServer)  '测试输出
+                    responseFromServer = responseFromServer.Substring(0, 16)
+                    TestLabel2.Text = responseFromServer   '测试输出
+                    DownloadFile($"https://attachments-cdn.shimo.im/{responseFromServer}/{filename}", filename)
+                    '石墨文档的附件，比GitHub上载快多了
+                End If
+                'Console.WriteLine(responseFromServer)
+            End Using
+            ' Clean up the response.
+            response.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "DFileCN Error")
+        End Try
+
+    End Sub
     Private Sub LayoutLabel(ByVal Text As String, Optional ByVal KeyWord As String = "状态：")
         '显示当前状态信息提示
         StatusLabel.Text = KeyWord & Text
@@ -576,5 +660,8 @@ Public Class WavenLauncher
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles UpdateLoc.Click
         DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
         DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json")
+        'DownloadFile("https://attachments-cdn.shimo.im/5T4dV8xSX40DjREE/en.json", "en.json")
+
+
     End Sub
 End Class
