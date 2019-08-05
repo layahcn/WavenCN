@@ -44,7 +44,6 @@ Partial Class WavenLauncher
         Me.CloseForm1 = New System.Windows.Forms.RadioButton()
         Me.CloseForm0 = New System.Windows.Forms.RadioButton()
         Me.ButtonDirAL = New System.Windows.Forms.Button()
-        Me.VersionState = New System.Windows.Forms.Label()
         Me.SysTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -57,6 +56,8 @@ Partial Class WavenLauncher
         Me.StatusLabel = New System.Windows.Forms.Label()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.WLVerStatus = New System.Windows.Forms.Label()
+        Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SettingPanel.SuspendLayout()
         Me.CloseAction.SuspendLayout()
@@ -310,17 +311,6 @@ Partial Class WavenLauncher
         Me.ButtonDirAL.UseVisualStyleBackColor = True
         Me.ButtonDirAL.Visible = False
         '
-        'VersionState
-        '
-        Me.VersionState.AutoSize = True
-        Me.VersionState.BackColor = System.Drawing.Color.Transparent
-        Me.VersionState.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.VersionState.ForeColor = System.Drawing.Color.Yellow
-        Me.VersionState.Location = New System.Drawing.Point(446, 19)
-        Me.VersionState.Name = "VersionState"
-        Me.VersionState.Size = New System.Drawing.Size(0, 15)
-        Me.VersionState.TabIndex = 14
-        '
         'SysTrayIcon
         '
         Me.SysTrayIcon.ContextMenuStrip = Me.ContextMenuStrip1
@@ -407,12 +397,29 @@ Partial Class WavenLauncher
         Me.Panel1.Size = New System.Drawing.Size(478, 50)
         Me.Panel1.TabIndex = 19
         '
+        'WLVerStatus
+        '
+        Me.WLVerStatus.AutoSize = True
+        Me.WLVerStatus.BackColor = System.Drawing.Color.Transparent
+        Me.WLVerStatus.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.WLVerStatus.ForeColor = System.Drawing.Color.Yellow
+        Me.WLVerStatus.Location = New System.Drawing.Point(488, 20)
+        Me.WLVerStatus.Name = "WLVerStatus"
+        Me.WLVerStatus.Size = New System.Drawing.Size(91, 15)
+        Me.WLVerStatus.TabIndex = 20
+        Me.WLVerStatus.Text = "检测更新中…"
+        '
+        'Timer2
+        '
+        Me.Timer2.Interval = 500
+        '
         'WavenLauncher
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.ClientSize = New System.Drawing.Size(696, 411)
+        Me.Controls.Add(Me.WLVerStatus)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.ALVersionLabel)
         Me.Controls.Add(Me.ProgressBar1)
@@ -420,7 +427,6 @@ Partial Class WavenLauncher
         Me.Controls.Add(Me.TestLabel1)
         Me.Controls.Add(Me.TestLabel2)
         Me.Controls.Add(Me.LabelDirAL)
-        Me.Controls.Add(Me.VersionState)
         Me.Controls.Add(Me.SettingPanel)
         Me.Controls.Add(Me.OpenSettings)
         Me.Controls.Add(Me.IcoPicture)
@@ -460,7 +466,6 @@ Partial Class WavenLauncher
     Friend WithEvents CloseForm2 As RadioButton
     Friend WithEvents CloseForm1 As RadioButton
     Friend WithEvents CloseForm0 As RadioButton
-    Friend WithEvents VersionState As Label
     Friend WithEvents SysTrayIcon As NotifyIcon
     Friend WithEvents Timer1 As Timer
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
@@ -478,4 +483,6 @@ Partial Class WavenLauncher
     Friend WithEvents ProgressBar1 As ProgressBar
     Friend WithEvents Panel1 As Panel
     Friend WithEvents UpdateLoc As Button
+    Friend WithEvents WLVerStatus As Label
+    Friend WithEvents Timer2 As Timer
 End Class
