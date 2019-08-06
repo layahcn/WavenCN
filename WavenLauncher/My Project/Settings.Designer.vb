@@ -81,12 +81,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property LocGame() As Boolean
+        Public Property LocGM() As Boolean
             Get
-                Return CType(Me("LocGame"),Boolean)
+                Return CType(Me("LocGM"),Boolean)
             End Get
             Set
-                Me("LocGame") = value
+                Me("LocGM") = value
             End Set
         End Property
         
@@ -116,13 +116,37 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2.9.20")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2.9.24")>  _
         Public Property VersionAL() As String
             Get
                 Return CType(Me("VersionAL"),String)
             End Get
             Set
                 Me("VersionAL") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property AutoUD() As String
+            Get
+                Return CType(Me("AutoUD"),String)
+            End Get
+            Set
+                Me("AutoUD") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property VersionCN() As UInteger
+            Get
+                Return CType(Me("VersionCN"),UInteger)
+            End Get
+            Set
+                Me("VersionCN") = value
             End Set
         End Property
     End Class

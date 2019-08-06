@@ -8,7 +8,7 @@
     <Setting Name="LocAL" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="LocGame" Type="System.Boolean" Scope="User">
+    <Setting Name="LocGM" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ALDir" Type="System.String" Scope="User">
@@ -18,7 +18,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="VersionAL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2.9.20</Value>
+      <Value Profile="(Default)">2.9.24</Value>
+    </Setting>
+    <Setting Name="AutoUD" Type="System.String" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="VersionCN" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

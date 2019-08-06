@@ -35,7 +35,8 @@ Partial Class WavenLauncher
         Me.LabelDirGM = New System.Windows.Forms.Label()
         Me.OpenSettings = New System.Windows.Forms.Button()
         Me.SettingPanel = New System.Windows.Forms.Panel()
-        Me.UpdateLoc = New System.Windows.Forms.Button()
+        Me.AutoUDCheck = New System.Windows.Forms.CheckBox()
+        Me.UpdateCN = New System.Windows.Forms.Button()
         Me.ButtonDirGM = New System.Windows.Forms.Button()
         Me.LocGameCheck = New System.Windows.Forms.CheckBox()
         Me.LocALCheck = New System.Windows.Forms.CheckBox()
@@ -58,11 +59,14 @@ Partial Class WavenLauncher
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.WLVerStatus = New System.Windows.Forms.Label()
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+        Me.PanelProgressBar = New System.Windows.Forms.Panel()
+        Me.PanelProgress = New System.Windows.Forms.Panel()
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SettingPanel.SuspendLayout()
         Me.CloseAction.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        Me.PanelProgressBar.SuspendLayout()
         Me.SuspendLayout()
         '
         'StartButton
@@ -96,7 +100,7 @@ Partial Class WavenLauncher
         Me.ALVersionLabel.BackColor = System.Drawing.Color.Transparent
         Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.ALVersionLabel.Location = New System.Drawing.Point(140, 72)
+        Me.ALVersionLabel.Location = New System.Drawing.Point(22, 109)
         Me.ALVersionLabel.Name = "ALVersionLabel"
         Me.ALVersionLabel.Size = New System.Drawing.Size(178, 17)
         Me.ALVersionLabel.TabIndex = 4
@@ -188,29 +192,42 @@ Partial Class WavenLauncher
         '
         Me.SettingPanel.BackColor = System.Drawing.Color.Teal
         Me.SettingPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.SettingPanel.Controls.Add(Me.UpdateLoc)
+        Me.SettingPanel.Controls.Add(Me.AutoUDCheck)
+        Me.SettingPanel.Controls.Add(Me.UpdateCN)
         Me.SettingPanel.Controls.Add(Me.ButtonDirGM)
         Me.SettingPanel.Controls.Add(Me.LabelDirGM)
+        Me.SettingPanel.Controls.Add(Me.ALVersionLabel)
         Me.SettingPanel.Controls.Add(Me.LocGameCheck)
         Me.SettingPanel.Controls.Add(Me.LocALCheck)
         Me.SettingPanel.Controls.Add(Me.CloseAction)
         Me.SettingPanel.ForeColor = System.Drawing.Color.Yellow
-        Me.SettingPanel.Location = New System.Drawing.Point(201, 226)
+        Me.SettingPanel.Location = New System.Drawing.Point(201, 200)
         Me.SettingPanel.Name = "SettingPanel"
-        Me.SettingPanel.Size = New System.Drawing.Size(485, 118)
+        Me.SettingPanel.Size = New System.Drawing.Size(485, 144)
         Me.SettingPanel.TabIndex = 13
         Me.SettingPanel.Visible = False
         '
-        'UpdateLoc
+        'AutoUDCheck
         '
-        Me.UpdateLoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.UpdateLoc.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.UpdateLoc.Location = New System.Drawing.Point(369, 75)
-        Me.UpdateLoc.Name = "UpdateLoc"
-        Me.UpdateLoc.Size = New System.Drawing.Size(95, 25)
-        Me.UpdateLoc.TabIndex = 7
-        Me.UpdateLoc.Text = "更新汉化"
-        Me.UpdateLoc.UseVisualStyleBackColor = True
+        Me.AutoUDCheck.AutoSize = True
+        Me.AutoUDCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.AutoUDCheck.Location = New System.Drawing.Point(369, 76)
+        Me.AutoUDCheck.Name = "AutoUDCheck"
+        Me.AutoUDCheck.Size = New System.Drawing.Size(99, 21)
+        Me.AutoUDCheck.TabIndex = 8
+        Me.AutoUDCheck.Text = "自动更新汉化"
+        Me.AutoUDCheck.UseVisualStyleBackColor = True
+        '
+        'UpdateCN
+        '
+        Me.UpdateCN.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.UpdateCN.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.UpdateCN.Location = New System.Drawing.Point(369, 105)
+        Me.UpdateCN.Name = "UpdateCN"
+        Me.UpdateCN.Size = New System.Drawing.Size(99, 25)
+        Me.UpdateCN.TabIndex = 7
+        Me.UpdateCN.Text = "更新汉化"
+        Me.UpdateCN.UseVisualStyleBackColor = True
         '
         'ButtonDirGM
         '
@@ -242,7 +259,7 @@ Partial Class WavenLauncher
         Me.LocALCheck.BackColor = System.Drawing.Color.Transparent
         Me.LocALCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LocALCheck.ForeColor = System.Drawing.Color.Yellow
-        Me.LocALCheck.Location = New System.Drawing.Point(369, 18)
+        Me.LocALCheck.Location = New System.Drawing.Point(369, 14)
         Me.LocALCheck.Name = "LocALCheck"
         Me.LocALCheck.Size = New System.Drawing.Size(99, 21)
         Me.LocALCheck.TabIndex = 1
@@ -371,22 +388,23 @@ Partial Class WavenLauncher
         Me.StatusLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.StatusLabel.ForeColor = System.Drawing.Color.Yellow
         Me.StatusLabel.Location = New System.Drawing.Point(0, 33)
-        Me.StatusLabel.MaximumSize = New System.Drawing.Size(450, 100)
+        Me.StatusLabel.MaximumSize = New System.Drawing.Size(475, 100)
+        Me.StatusLabel.MinimumSize = New System.Drawing.Size(475, 0)
         Me.StatusLabel.Name = "StatusLabel"
-        Me.StatusLabel.Size = New System.Drawing.Size(68, 17)
+        Me.StatusLabel.Size = New System.Drawing.Size(475, 17)
         Me.StatusLabel.TabIndex = 17
         Me.StatusLabel.Text = "状态：就绪"
         '
         'ProgressBar1
         '
         Me.ProgressBar1.BackColor = System.Drawing.Color.Teal
-        Me.ProgressBar1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.ProgressBar1.ForeColor = System.Drawing.Color.Yellow
-        Me.ProgressBar1.Location = New System.Drawing.Point(0, 401)
+        Me.ProgressBar1.Location = New System.Drawing.Point(211, 75)
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(696, 10)
+        Me.ProgressBar1.Size = New System.Drawing.Size(217, 10)
         Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
         Me.ProgressBar1.TabIndex = 18
+        Me.ProgressBar1.Visible = False
         '
         'Panel1
         '
@@ -413,15 +431,35 @@ Partial Class WavenLauncher
         '
         Me.Timer2.Interval = 500
         '
+        'PanelProgressBar
+        '
+        Me.PanelProgressBar.BackColor = System.Drawing.Color.Transparent
+        Me.PanelProgressBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelProgressBar.Controls.Add(Me.PanelProgress)
+        Me.PanelProgressBar.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PanelProgressBar.Location = New System.Drawing.Point(0, 401)
+        Me.PanelProgressBar.Name = "PanelProgressBar"
+        Me.PanelProgressBar.Size = New System.Drawing.Size(696, 10)
+        Me.PanelProgressBar.TabIndex = 21
+        '
+        'PanelProgress
+        '
+        Me.PanelProgress.BackColor = System.Drawing.Color.Yellow
+        Me.PanelProgress.Dock = System.Windows.Forms.DockStyle.Left
+        Me.PanelProgress.Location = New System.Drawing.Point(0, 0)
+        Me.PanelProgress.Name = "PanelProgress"
+        Me.PanelProgress.Size = New System.Drawing.Size(0, 8)
+        Me.PanelProgress.TabIndex = 0
+        '
         'WavenLauncher
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.ClientSize = New System.Drawing.Size(696, 411)
+        Me.Controls.Add(Me.PanelProgressBar)
         Me.Controls.Add(Me.WLVerStatus)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.ALVersionLabel)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.ButtonDirAL)
         Me.Controls.Add(Me.TestLabel1)
@@ -447,6 +485,7 @@ Partial Class WavenLauncher
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        Me.PanelProgressBar.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -482,7 +521,10 @@ Partial Class WavenLauncher
     Friend WithEvents StatusLabel As Label
     Friend WithEvents ProgressBar1 As ProgressBar
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents UpdateLoc As Button
+    Friend WithEvents UpdateCN As Button
     Friend WithEvents WLVerStatus As Label
     Friend WithEvents Timer2 As Timer
+    Friend WithEvents AutoUDCheck As CheckBox
+    Friend WithEvents PanelProgressBar As Panel
+    Friend WithEvents PanelProgress As Panel
 End Class

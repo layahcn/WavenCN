@@ -12,8 +12,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Waven汉化启动器")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("WavenLauncher")>
-<Assembly: AssemblyCopyright("Copyright © layah 2019")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyCopyright("Copyright © 2019 layah")>
+<Assembly: AssemblyTrademark("盐十汽水™")>
 
 <Assembly: ComVisible(False)>
 
