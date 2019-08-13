@@ -3,7 +3,7 @@ Imports System.IO.Compression  '解压文件用
 Imports System.Net
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 201908051 '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 201908131 '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As UInteger  '检测最新汉化启动器版本号
     Dim NewVersionCN As UInteger  '检测最新游戏汉化文本版本号
     Dim wlneedtoupdate = False  '汉化启动器是否需要更新
@@ -31,6 +31,7 @@ Public Class WavenLauncher
     Dim percentage As UShort = 0  '用于初始化进度条
     Dim FinishLocGM As Boolean = False  '存储游戏汉化状态
     Dim finishStartAL As Boolean = False  '存储战网经由汉化启动器启动状态
+    Dim gameisrunning As Boolean = False  '存储游戏运行状态
 
     Private Enum StartStatus As Byte  '用于改变开始游戏按钮文本与行为
         DownloadAL = 0  '下载战网
@@ -45,6 +46,7 @@ Public Class WavenLauncher
         Try
             Visible = False
             Opacity = 0  '隐式加载窗体以避免窗体背景重绘造成的控件闪烁
+            VersionCN = My.Settings.VersionCN  '检查版本前先给当前汉化文本版本赋值
             CheckVersion()
             ' 调用检查版本过程
             WLVersionLabel.Text = WLVersionLabel.Text _
@@ -183,6 +185,7 @@ Public Class WavenLauncher
     Private Sub CheckVersion()
         '检测软件和汉化文本的版本
         Try
+            LayoutLabel("获取版本信息中")
             GetVersion("软件版本号", NewVersionWL)
             GetVersion("游戏汉化版本", NewVersionCN)
             If NewVersionWL > VersionWL Then
@@ -241,7 +244,11 @@ Public Class WavenLauncher
                     LayoutLabel("程序待命中")
                 Case StartStatus.LocGM
                     StartButton.Text = "汉化游戏"
-                    LayoutLabel("请检查游戏是否处于最新状态后再汉化", "提示：")
+                    If gameisrunning Then
+                        LayoutLabel("游戏正在运行中，请关闭后再试", "提示：")
+                    Else
+                        LayoutLabel("请检查游戏是否处于最新状态后再汉化", "提示：")
+                    End If
                 Case StartStatus.Setdir
                     StartButton.Text = "设置路径"
                     LayoutLabel("请在设置里选择游戏路径，若未安装请用前往战网安装", "提示：")
@@ -334,10 +341,12 @@ Public Class WavenLauncher
     Private Sub LocGame()
         '点击汉化游戏按钮
         Try
-            If CheckProcessRunning("WL") Then  '若游戏已运行
+            If CheckProcessRunning("GM") Then  '若游戏已运行
+                gameisrunning = True
                 LayoutLabel("请关闭游戏后再进行汉化", "提示：")
                 Return
             Else  '若游戏未运行
+                gameisrunning = False
                 Try
                     If File.Exists(GMDir） Then
                         GameDataPath = Path.GetDirectoryName(GMDir)
@@ -668,10 +677,17 @@ Public Class WavenLauncher
                 Return False
                 Exit Try
             End If
+            '测试用
+            TestLabel1.Text = "设定路径- " & ProcessPath
+            TestLabel2.Text = ""
+            '测试用
             ProcessList = Process.GetProcessesByName(ProcessName)
             '获取程序系统进程列表
             Dim LaunchProcess As Process
             For Each LaunchProcess In ProcessList
+                '测试用
+                TestLabel2.Text += "内存路径- " & LaunchProcess.MainModule.FileName & Chr(13) & Chr(10)
+                '测试用
                 If LaunchProcess.MainModule.FileName.Equals(  '忽略大小写比较路径
                     ProcessPath, StringComparison.OrdinalIgnoreCase) Then
                     IsRunning = True
@@ -781,7 +797,8 @@ Public Class WavenLauncher
         'DFileCN("软件更新地址", mainAppExe, Application.StartupPath & "\Temp")
         'DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
         'DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe", DefaultFileAddress)
-        ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
+        'ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
+        CheckProcessRunning("GM")
     End Sub
 
     Private Sub DFileCN(ByVal FileNameCN As String, ByVal filename As String, ByVal savepath As String)
@@ -798,7 +815,6 @@ Public Class WavenLauncher
             ' Get the response.  
             Dim response As WebResponse = request.GetResponse()
             ' Display the status.  
-            LayoutLabel(CType(response, HttpWebResponse).StatusDescription， "连接更新服务器：")
             'Console.WriteLine(CType(response, HttpWebResponse).StatusDescription)
             ' Get the stream containing content returned by the server. 
             ' The using block ensures the stream is automatically closed.
@@ -863,8 +879,9 @@ Public Class WavenLauncher
             End Using
             ' Clean up the response.
             response.Close()
+            LayoutLabel("获取版本信息完成")
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "GetVersion Error")
+            LayoutLabel(ex.Message & "。请检查网络连接。", "获取版本更新信息失败:")
         End Try
     End Sub
 

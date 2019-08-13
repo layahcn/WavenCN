@@ -18,7 +18,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="VersionAL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2.9.24</Value>
+      <Value Profile="(Default)">2.9.25</Value>
     </Setting>
     <Setting Name="AutoUD" Type="System.String" Scope="User">
       <Value Profile="(Default)">True</Value>
