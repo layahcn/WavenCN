@@ -3,7 +3,7 @@ Imports System.IO.Compression  '解压文件用
 Imports System.Net
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 201908131 '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 201908151 '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As UInteger  '检测最新汉化启动器版本号
     Dim NewVersionCN As UInteger  '检测最新游戏汉化文本版本号
     Dim wlneedtoupdate = False  '汉化启动器是否需要更新
@@ -203,7 +203,6 @@ Public Class WavenLauncher
                 cnneedtoupdate = True
             ElseIf NewVersionCN = VersionCN Then
                 UpdateCN.Text = "汉化已是最新"
-                UpdateCN.Enabled = False
             Else
                 UpdateCN.Text = "重测汉化更新"
             End If
@@ -900,7 +899,7 @@ Public Class WavenLauncher
         'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json", DefaultFileAddress)
         'DownloadFile("https://attachments-cdn.shimo.im/5T4dV8xSX40DjREE/en.json", "en.json")
         'DFileCN("战网汉化文件", "en.json", DefaultFileAddress)
-        If cnneedtoupdate Then DFileCN("游戏汉化文件", "Waven-zh-cn.zip", DefaultFileAddress)
+        DFileCN("游戏汉化文件", "Waven-zh-cn.zip", DefaultFileAddress)
     End Sub
 
     Private Sub KillSelfThenRun()   '自爆型更新程序，无需更改（或许

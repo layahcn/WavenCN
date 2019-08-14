@@ -370,6 +370,7 @@ Partial Class WavenLauncher
         Me.TestLabel2.Size = New System.Drawing.Size(137, 12)
         Me.TestLabel2.TabIndex = 15
         Me.TestLabel2.Text = "测试输出用，发布请隐藏"
+        Me.TestLabel2.Visible = False
         '
         'TestLabel1
         '
@@ -379,6 +380,7 @@ Partial Class WavenLauncher
         Me.TestLabel1.Size = New System.Drawing.Size(137, 12)
         Me.TestLabel1.TabIndex = 16
         Me.TestLabel1.Text = "测试输出用，发布请隐藏"
+        Me.TestLabel1.Visible = False
         '
         'StatusLabel
         '
