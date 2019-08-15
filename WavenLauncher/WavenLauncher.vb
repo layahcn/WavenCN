@@ -3,7 +3,7 @@ Imports System.IO.Compression  '解压文件用
 Imports System.Net
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 201908151 '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 201908152  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As UInteger  '检测最新汉化启动器版本号
     Dim NewVersionCN As UInteger  '检测最新游戏汉化文本版本号
     Dim wlneedtoupdate = False  '汉化启动器是否需要更新
@@ -48,6 +48,7 @@ Public Class WavenLauncher
             Opacity = 0  '隐式加载窗体以避免窗体背景重绘造成的控件闪烁
             VersionCN = My.Settings.VersionCN  '检查版本前先给当前汉化文本版本赋值
             CheckVersion()
+            ClearOldFile("WavenLauncher内测版.exe")
             ' 调用检查版本过程
             WLVersionLabel.Text = WLVersionLabel.Text _
                                   & VersionWL
@@ -202,7 +203,11 @@ Public Class WavenLauncher
                 '若获取到有最新汉化文本
                 cnneedtoupdate = True
             ElseIf NewVersionCN = VersionCN Then
-                UpdateCN.Text = "汉化已是最新"
+                If File.Exists(DefaultFileAddress & "\Waven-zh-cn.zip") Then
+                    UpdateCN.Text = "汉化已是最新"
+                Else
+                    cnneedtoupdate = True
+                End If
             Else
                 UpdateCN.Text = "重测汉化更新"
             End If
@@ -246,7 +251,7 @@ Public Class WavenLauncher
                     If gameisrunning Then
                         LayoutLabel("游戏正在运行中，请关闭后再试", "提示：")
                     Else
-                        LayoutLabel("请检查游戏是否处于最新状态后再汉化", "提示：")
+                        LayoutLabel("请检查游戏是否处于最新状态后再汉化。【游戏语言请选择法语Francais】", "提示：")
                     End If
                 Case StartStatus.Setdir
                     StartButton.Text = "设置路径"
@@ -441,7 +446,7 @@ Public Class WavenLauncher
                     My.Settings.VersionCN = NewVersionCN
                     VersionCN = NewVersionCN  '存储游戏汉化文件版本标识到用户设置
                     My.Settings.Save()
-                    CheckVersion()  '再调用一次检测版本以让按钮变灰
+                    CheckVersion()  '再调用一次检测版本
                 Case mainAppExe  '如果是下载软件
                     '自爆程序已启动
                     KillSelfThenRun()
@@ -650,7 +655,7 @@ Public Class WavenLauncher
     Private Sub CheckFileExisting(ByRef Dir As String)
         '验证路径合法性
         Try
-            If Not IO.File.Exists(Dir) Then
+            If Not File.Exists(Dir) Then
                 Dir = ""
                 '如果不合法重置为空值
             End If
@@ -957,5 +962,16 @@ Public Class WavenLauncher
     Private Sub FormTitle_Click(sender As Object, e As EventArgs) Handles FormTitle.Click
         '点击标题显示GitHub页面
         Process.Start("https://github.com/layahcn/WavenCN#waven%E6%B1%89%E5%8C%96%E5%90%AF%E5%8A%A8%E5%99%A8")
+    End Sub
+
+    Private Sub ClearOldFile(ByVal filename As String)
+        Try
+            Dim fullpath As String = $"{Application.StartupPath}\{filename}"
+            If File.Exists(fullpath) Then
+                File.Delete(fullpath)
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ClearOldFile Error")
+        End Try
     End Sub
 End Class
