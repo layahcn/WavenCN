@@ -203,5 +203,8 @@
   <ItemGroup>
     <Content Include="WaveLauncher.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

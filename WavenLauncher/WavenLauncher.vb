@@ -1,6 +1,8 @@
-﻿Imports System.IO
+﻿Imports System.Drawing.Text
+Imports System.IO
 Imports System.IO.Compression  '解压文件用
 Imports System.Net
+Imports System.Runtime.InteropServices
 
 Public Class WavenLauncher
     Const VersionWL As UInteger = 201908152  '汉化启动器版本号，跟随发布版本
@@ -32,6 +34,7 @@ Public Class WavenLauncher
     Dim FinishLocGM As Boolean = False  '存储游戏汉化状态
     Dim finishStartAL As Boolean = False  '存储战网经由汉化启动器启动状态
     Dim gameisrunning As Boolean = False  '存储游戏运行状态
+
 
     Private Enum StartStatus As Byte  '用于改变开始游戏按钮文本与行为
         DownloadAL = 0  '下载战网
@@ -131,12 +134,46 @@ Public Class WavenLauncher
             Show()  '显示窗体。以下防止自爆更新后窗体未正常前台
             Focus()  '前台窗体
             WindowState = FormWindowState.Normal   '正常化窗体，避免仍处于最小化到任务栏
+            'TextChangeFont()
             Timer1.Enabled = True  '加载完窗体再触发计时器延时显示窗体
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Load Form Error")
         End Try
     End Sub
 
+    'Private Sub TextChangeFont()
+    '    Dim fontAName As String = "WavenLauncher.test.TTF"
+    '    Dim fontStream As IO.Stream = Reflection.Assembly.GetEntryAssembly.GetManifestResourceStream(fontAName)
+    '    'Dim fontStream As IO.Stream = Me.GetType.Assembly.GetManifestResourceStream(fontAName)
+    '    Try
+    '        If fontStream Is Nothing Then
+    '            Return
+    '        Else
+    '            Dim fontbytes(fontStream.Length - 1) As Byte
+    '            fontStream.Read(fontbytes, 0, fontStream.Length)
+    '            fontStream.Close()
+    '            Dim fontPtr As IntPtr = Runtime.InteropServices.Marshal.AllocCoTaskMem(fontbytes.Length)
+    '            Runtime.InteropServices.Marshal.Copy(fontbytes, 0, fontPtr, fontbytes.Length)
+    '            Dim g As Graphics = Me.CreateGraphics
+    '            Dim PFC As New Drawing.Text.PrivateFontCollection() '私有字符集和
+    '            ' 载入一个内存字符数据
+    '            PFC.AddMemoryFont(fontPtr, fontbytes.Length)
+    '            Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr) '记得释放内存
+    '            Dim FFS() As FontFamily = PFC.Families
+    '            'Dim FName As String = FFS(0).Name '无用代码
+    '            '创建字符实例
+    '            Dim small As New Font(FFS(0), 10.5)
+    '            WLVersionLabel.Font = small
+    '            WLVerStatus.Font = small
+    '            Dim big As New Font(FFS(0), 14.25)
+    '            FormTitle.Font = big
+    '            OpenSettings.Font = big
+    '            StartButton.Font = big
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Set Font Error")
+    '    End Try
+    'End Sub
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles QuitForm.Click
         '点击右上角退出程序叉叉
         Try
@@ -211,6 +248,7 @@ Public Class WavenLauncher
             Else
                 UpdateCN.Text = "重测汉化更新"
             End If
+            LayoutLabel("就绪")
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "CheckVersion Error")
         End Try
@@ -345,26 +383,31 @@ Public Class WavenLauncher
     Private Sub LocGame()
         '点击汉化游戏按钮
         Try
-            If CheckProcessRunning("GM") Then  '若游戏已运行
-                gameisrunning = True
-                LayoutLabel("请关闭游戏后再进行汉化", "提示：")
-                Return
-            Else  '若游戏未运行
-                gameisrunning = False
-                Try
-                    If File.Exists(GMDir） Then
-                        GameDataPath = Path.GetDirectoryName(GMDir)
-                        ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
-                        '调用解压zip方法
-                        FinishLocGM = True
-                        LayoutLabel("汉化游戏成功，返回战网点击Play或开始游戏")
-                        Process.Start(ALDir)
-                    End If
+            If IO.File.Exists(GMDir) Then
+                If CheckProcessRunning("GM") Then  '若游戏已运行
+                    gameisrunning = True
+                    LayoutLabel("请关闭游戏后再进行汉化", "提示：")
+                    Return
+                Else  '若游戏未运行
+                    gameisrunning = False
+                    Try
+                        If File.Exists(GMDir） Then
+                            GameDataPath = Path.GetDirectoryName(GMDir)
+                            ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
+                            '调用解压zip方法
+                            FinishLocGM = True
+                            LayoutLabel("汉化游戏成功，返回战网点击Play或开始游戏。【游戏语言请选择法语Francais】")
+                            Process.Start(ALDir)
+                        End If
 
-                Catch ex As Exception
-                    MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ExtractFiles Error")
-                End Try
+                    Catch ex As Exception
+                        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ExtractFiles Error")
+                    End Try
+                End If
+            Else
+                Return
             End If
+
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "LocGame Error")
         End Try
@@ -447,6 +490,9 @@ Public Class WavenLauncher
                     VersionCN = NewVersionCN  '存储游戏汉化文件版本标识到用户设置
                     My.Settings.Save()
                     CheckVersion()  '再调用一次检测版本
+                    If AutoUD Then
+                        LocGame()
+                    End If
                 Case mainAppExe  '如果是下载软件
                     '自爆程序已启动
                     KillSelfThenRun()
@@ -803,6 +849,7 @@ Public Class WavenLauncher
         'DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe", DefaultFileAddress)
         'ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
         CheckProcessRunning("GM")
+
     End Sub
 
     Private Sub DFileCN(ByVal FileNameCN As String, ByVal filename As String, ByVal savepath As String)
@@ -883,7 +930,7 @@ Public Class WavenLauncher
             End Using
             ' Clean up the response.
             response.Close()
-            LayoutLabel("获取版本信息完成")
+            'LayoutLabel("获取版本信息完成")
         Catch ex As Exception
             LayoutLabel(ex.Message & "。请检查网络连接。", "获取版本更新信息失败:")
         End Try
@@ -904,7 +951,13 @@ Public Class WavenLauncher
         'DownloadFile("https://github.com/layahcn/WavenCN/raw/master/en.json", "en.json", DefaultFileAddress)
         'DownloadFile("https://attachments-cdn.shimo.im/5T4dV8xSX40DjREE/en.json", "en.json")
         'DFileCN("战网汉化文件", "en.json", DefaultFileAddress)
-        DFileCN("游戏汉化文件", "Waven-zh-cn.zip", DefaultFileAddress)
+        If UpdateCN.Text = "重测汉化更新" Then
+            CheckVersion()
+        Else
+            DFileCN("游戏汉化文件", "Waven-zh-cn.zip", DefaultFileAddress)
+        End If
+
+
     End Sub
 
     Private Sub KillSelfThenRun()   '自爆型更新程序，无需更改（或许

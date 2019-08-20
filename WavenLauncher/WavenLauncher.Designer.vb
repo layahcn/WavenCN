@@ -73,7 +73,7 @@ Partial Class WavenLauncher
         '
         Me.StartButton.BackColor = System.Drawing.Color.Teal
         Me.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.StartButton.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.StartButton.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.StartButton.ForeColor = System.Drawing.Color.Yellow
         Me.StartButton.Location = New System.Drawing.Point(571, 350)
         Me.StartButton.Name = "StartButton"
@@ -86,11 +86,11 @@ Partial Class WavenLauncher
         '
         Me.WLVersionLabel.AutoSize = True
         Me.WLVersionLabel.BackColor = System.Drawing.Color.Transparent
-        Me.WLVersionLabel.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.WLVersionLabel.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.WLVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.WLVersionLabel.Location = New System.Drawing.Point(324, 20)
+        Me.WLVersionLabel.Location = New System.Drawing.Point(320, 17)
         Me.WLVersionLabel.Name = "WLVersionLabel"
-        Me.WLVersionLabel.Size = New System.Drawing.Size(63, 15)
+        Me.WLVersionLabel.Size = New System.Drawing.Size(65, 20)
         Me.WLVersionLabel.TabIndex = 3
         Me.WLVersionLabel.Text = "版本号："
         '
@@ -110,7 +110,7 @@ Partial Class WavenLauncher
         '
         Me.QuitForm.BackColor = System.Drawing.Color.Red
         Me.QuitForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.QuitForm.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.QuitForm.Font = New System.Drawing.Font("宋体", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.QuitForm.Location = New System.Drawing.Point(664, 5)
         Me.QuitForm.Name = "QuitForm"
         Me.QuitForm.Size = New System.Drawing.Size(27, 27)
@@ -122,11 +122,11 @@ Partial Class WavenLauncher
         '
         Me.FormTitle.AutoSize = True
         Me.FormTitle.BackColor = System.Drawing.Color.Transparent
-        Me.FormTitle.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.FormTitle.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.FormTitle.ForeColor = System.Drawing.Color.Yellow
-        Me.FormTitle.Location = New System.Drawing.Point(46, 17)
+        Me.FormTitle.Location = New System.Drawing.Point(48, 13)
         Me.FormTitle.Name = "FormTitle"
-        Me.FormTitle.Size = New System.Drawing.Size(272, 20)
+        Me.FormTitle.Size = New System.Drawing.Size(259, 26)
         Me.FormTitle.TabIndex = 10
         Me.FormTitle.Text = "Waven汉化启动器 by layah"
         '
@@ -179,7 +179,7 @@ Partial Class WavenLauncher
         '
         Me.OpenSettings.BackColor = System.Drawing.Color.Teal
         Me.OpenSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.OpenSettings.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.OpenSettings.Font = New System.Drawing.Font("微软雅黑", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.OpenSettings.ForeColor = System.Drawing.Color.Yellow
         Me.OpenSettings.Location = New System.Drawing.Point(485, 350)
         Me.OpenSettings.Name = "OpenSettings"
@@ -421,11 +421,11 @@ Partial Class WavenLauncher
         '
         Me.WLVerStatus.AutoSize = True
         Me.WLVerStatus.BackColor = System.Drawing.Color.Transparent
-        Me.WLVerStatus.Font = New System.Drawing.Font("锐字锐线怒放黑简1.0", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.WLVerStatus.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.WLVerStatus.ForeColor = System.Drawing.Color.Yellow
-        Me.WLVerStatus.Location = New System.Drawing.Point(488, 20)
+        Me.WLVerStatus.Location = New System.Drawing.Point(457, 17)
         Me.WLVerStatus.Name = "WLVerStatus"
-        Me.WLVerStatus.Size = New System.Drawing.Size(91, 15)
+        Me.WLVerStatus.Size = New System.Drawing.Size(90, 20)
         Me.WLVerStatus.TabIndex = 20
         Me.WLVerStatus.Text = "检测更新中…"
         '
