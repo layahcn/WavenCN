@@ -5,7 +5,7 @@ Imports System.Net
 Imports System.Runtime.InteropServices
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 201908152  '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 201908241  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As UInteger  '检测最新汉化启动器版本号
     Dim NewVersionCN As UInteger  '检测最新游戏汉化文本版本号
     Dim wlneedtoupdate = False  '汉化启动器是否需要更新
@@ -141,39 +141,6 @@ Public Class WavenLauncher
         End Try
     End Sub
 
-    'Private Sub TextChangeFont()
-    '    Dim fontAName As String = "WavenLauncher.test.TTF"
-    '    Dim fontStream As IO.Stream = Reflection.Assembly.GetEntryAssembly.GetManifestResourceStream(fontAName)
-    '    'Dim fontStream As IO.Stream = Me.GetType.Assembly.GetManifestResourceStream(fontAName)
-    '    Try
-    '        If fontStream Is Nothing Then
-    '            Return
-    '        Else
-    '            Dim fontbytes(fontStream.Length - 1) As Byte
-    '            fontStream.Read(fontbytes, 0, fontStream.Length)
-    '            fontStream.Close()
-    '            Dim fontPtr As IntPtr = Runtime.InteropServices.Marshal.AllocCoTaskMem(fontbytes.Length)
-    '            Runtime.InteropServices.Marshal.Copy(fontbytes, 0, fontPtr, fontbytes.Length)
-    '            Dim g As Graphics = Me.CreateGraphics
-    '            Dim PFC As New Drawing.Text.PrivateFontCollection() '私有字符集和
-    '            ' 载入一个内存字符数据
-    '            PFC.AddMemoryFont(fontPtr, fontbytes.Length)
-    '            Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr) '记得释放内存
-    '            Dim FFS() As FontFamily = PFC.Families
-    '            'Dim FName As String = FFS(0).Name '无用代码
-    '            '创建字符实例
-    '            Dim small As New Font(FFS(0), 10.5)
-    '            WLVersionLabel.Font = small
-    '            WLVerStatus.Font = small
-    '            Dim big As New Font(FFS(0), 14.25)
-    '            FormTitle.Font = big
-    '            OpenSettings.Font = big
-    '            StartButton.Font = big
-    '        End If
-    '    Catch ex As Exception
-    '        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Set Font Error")
-    '    End Try
-    'End Sub
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles QuitForm.Click
         '点击右上角退出程序叉叉
         Try
@@ -293,7 +260,7 @@ Public Class WavenLauncher
                     End If
                 Case StartStatus.Setdir
                     StartButton.Text = "设置路径"
-                    LayoutLabel("请在设置里选择游戏路径，若未安装请用前往战网安装", "提示：")
+                    LayoutLabel("请在设置里选择游戏路径，若未安装请前往战网安装", "提示：")
                 Case StartStatus.Quit
                     StartButton.Text = "退出程序"
             End Select
