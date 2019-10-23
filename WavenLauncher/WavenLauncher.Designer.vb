@@ -55,7 +55,6 @@ Partial Class WavenLauncher
         Me.TestLabel2 = New System.Windows.Forms.Label()
         Me.TestLabel1 = New System.Windows.Forms.Label()
         Me.StatusLabel = New System.Windows.Forms.Label()
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.WLVerStatus = New System.Windows.Forms.Label()
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
@@ -78,7 +77,7 @@ Partial Class WavenLauncher
         Me.StartButton.Location = New System.Drawing.Point(571, 350)
         Me.StartButton.Name = "StartButton"
         Me.StartButton.Size = New System.Drawing.Size(115, 45)
-        Me.StartButton.TabIndex = 1
+        Me.StartButton.TabIndex = 0
         Me.StartButton.Text = "启动战网"
         Me.StartButton.UseVisualStyleBackColor = False
         '
@@ -114,7 +113,7 @@ Partial Class WavenLauncher
         Me.QuitForm.Location = New System.Drawing.Point(664, 5)
         Me.QuitForm.Name = "QuitForm"
         Me.QuitForm.Size = New System.Drawing.Size(27, 27)
-        Me.QuitForm.TabIndex = 0
+        Me.QuitForm.TabIndex = 1
         Me.QuitForm.Text = "×"
         Me.QuitForm.UseVisualStyleBackColor = False
         '
@@ -397,17 +396,6 @@ Partial Class WavenLauncher
         Me.StatusLabel.TabIndex = 17
         Me.StatusLabel.Text = "状态：就绪"
         '
-        'ProgressBar1
-        '
-        Me.ProgressBar1.BackColor = System.Drawing.Color.Teal
-        Me.ProgressBar1.ForeColor = System.Drawing.Color.Yellow
-        Me.ProgressBar1.Location = New System.Drawing.Point(211, 75)
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(217, 10)
-        Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.ProgressBar1.TabIndex = 18
-        Me.ProgressBar1.Visible = False
-        '
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Transparent
@@ -455,14 +443,13 @@ Partial Class WavenLauncher
         '
         'WavenLauncher
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(96.0!, 96.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.ClientSize = New System.Drawing.Size(696, 411)
         Me.Controls.Add(Me.PanelProgressBar)
         Me.Controls.Add(Me.WLVerStatus)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.ButtonDirAL)
         Me.Controls.Add(Me.TestLabel1)
         Me.Controls.Add(Me.TestLabel2)
@@ -521,7 +508,6 @@ Partial Class WavenLauncher
     Friend WithEvents TestLabel2 As Label
     Friend WithEvents TestLabel1 As Label
     Friend WithEvents StatusLabel As Label
-    Friend WithEvents ProgressBar1 As ProgressBar
     Friend WithEvents Panel1 As Panel
     Friend WithEvents UpdateCN As Button
     Friend WithEvents WLVerStatus As Label

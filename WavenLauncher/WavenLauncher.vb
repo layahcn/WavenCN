@@ -5,7 +5,7 @@ Imports System.Net
 Imports System.Runtime.InteropServices
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 201908241  '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 201910241  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As UInteger  '检测最新汉化启动器版本号
     Dim NewVersionCN As UInteger  '检测最新游戏汉化文本版本号
     Dim wlneedtoupdate = False  '汉化启动器是否需要更新
@@ -815,7 +815,29 @@ Public Class WavenLauncher
         'DownloadClient.Proxy = New WebProxy()  '下载一定要加这句，不用代理！！！
         'DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe", DefaultFileAddress)
         'ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
-        CheckProcessRunning("GM")
+        'CheckProcessRunning("GM")
+        'DFileCN("战网汉化文件", "en.json", DefaultFileAddress)
+        Try
+            Dim request As WebRequest =
+              WebRequest.Create("https://ankama.akamaized.net/games/dofuscube/currentVersions/windows_production-beta")  '获取游戏当前版本号
+            ' If required by the server, set the credentials.  
+            request.Credentials = CredentialCache.DefaultCredentials
+            ' Get the response.  
+            Dim response As WebResponse = request.GetResponse()
+            ' Display the status.  
+            Using dataStream As Stream = response.GetResponseStream()
+                ' Open the stream using a StreamReader for easy access.  
+                Dim reader As New StreamReader(dataStream)
+                ' Read the content.  
+                Dim responseFromServer As String = reader.ReadToEnd()
+                ' Display the content.  
+                Console.WriteLine(responseFromServer)
+            End Using
+            ' Clean up the response.
+            response.Close()
+        Catch ex As Exception
+            LayoutLabel(ex.Message & "。请检查网络连接。", "获取游戏版本失败:")
+        End Try
 
     End Sub
 
@@ -842,14 +864,13 @@ Public Class WavenLauncher
                 ' Read the content.  
                 Dim responseFromServer As String = reader.ReadToEnd()
                 ' Display the content.  
-                Dim LocALFileLink As String = ""
                 If responseFromServer.Contains(FileNameCN) Then
                     responseFromServer = responseFromServer.Remove(0, responseFromServer.IndexOf(FileNameCN) _
                                                                       + FileNameCN.Length _
                                                                       + 1)
                     responseFromServer = responseFromServer.Substring(0, 16)
                     'TestLabel2.Text = responseFromServer   '测试输出
-                    DownloadFile($"https://attachments-cdn.shimo.im/{responseFromServer}/{filename}",
+                    DownloadFile($"https://uploader.shimo.im/f/{responseFromServer}",
                                  filename,
                                  savepath)
                     '石墨文档的附件，比GitHub上载快多了
@@ -884,7 +905,6 @@ Public Class WavenLauncher
                 ' Read the content.  
                 Dim responseFromServer As String = reader.ReadToEnd()
                 ' Display the content.  
-                Dim LocALFileLink As String = ""
                 If responseFromServer.Contains(nameCN) Then
                     responseFromServer = responseFromServer.Remove(0, responseFromServer.IndexOf(nameCN) _
                                                                       + nameCN.Length _
