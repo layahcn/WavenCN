@@ -35,6 +35,9 @@ https://dotnet.microsoft.com/download/dotnet-framework/net472
 Waven汉化启动器内测版伴随着bug提前发布。
 
 # 汉化文本更新日志：
+-=201910251=-
+更新文本适配到Alpha 0.4.1版本
+
 -=201910241=-
 更新文本适配到Alpha 0.4.0版本
 尚有大量改动文本未修改
