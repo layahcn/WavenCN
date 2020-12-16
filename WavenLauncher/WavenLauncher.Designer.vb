@@ -35,6 +35,7 @@ Partial Class WavenLauncher
         Me.LabelDirGM = New System.Windows.Forms.Label()
         Me.OpenSettings = New System.Windows.Forms.Button()
         Me.SettingPanel = New System.Windows.Forms.Panel()
+        Me.GMVersionLabel = New System.Windows.Forms.Label()
         Me.AutoUDCheck = New System.Windows.Forms.CheckBox()
         Me.UpdateCN = New System.Windows.Forms.Button()
         Me.ButtonDirGM = New System.Windows.Forms.Button()
@@ -48,6 +49,7 @@ Partial Class WavenLauncher
         Me.SysTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
@@ -60,6 +62,8 @@ Partial Class WavenLauncher
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.PanelProgressBar = New System.Windows.Forms.Panel()
         Me.PanelProgress = New System.Windows.Forms.Panel()
+        Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer4 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SettingPanel.SuspendLayout()
         Me.CloseAction.SuspendLayout()
@@ -89,9 +93,9 @@ Partial Class WavenLauncher
         Me.WLVersionLabel.ForeColor = System.Drawing.Color.Yellow
         Me.WLVersionLabel.Location = New System.Drawing.Point(320, 17)
         Me.WLVersionLabel.Name = "WLVersionLabel"
-        Me.WLVersionLabel.Size = New System.Drawing.Size(65, 20)
+        Me.WLVersionLabel.Size = New System.Drawing.Size(93, 20)
         Me.WLVersionLabel.TabIndex = 3
-        Me.WLVersionLabel.Text = "版本号："
+        Me.WLVersionLabel.Text = "软件版本号："
         '
         'ALVersionLabel
         '
@@ -101,9 +105,9 @@ Partial Class WavenLauncher
         Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
         Me.ALVersionLabel.Location = New System.Drawing.Point(22, 109)
         Me.ALVersionLabel.Name = "ALVersionLabel"
-        Me.ALVersionLabel.Size = New System.Drawing.Size(178, 17)
+        Me.ALVersionLabel.Size = New System.Drawing.Size(92, 17)
         Me.ALVersionLabel.TabIndex = 4
-        Me.ALVersionLabel.Text = "适用Ankama Launcher版本："
+        Me.ALVersionLabel.Text = "适用战网版本："
         '
         'QuitForm
         '
@@ -142,7 +146,7 @@ Partial Class WavenLauncher
         '
         'ToolTip1
         '
-        Me.ToolTip1.AutoPopDelay = 5000
+        Me.ToolTip1.AutoPopDelay = 10000
         Me.ToolTip1.InitialDelay = 100
         Me.ToolTip1.IsBalloon = True
         Me.ToolTip1.ReshowDelay = 100
@@ -191,6 +195,7 @@ Partial Class WavenLauncher
         '
         Me.SettingPanel.BackColor = System.Drawing.Color.Teal
         Me.SettingPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.SettingPanel.Controls.Add(Me.GMVersionLabel)
         Me.SettingPanel.Controls.Add(Me.AutoUDCheck)
         Me.SettingPanel.Controls.Add(Me.UpdateCN)
         Me.SettingPanel.Controls.Add(Me.ButtonDirGM)
@@ -206,6 +211,17 @@ Partial Class WavenLauncher
         Me.SettingPanel.TabIndex = 13
         Me.SettingPanel.Visible = False
         '
+        'GMVersionLabel
+        '
+        Me.GMVersionLabel.AutoSize = True
+        Me.GMVersionLabel.BackColor = System.Drawing.Color.Transparent
+        Me.GMVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.GMVersionLabel.Location = New System.Drawing.Point(176, 109)
+        Me.GMVersionLabel.Name = "GMVersionLabel"
+        Me.GMVersionLabel.Size = New System.Drawing.Size(92, 17)
+        Me.GMVersionLabel.TabIndex = 9
+        Me.GMVersionLabel.Text = "适用游戏版本："
+        '
         'AutoUDCheck
         '
         Me.AutoUDCheck.AutoSize = True
@@ -219,14 +235,16 @@ Partial Class WavenLauncher
         '
         'UpdateCN
         '
+        Me.UpdateCN.BackColor = System.Drawing.Color.Teal
         Me.UpdateCN.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.UpdateCN.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.UpdateCN.ForeColor = System.Drawing.Color.Yellow
         Me.UpdateCN.Location = New System.Drawing.Point(369, 105)
         Me.UpdateCN.Name = "UpdateCN"
         Me.UpdateCN.Size = New System.Drawing.Size(99, 25)
         Me.UpdateCN.TabIndex = 7
-        Me.UpdateCN.Text = "更新汉化"
-        Me.UpdateCN.UseVisualStyleBackColor = True
+        Me.UpdateCN.Text = "汉化版本"
+        Me.UpdateCN.UseVisualStyleBackColor = False
         '
         'ButtonDirGM
         '
@@ -329,32 +347,41 @@ Partial Class WavenLauncher
         '
         'SysTrayIcon
         '
+        Me.SysTrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
+        Me.SysTrayIcon.BalloonTipTitle = "Waven汉化启动器"
         Me.SysTrayIcon.ContextMenuStrip = Me.ContextMenuStrip1
         Me.SysTrayIcon.Icon = CType(resources.GetObject("SysTrayIcon.Icon"), System.Drawing.Icon)
         Me.SysTrayIcon.Text = "Waven汉化启动器 by layah"
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator1, Me.ToolStripMenuItem2})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripMenuItem3, Me.ToolStripSeparator1, Me.ToolStripMenuItem2})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(137, 54)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(182, 76)
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Image = CType(resources.GetObject("ToolStripMenuItem1.Image"), System.Drawing.Image)
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(136, 22)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(181, 22)
         Me.ToolStripMenuItem1.Text = "显示主界面"
+        '
+        'ToolStripMenuItem3
+        '
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(181, 22)
+        Me.ToolStripMenuItem3.Text = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Visible = False
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(133, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(178, 6)
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(136, 22)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(181, 22)
         Me.ToolStripMenuItem2.Text = "退出"
         '
         'Timer1
@@ -394,7 +421,7 @@ Partial Class WavenLauncher
         Me.StatusLabel.Name = "StatusLabel"
         Me.StatusLabel.Size = New System.Drawing.Size(475, 17)
         Me.StatusLabel.TabIndex = 17
-        Me.StatusLabel.Text = "状态：就绪"
+        Me.StatusLabel.Text = "欢迎使用Waven汉化启动器"
         '
         'Panel1
         '
@@ -411,7 +438,7 @@ Partial Class WavenLauncher
         Me.WLVerStatus.BackColor = System.Drawing.Color.Transparent
         Me.WLVerStatus.Font = New System.Drawing.Font("微软雅黑", 10.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.WLVerStatus.ForeColor = System.Drawing.Color.Yellow
-        Me.WLVerStatus.Location = New System.Drawing.Point(457, 17)
+        Me.WLVerStatus.Location = New System.Drawing.Point(490, 17)
         Me.WLVerStatus.Name = "WLVerStatus"
         Me.WLVerStatus.Size = New System.Drawing.Size(90, 20)
         Me.WLVerStatus.TabIndex = 20
@@ -440,6 +467,14 @@ Partial Class WavenLauncher
         Me.PanelProgress.Name = "PanelProgress"
         Me.PanelProgress.Size = New System.Drawing.Size(0, 8)
         Me.PanelProgress.TabIndex = 0
+        '
+        'Timer3
+        '
+        Me.Timer3.Interval = 200
+        '
+        'Timer4
+        '
+        Me.Timer4.Interval = 10
         '
         'WavenLauncher
         '
@@ -515,4 +550,8 @@ Partial Class WavenLauncher
     Friend WithEvents AutoUDCheck As CheckBox
     Friend WithEvents PanelProgressBar As Panel
     Friend WithEvents PanelProgress As Panel
+    Friend WithEvents Timer3 As Timer
+    Friend WithEvents GMVersionLabel As Label
+    Friend WithEvents Timer4 As Timer
+    Friend WithEvents ToolStripMenuItem3 As ToolStripMenuItem
 End Class
