@@ -116,7 +116,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3.2.1")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3.2.2")>  _
         Public Property VersionAL() As String
             Get
                 Return CType(Me("VersionAL"),String)
@@ -152,7 +152,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.6.0.21472")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.6.1.21511")>  _
         Public Property VersionGM() As String
             Get
                 Return CType(Me("VersionGM"),String)

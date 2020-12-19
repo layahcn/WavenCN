@@ -3,7 +3,7 @@ Imports System.IO.Compression  '解压文件用
 Imports System.Net
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 202012161  '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 202012181  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As UInteger  '检测最新汉化启动器版本号
     Dim NewVersionCN As UInteger  '检测最新游戏汉化文本版本号
     Dim wlneedtoupdate = False  '汉化启动器是否需要更新
