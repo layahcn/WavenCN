@@ -421,7 +421,7 @@ Partial Class WavenLauncher
         Me.StatusLabel.Name = "StatusLabel"
         Me.StatusLabel.Size = New System.Drawing.Size(475, 17)
         Me.StatusLabel.TabIndex = 17
-        Me.StatusLabel.Text = "欢迎使用Waven汉化启动器"
+        Me.StatusLabel.Text = "欢迎使用Waven汉化启动器，2021年新年快乐！"
         '
         'Panel1
         '

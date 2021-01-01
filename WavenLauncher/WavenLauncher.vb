@@ -1,9 +1,10 @@
 ﻿Imports System.IO
 Imports System.IO.Compression  '解压文件用
 Imports System.Net
+Imports System.Text
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 202012181  '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 202101011  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As UInteger  '检测最新汉化启动器版本号
     Dim NewVersionCN As UInteger  '检测最新游戏汉化文本版本号
     Dim wlneedtoupdate = False  '汉化启动器是否需要更新
@@ -109,27 +110,27 @@ Public Class WavenLauncher
                     ButtonStatus(StartStatus.CancelDownload)
                 Else
                     If Not IO.File.Exists(ALDir) Then  '检测是否安装战网
-                    ButtonStatus(StartStatus.DownloadAL)  '路径下不存在战网则按钮显示下载战网
-                Else
-                    If CheckProcessRunning("AL") Then '检测战网运行状态
-                        If AutoUD AndAlso cnneedtoupdate Then
-                            DFileCN("游戏汉化文件", "Waven-zh-cn.zip", DefaultFileAddress)
-                        End If
-                        '若勾选了自动更新汉化，则下载游戏的汉化文件
-                        If IO.File.Exists(GMDir) Then
-                            If LocGM Then  '检测用户是否要汉化游戏，默认为是
-                                ButtonStatus(StartStatus.LocGM)   '按钮显示汉化游戏
+                        ButtonStatus(StartStatus.DownloadAL)  '路径下不存在战网则按钮显示下载战网
+                    Else
+                        If CheckProcessRunning("AL") Then '检测战网运行状态
+                            If AutoUD AndAlso cnneedtoupdate Then
+                                DFileCN("游戏汉化文件", "Waven-zh-cn.zip", DefaultFileAddress)
+                            End If
+                            '若勾选了自动更新汉化，则下载游戏的汉化文件
+                            If IO.File.Exists(GMDir) Then
+                                If LocGM Then  '检测用户是否要汉化游戏，默认为是
+                                    ButtonStatus(StartStatus.LocGM)   '按钮显示汉化游戏
+                                Else
+                                    ButtonStatus(StartStatus.Quit)  '显示退出程序
+                                    LayoutLabel("不汉化游戏你开我作甚！哼！")
+                                End If
                             Else
-                                ButtonStatus(StartStatus.Quit)  '显示退出程序
-                                LayoutLabel("不汉化游戏你开我作甚！哼！")
+                                ButtonStatus(StartStatus.Setdir)  '显示设置路径
                             End If
                         Else
-                            ButtonStatus(StartStatus.Setdir)  '显示设置路径
+                            ButtonStatus(StartStatus.StartAL)  '战网没运行则显示启动战网
                         End If
-                    Else
-                        ButtonStatus(StartStatus.StartAL)  '战网没运行则显示启动战网
                     End If
-                End If
                 End If
             Catch ex As Exception
                 MsgBox(ex.Message, MsgBoxStyle.Exclamation, "ChangeButtonStatus Error")
@@ -1097,8 +1098,7 @@ Public Class WavenLauncher
             If Not Directory.Exists(savepath) Then
                 Directory.CreateDirectory(savepath)
             End If
-            Dim request As WebRequest =
-              WebRequest.Create("http://layah.lofter.com/")  '用轻博客获取下载地址
+            Dim request As WebRequest = WebRequest.Create("http://layah.lofter.com/")  '用轻博客获取下载地址
             ' If required by the server, set the credentials.  
             request.Credentials = CredentialCache.DefaultCredentials
             ' Get the response.  
@@ -1112,6 +1112,7 @@ Public Class WavenLauncher
                 Dim reader As New StreamReader(dataStream)
                 ' Read the content.  
                 Dim responseFromServer As String = reader.ReadToEnd()
+                Console.WriteLine(responseFromServer)
                 ' Display the content.  
                 If responseFromServer.Contains(FileNameCN) Then
                     responseFromServer = responseFromServer.Remove(0, responseFromServer.IndexOf(FileNameCN) _
@@ -1136,8 +1137,7 @@ Public Class WavenLauncher
     Private Sub GetVersion(ByVal nameCN As String, ByRef name As UInteger)
         '获取版本号，位数为9位数字，时间8位+补丁1位
         Try
-            Dim request As WebRequest =
-              WebRequest.Create("http://layah.lofter.com/")  '用轻博客获取版本号
+            Dim request As WebRequest = WebRequest.Create("http://layah.lofter.com/")  '用轻博客获取下载地址
             ' If required by the server, set the credentials.  
             request.Credentials = CredentialCache.DefaultCredentials
             ' Get the response.  
@@ -1203,17 +1203,21 @@ Public Class WavenLauncher
 
     End Sub
 
-    Private Sub KillSelfThenRun()   '自爆型更新程序，无需更改（或许
+    Private Sub KillSelfThenRun()   '自爆型更新程序
+        '添加了Chr(34)支持空格路径，添加了Encoding.Default使编码从UTF-8转为ANSI从而支持中文路径
         Try
+            Dim fs As FileStream = Nothing
             Dim strXCopyFiles As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "XCopyFiles.bat")
-            Using swXcopy As StreamWriter = File.CreateText(strXCopyFiles)
+            fs = New FileStream(strXCopyFiles, FileMode.CreateNew)
+            Using swXcopy As StreamWriter = New StreamWriter(fs, Encoding.Default)
                 Dim strOriginalPath As String = tempUpdatePath.Substring(0, tempUpdatePath.Length - 1)
                 swXcopy.WriteLine(String.Format("
                 @echo off
-                xcopy /y/s/e/v " & strOriginalPath & " " & Directory.GetCurrentDirectory() & "", AppDomain.CurrentDomain.FriendlyName))
+                xcopy /y/s/e/v " & Chr(34) & strOriginalPath & Chr(34) & " " & Chr(34) & Directory.GetCurrentDirectory() & Chr(34) & "", AppDomain.CurrentDomain.FriendlyName))
             End Using
             Dim filename As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "killmyself.bat")
-            Using bat As StreamWriter = File.CreateText(filename)
+            fs = New FileStream(filename, FileMode.CreateNew)
+            Using bat As StreamWriter = New StreamWriter(fs, Encoding.Default)
                 bat.WriteLine(String.Format("
                 @echo off
                 :selfkill
@@ -1222,8 +1226,11 @@ Public Class WavenLauncher
                 if exist ""{0}"" goto selfkill
                 call XCopyFiles.bat
                 del XCopyFiles.bat
-                del /f/q " & tempUpdatePath + Environment.NewLine & " rd " + tempUpdatePath + Environment.NewLine & " start " + mainAppExe + Environment.NewLine & " del %0 ", AppDomain.CurrentDomain.FriendlyName))
+                del /f/q " & Chr(34) & tempUpdatePath & Chr(34) + Environment.NewLine & " rd " + Chr(34) & tempUpdatePath & Chr(34) + Environment.NewLine & " start " + mainAppExe + Environment.NewLine & " del %0 ", AppDomain.CurrentDomain.FriendlyName))
             End Using
+            If Not fs Is Nothing Then
+                fs.Dispose()
+            End If
             Dim info As ProcessStartInfo = New ProcessStartInfo(filename)
             info.WindowStyle = ProcessWindowStyle.Hidden
             Process.Start(info)
@@ -1275,6 +1282,7 @@ Public Class WavenLauncher
         '测试用
         'DownloadFile("https://ankama.akamaized.net/zaap/installers/production/Ankama%20Launcher-Setup.exe", "Ankama_Launcher-Setup.exe", DefaultFileAddress)
         'CheckProcessRunning("GM")
+        DownloadFile("https://214214.xyz/tools/dlink/?id=1NDnGpC5c2pUGVn7dNBTQo6nG3AW16HPt", "Waven.zip", DefaultFileAddress)
         'DFileCN("战网汉化文件", "en.json", DefaultFileAddress)
         'DownloadFile("https://pan.layah.workers.dev/0:/Ankama-Launcher.zip", "Ankama-Launcher.zip", DefaultFileAddress)
         'DFileCN("汉化软件文件", mainAppExe, Application.StartupPath & "\WLTemp")
@@ -1307,6 +1315,7 @@ Public Class WavenLauncher
     End Sub
 
     Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
+        '延迟刷新下载速度
         If PanelProgress.Width < 11 Then
             PanelProgress.Width = 0
             Timer4.Enabled = False
