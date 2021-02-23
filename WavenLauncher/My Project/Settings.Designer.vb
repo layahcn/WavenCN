@@ -57,9 +57,9 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property CloseForm() As Integer
+        Public Property CloseForm() As Byte
             Get
-                Return CType(Me("CloseForm"),Integer)
+                Return CType(Me("CloseForm"),Byte)
             End Get
             Set
                 Me("CloseForm") = value
@@ -116,7 +116,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3.2.2")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3.2.5")>  _
         Public Property VersionAL() As String
             Get
                 Return CType(Me("VersionAL"),String)
@@ -140,25 +140,37 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property VersionCN() As UInteger
-            Get
-                Return CType(Me("VersionCN"),UInteger)
-            End Get
-            Set
-                Me("VersionCN") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.6.2.21561")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.7.0.23443")>  _
         Public Property VersionGM() As String
             Get
                 Return CType(Me("VersionGM"),String)
             End Get
             Set
                 Me("VersionGM") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property Valid() As Boolean
+            Get
+                Return CType(Me("Valid"),Boolean)
+            End Get
+            Set
+                Me("Valid") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property INTLine() As Boolean
+            Get
+                Return CType(Me("INTLine"),Boolean)
+            End Get
+            Set
+                Me("INTLine") = value
             End Set
         End Property
     End Class

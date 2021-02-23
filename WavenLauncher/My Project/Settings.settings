@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="CloseForm" Type="System.Int32" Scope="User">
+    <Setting Name="CloseForm" Type="System.Byte" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="LocAL" Type="System.Boolean" Scope="User">
@@ -18,16 +18,19 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="VersionAL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3.2.2</Value>
+      <Value Profile="(Default)">3.2.5</Value>
     </Setting>
     <Setting Name="AutoUD" Type="System.String" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="VersionCN" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="VersionGM" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0.6.2.21561</Value>
+      <Value Profile="(Default)">0.7.0.23443</Value>
+    </Setting>
+    <Setting Name="Valid" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="INTLine" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
