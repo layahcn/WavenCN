@@ -176,7 +176,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("202110271")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("202110272")>  _
         Public Property VersionWL() As UInteger
             Get
                 Return CType(Me("VersionWL"),UInteger)

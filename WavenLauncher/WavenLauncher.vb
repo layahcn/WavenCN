@@ -7,7 +7,7 @@ Imports System.Security.Cryptography '校验文件用
 Imports System.Threading
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 202110271  '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 202110272  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As String  '检测最新汉化启动器版本号
     Dim NewVersionCN As String  '检测最新游戏汉化文本版本号
     Dim NewVersionAL As String  '检测最新战网版本号
@@ -789,7 +789,9 @@ Public Class WavenLauncher
                                 Dim CurrentMD5 As String = GetFileMD5(zhjsonDir)
                                 Dim newCNMD5 As String = GetVersion("汉化文件哈希值", 32)
                                 If CurrentMD5 = newCNMD5 Then
-                                    LastMsg = $"已安装过汉化，版本为{tempVersionCN}"
+                                    LayoutLabel($"已安装过汉化，版本为【{tempVersionCN}】")
+                                    FinishLocGM = True
+                                    ButtonAction(False)
                                     Exit Sub
                                 End If
                             End If

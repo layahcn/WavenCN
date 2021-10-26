@@ -3,7 +3,7 @@
 # Waven汉化启动器
 
 ![Interface](https://pan.layah.workers.dev/1:/WLpic.png)    
-![汉化启动器版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E5%90%AF%E5%8A%A8%E5%99%A8%E7%89%88%E6%9C%AC-1.10.27.1-brightgreen)
+![汉化启动器版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E5%90%AF%E5%8A%A8%E5%99%A8%E7%89%88%E6%9C%AC-1.10.27.2-brightgreen)
 ![汉化补丁包版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E8%A1%A5%E4%B8%81%E5%8C%85%E7%89%88%E6%9C%AC-2021.10.27--V1-red)
 ![适用游戏版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%B8%B8%E6%88%8F%E7%89%88%E6%9C%AC-0.8.4.30606-blue)
 ![适用战网版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%88%98%E7%BD%91%E7%89%88%E6%9C%AC-3.5.3-orange)
@@ -60,6 +60,9 @@
 7. 使用过程中出现任何问题请[提交Issue](https://github.com/layahcn/WavenCN/issues)或[加Waven游戏Q群：820110084](https://jq.qq.com/?_wv=1027&k=NdAUkl52)
 
 ## 汉化启动器更新日志：
+
+### 1.10.27.2
+- 修复卡在`汉化游戏`按钮的问题
 
 ### 1.10.27.1
 - 适配游戏Alpha 0.8.4版以及新版战网

@@ -33,7 +33,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="VersionWL" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">202110271</Value>
+      <Value Profile="(Default)">202110272</Value>
     </Setting>
   </Settings>
 </SettingsFile>
