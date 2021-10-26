@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -116,7 +116,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("3.2.5")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("3.5.3")>  _
         Public Property VersionAL() As String
             Get
                 Return CType(Me("VersionAL"),String)
@@ -140,7 +140,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("0.7.0.23443")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0.8.4.30606")>  _
         Public Property VersionGM() As String
             Get
                 Return CType(Me("VersionGM"),String)
@@ -171,6 +171,18 @@ Namespace My
             End Get
             Set
                 Me("INTLine") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("202110271")>  _
+        Public Property VersionWL() As UInteger
+            Get
+                Return CType(Me("VersionWL"),UInteger)
+            End Get
+            Set
+                Me("VersionWL") = value
             End Set
         End Property
     End Class

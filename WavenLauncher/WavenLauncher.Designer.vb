@@ -62,10 +62,12 @@ Partial Class WavenLauncher
         Me.LabelSwitchLine = New System.Windows.Forms.Label()
         Me.Timer_CheckVersion = New System.Windows.Forms.Timer(Me.components)
         Me.SettingPanel = New System.Windows.Forms.Panel()
+        Me.PingLabel = New System.Windows.Forms.Label()
         Me.ButtonDirAL = New System.Windows.Forms.Button()
         Me.LabelDirAL = New System.Windows.Forms.Label()
         Me.MiniForm = New System.Windows.Forms.Button()
         Me.Timer_HideForm = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Ping = New System.Windows.Forms.Timer(Me.components)
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.CloseAction.SuspendLayout()
         Me.SysTrayMenu.SuspendLayout()
@@ -379,7 +381,7 @@ Partial Class WavenLauncher
         '
         'Timer_ShowForm
         '
-        Me.Timer_ShowForm.Interval = 10
+        Me.Timer_ShowForm.Interval = 15
         '
         'StatusLabel
         '
@@ -475,10 +477,12 @@ Partial Class WavenLauncher
         '
         'Timer_CheckVersion
         '
+        Me.Timer_CheckVersion.Interval = 50
         '
         'SettingPanel
         '
         Me.SettingPanel.BackColor = System.Drawing.Color.Teal
+        Me.SettingPanel.Controls.Add(Me.PingLabel)
         Me.SettingPanel.Controls.Add(Me.ButtonSwitchLine)
         Me.SettingPanel.Controls.Add(Me.CloseAction)
         Me.SettingPanel.Controls.Add(Me.ALVersionLabel)
@@ -496,6 +500,17 @@ Partial Class WavenLauncher
         Me.SettingPanel.Name = "SettingPanel"
         Me.SettingPanel.Size = New System.Drawing.Size(590, 141)
         Me.SettingPanel.TabIndex = 25
+        '
+        'PingLabel
+        '
+        Me.PingLabel.AutoSize = True
+        Me.PingLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.PingLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.PingLabel.Location = New System.Drawing.Point(339, 76)
+        Me.PingLabel.Name = "PingLabel"
+        Me.PingLabel.Size = New System.Drawing.Size(95, 17)
+        Me.PingLabel.TabIndex = 14
+        Me.PingLabel.Text = "游戏延迟：- ms"
         '
         'ButtonDirAL
         '
@@ -543,7 +558,10 @@ Partial Class WavenLauncher
         '
         'Timer_HideForm
         '
-        Me.Timer_HideForm.Interval = 10
+        Me.Timer_HideForm.Interval = 15
+        '
+        'Timer_Ping
+        '
         '
         'WavenLauncher
         '
@@ -568,6 +586,7 @@ Partial Class WavenLauncher
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "WavenLauncher"
+        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Waven汉化启动器 by layah"
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).EndInit()
@@ -625,4 +644,6 @@ Partial Class WavenLauncher
     Friend WithEvents ButtonDirAL As Button
     Friend WithEvents MiniForm As Button
     Friend WithEvents Timer_HideForm As Timer
+    Friend WithEvents PingLabel As Label
+    Friend WithEvents Timer_Ping As Timer
 End Class
