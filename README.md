@@ -4,8 +4,8 @@
 
 ![Interface](https://pan.layah.workers.dev/1:/WLpic.png)    
 ![汉化启动器版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E5%90%AF%E5%8A%A8%E5%99%A8%E7%89%88%E6%9C%AC-1.10.27.2-brightgreen)
-![汉化补丁包版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E8%A1%A5%E4%B8%81%E5%8C%85%E7%89%88%E6%9C%AC-2021.10.27--V1-red)
-![适用游戏版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%B8%B8%E6%88%8F%E7%89%88%E6%9C%AC-0.8.4.30606-blue)
+![汉化补丁包版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E8%A1%A5%E4%B8%81%E5%8C%85%E7%89%88%E6%9C%AC-2021.10.28--V1-red)
+![适用游戏版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%B8%B8%E6%88%8F%E7%89%88%E6%9C%AC-0.8.5.30628-blue)
 ![适用战网版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%88%98%E7%BD%91%E7%89%88%E6%9C%AC-3.5.3-orange)
 
 </div>
@@ -133,6 +133,10 @@
 </details>
 
 ## 汉化补丁包更新日志：
+
+### 2021.10.28-V1
+- 更新文本适配到Alpha 0.8.5版本
+- 将未翻译的法语替换成Maufeat制作的英文版
 
 ### 2021.10.27-V1
 - 更新文本适配到Alpha 0.8.4版本
