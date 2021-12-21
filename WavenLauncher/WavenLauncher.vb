@@ -7,7 +7,7 @@ Imports System.Security.Cryptography '校验文件用
 Imports System.Threading
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 202110272  '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 202112222  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As String  '检测最新汉化启动器版本号
     Dim NewVersionCN As String  '检测最新游戏汉化文本版本号
     Dim NewVersionAL As String  '检测最新战网版本号
@@ -486,6 +486,9 @@ Public Class WavenLauncher
                                                                   + nameCN.Length _
                                                                   + 1)
                 tempVersionResource = tempVersionResource.Substring(0, length)
+                If tempVersionResource.EndsWith(" ") Then
+                    tempVersionResource = tempVersionResource.Substring(0, length - 1)
+                End If
                 Return tempVersionResource
             Else
                 Return ""
@@ -525,7 +528,7 @@ Public Class WavenLauncher
         Try
             NewVersionWL = GetVersion("软件版本号") '获取到最新版本号后赋值
             NewVersionCN = GetVersion("游戏汉化版本")
-            NewVersionAL = GetVersion("适用战网版本", 5) '获取到最新版本号后赋值
+            NewVersionAL = GetVersion("适用战网版本", 6) '获取到最新版本号后赋值
             NewVersionGM = GetVersion("适用游戏版本", 11)
             ZipVersionGM = GetVersion("游戏硬盘版", 11)
             accessToken = VersionResource.Remove(0, VersionResource.IndexOf("授权下载密匙") + 7)
@@ -803,7 +806,7 @@ Public Class WavenLauncher
                                 If LocalVersion = NewVersionGM Then  '若未检测到最新游戏版本，那么比较本地游戏版本与汉化适用版本
                                     ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
                                     '调用解压zip方法
-                                    LastMsg = $"安装汉化成功，版本为{tempVersionCN}"
+                                    LastMsg = $"安装汉化成功，版本为【{tempVersionCN}】"
                                 Else
                                     LayoutLabel($"汉化失败：本地游戏版本为{LocalVersion}，而汉化适用版本为{NewVersionGM}。")
                                     Exit Sub

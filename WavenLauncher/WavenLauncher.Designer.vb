@@ -232,9 +232,9 @@ Partial Class WavenLauncher
         Me.UpdateCN.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.UpdateCN.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.UpdateCN.ForeColor = System.Drawing.Color.Yellow
-        Me.UpdateCN.Location = New System.Drawing.Point(475, 101)
+        Me.UpdateCN.Location = New System.Drawing.Point(474, 101)
         Me.UpdateCN.Name = "UpdateCN"
-        Me.UpdateCN.Size = New System.Drawing.Size(99, 25)
+        Me.UpdateCN.Size = New System.Drawing.Size(101, 25)
         Me.UpdateCN.TabIndex = 13
         Me.UpdateCN.Text = "强制下载汉化"
         Me.UpdateCN.UseVisualStyleBackColor = False
