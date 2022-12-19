@@ -2,12 +2,13 @@
 Imports System.IO.Compression  '解压文件用
 Imports System.Net
 Imports System.Net.Sockets
-Imports System.Text
 Imports System.Security.Cryptography '校验文件用
+Imports System.Text
 Imports System.Threading
+Imports Microsoft.Win32 '读写注册表用
 
 Public Class WavenLauncher
-    Const VersionWL As UInteger = 202112222  '汉化启动器版本号，跟随发布版本
+    Const VersionWL As UInteger = 202212132  '汉化启动器版本号，跟随发布版本
     Dim NewVersionWL As String  '检测最新汉化启动器版本号
     Dim NewVersionCN As String  '检测最新游戏汉化文本版本号
     Dim NewVersionAL As String  '检测最新战网版本号
@@ -51,7 +52,7 @@ Public Class WavenLauncher
     ReadOnly VersionSW As New Stopwatch '用于获取资源更新发布页时候的超时判断
     Dim enforce As Boolean = False '跳过校验强制下载
     Dim LastMsg As String '储存汉化结果的输出文本
-    Dim CurrentVersionPage As String = "https://launcher.cdn.ankama.com/cytrus.json" '储存官方服务器游戏版本检测页
+    Dim CurrentVersionPage As String = "https://cytrus.cdn.ankama.com/cytrus.json" '储存官方服务器游戏版本检测页
     Dim CurrentVersion As String '储存从官方服务器检测到的游戏版本
     ReadOnly LocalJsonFile As String = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\zaap\repositories\production\waven\main\release.json" '存储本地游戏信息文件路径
     ReadOnly ReleaseJsonFile As String = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\zaap\repositories\production\waven\main\data\release.json" '存储游戏服务器状态文件路径
@@ -62,8 +63,11 @@ Public Class WavenLauncher
     Dim oldstatusText As String '储存旧的状态信息
     Dim laststatusText As String '储存上一条状态信息
     Dim beforestatusText As String '储存前一条状态信息
-    ReadOnly Authorization As String = "&Authorization=Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+    'ReadOnly Authorization As String = "&Authorization=Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+    ReadOnly clouddrive As String = "http://pan.layah.tk/"
+    ReadOnly gitpage As String = "https://jihulab.com/ankamacn/waven/-/raw/main/"
     Dim accessToken As String  '储存云盘授权下载信息
+    Dim domainNumber As String  '储存云盘下载服务器编号
     Dim CheckHash As String  '储存校验用hash值
     Dim lastUpdate As Date  '储存计算下载速度的起始时间
     Dim lastBytes As Long = 0  '储存计算下载速度的起始大小
@@ -78,6 +82,13 @@ Public Class WavenLauncher
     Dim latency As UInteger  '储存游戏服务器Ping延迟
     Dim btnStatusChanged As Boolean  '判断开始游戏按钮文本与行为是否一致
     Dim lastbtnStatus As String  '储存上次开始游戏按钮文本
+    ReadOnly RegistryPath As String = "SOFTWARE\Ankama\Waven"  '储存注册表用户首选项中Waven游戏相关设置路径
+    ReadOnly fullscreenKey As String = "Screenmanager Fullscreen mode_h3630240806"
+    ReadOnly windowWidthKey As String = "Screenmanager Resolution Width_h182942802"
+    ReadOnly windowHeightKey As String = "Screenmanager Resolution Height_h2627697771"
+    ReadOnly graphQualityKey As String = "Waven.Graphics.Alpha.PreferredGraphicQualityIndexV2_h3609782037"
+    Dim tempWindowWidth As Int32
+    Dim tempWindowHeight As Int32
 
     '用于改变开始游戏按钮文本与行为
     Private Enum StartStatus As Byte
@@ -104,6 +115,7 @@ Public Class WavenLauncher
                                               Nothing,
                                               SettingPanel,
                                               New Object() {True})
+            TopMost = True  '窗口置顶
             Opacity = 0  '隐式加载窗体以避免窗体背景重绘造成的控件闪烁
             If Not My.Settings.Valid Then
                 My.Settings.Upgrade() '继承旧版设置
@@ -174,6 +186,10 @@ Public Class WavenLauncher
             If File.Exists(GMDir) Then
                 GameDataPath = Path.GetDirectoryName(GMDir)  '存储游戏目录
                 LabelDirGM.Text = GMDir '显示游戏路径
+                CheckRegValue(fullscreenKey)
+                CheckRegValue(windowWidthKey)
+                CheckRegValue(windowHeightKey)
+                CheckRegValue(graphQualityKey)
             Else
                 AutoUD = False '无游戏路径则不自动安装汉化
                 ButtonDirGM.BackColor = Color.Red
@@ -218,8 +234,12 @@ Public Class WavenLauncher
             ShowToolTip.SetToolTip(ButtonDirAL, "选择Ankama战网路径")  '战网路径选择提示
             ShowToolTip.SetToolTip(ButtonDirGM, "选择Waven游戏路径")  '游戏路径选择提示
             ShowToolTip.SetToolTip(PingLabel, "每5s检测一次Waven游戏服务器延迟")  '游戏延迟提示
+            ShowToolTip.SetToolTip(WindowWidth, "设置游戏分辨率，建议不低于1280×720且宽高比为16:9")  '分辨率提示
+            ShowToolTip.SetToolTip(WindowHeight, "设置游戏分辨率，建议不低于1280×720且宽高比为16:9")  '分辨率提示
+            ShowToolTip.SetToolTip(WindowResolution, "设置游戏分辨率，建议不低于1280×720且宽高比为16:9")  '分辨率提示
             ShowInTaskbar = True  '防止任务栏未显示图标
-            TopMost = True  '窗口置顶
+            Process.Start(AppDomain.CurrentDomain.BaseDirectory & mainAppExe)  '利用单实例应用程序特性确保打开窗口时在最前
+
             Timer_ShowForm.Enabled = True  '加载完窗体再触发计时器延时显示窗体
             CheckVersion() '检查版本
             If Not IO.File.Exists(ALDir) Then
@@ -234,9 +254,9 @@ Public Class WavenLauncher
     Protected Overrides ReadOnly Property CreateParams As CreateParams
         Get
             Const WS_MINIMIZEBOX As Integer = &H20000
-            Const WS_EX_COMPOSITED As Integer = &H2000000
+            'Const WS_EX_COMPOSITED As Integer = &H2000000
             Dim cp As CreateParams = MyBase.CreateParams
-            cp.Style = cp.Style And Not WS_EX_COMPOSITED '不挖空背景直接重绘控件
+            'cp.Style = cp.Style And Not WS_EX_COMPOSITED '不挖空背景直接重绘控件
             cp.Style = cp.Style Or WS_MINIMIZEBOX
             Return cp
         End Get
@@ -294,11 +314,13 @@ Public Class WavenLauncher
         If DownloadClient.IsBusy = True Then
             e.Cancel = True
             If MsgBox($"【注意】有文件正在下载中，{vbCrLf}是否要取消下载并退出软件？",
-                          MsgBoxStyle.Exclamation _
-                          + MsgBoxStyle.OkCancel _
-                          + MsgBoxStyle.DefaultButton2,
-                          "正在下载文件中…") _
-                     = MsgBoxResult.Ok Then
+                        MsgBoxStyle.Exclamation _
+                        + MsgBoxStyle.SystemModal _
+                        + MsgBoxStyle.MsgBoxSetForeground _
+                        + MsgBoxStyle.OkCancel _
+                        + MsgBoxStyle.DefaultButton2,
+                       "正在下载文件中…") _
+                    = MsgBoxResult.Ok Then
                 DownloadClient.CancelAsync()
                 Timer_HideForm.Enabled = True
             End If
@@ -402,7 +424,7 @@ Public Class WavenLauncher
                     Else
                         LayoutLabel("获取Waven游戏最新版本失败，部分提示功能受限制")
                         AfterCheckVersion()
-                        CurrentVersionPage = "https://pan.layah.workers.dev/1:/cytrus.json"  '若官方页获取不到则使用镜像页
+                        CurrentVersionPage = $"{clouddrive}1:/cytrus.json"  '若官方页获取不到则使用镜像页
                         Exit Sub
                     End If
                 End If
@@ -455,9 +477,9 @@ Public Class WavenLauncher
         Try
             Select Case line '选择下载线路
                 Case False
-                    VersionResourcePage = "https://ankamacn.coding.net/p/coding-devops-guide/d/coding-devops-guide/git/raw/master/README.md?download=true"
+                    VersionResourcePage = $"{gitpage}README.md?inline=false"
                 Case True
-                    VersionResourcePage = "https://pan.layah.workers.dev/1:/README.md"
+                    VersionResourcePage = $"{clouddrive}1:/README.md"
             End Select
             Dim Resource As String
             Dim request As HttpWebRequest = CType(WebRequest.Create(VersionResourcePage), HttpWebRequest)
@@ -513,10 +535,12 @@ Public Class WavenLauncher
                 End Using
             End Using
             Dim WavenID As String = """gameId"":22,"
-            Dim tempCurrentVersion As String = CurrentVersionResource.Remove(0, CurrentVersionResource.IndexOf(WavenID) _
-                                                      + WavenID.Length _
-                                                      + 192)
-            tempCurrentVersion = tempCurrentVersion.Substring(0, 11)
+            Dim tempCurrentVersion As String = CurrentVersionResource.Remove(0, CurrentVersionResource.IndexOf(WavenID))
+            tempCurrentVersion = tempCurrentVersion.Remove(0, tempCurrentVersion.IndexOf("windows") + 22)
+            tempCurrentVersion = tempCurrentVersion.Substring(0, 12)
+            If tempCurrentVersion.EndsWith("""") Then
+                tempCurrentVersion = tempCurrentVersion.Substring(0, 11)
+            End If
             Return tempCurrentVersion
         Catch ex As Exception
             Return ""
@@ -529,9 +553,10 @@ Public Class WavenLauncher
             NewVersionWL = GetVersion("软件版本号") '获取到最新版本号后赋值
             NewVersionCN = GetVersion("游戏汉化版本")
             NewVersionAL = GetVersion("适用战网版本", 6) '获取到最新版本号后赋值
-            NewVersionGM = GetVersion("适用游戏版本", 11)
-            ZipVersionGM = GetVersion("游戏硬盘版", 11)
-            accessToken = VersionResource.Remove(0, VersionResource.IndexOf("授权下载密匙") + 7)
+            NewVersionGM = GetVersion("适用游戏版本", 12)
+            ZipVersionGM = GetVersion("游戏硬盘版", 12)
+            'accessToken = VersionResource.Remove(0, VersionResource.IndexOf("授权下载密匙") + 8)
+            'domainNumber = VersionResource.Remove(0, VersionResource.IndexOf("授权下载密匙") + 7).Substring(0, 1)
             If Val(NewVersionWL) > VersionWL Then
                 '若获取到版本号比当前软件版本号要新（如201908051>201908011
                 WLVerStatus.Text = "点此更新软件"
@@ -557,6 +582,7 @@ Public Class WavenLauncher
             LocALCheck.Enabled = True
             LocGameCheck.Enabled = True
             AutoUDCheck.Enabled = True
+            WindowedMode.Enabled = True
             If NewVersionCN <> "" Then
                 UpdateCN.Text = FormatGMVersion(NewVersionCN)
                 ShowToolTip.SetToolTip(UpdateCN, "这是汉化包的最新版本号，点击强制下载并安装游戏汉化包")
@@ -575,11 +601,11 @@ Public Class WavenLauncher
             OpenOrSaveSetting(False)
             enforce = True
             If INTLine Then
-                DownloadFile("https://pan.layah.workers.dev/0:/Waven/Waven-zh-cn.zip",
+                DownloadFile($"{clouddrive}0:/Waven/Waven-zh-cn.zip",
                              "Waven-zh-cn.zip",
                              DefaultFileAddress)
             Else
-                DownloadFile("https://ankamacn.coding.net/p/coding-devops-guide/d/coding-devops-guide/git/raw/master/Waven-zh-cn.zip",
+                DownloadFile($"{gitpage}Waven-zh-cn.zip",
                              "Waven-zh-cn.zip",
                              DefaultFileAddress)
             End If
@@ -763,7 +789,7 @@ Public Class WavenLauncher
                             LastMsg = "强制安装汉化成功，有任何后果概不负责【手动滑稽"
                             enforce = False
                         Else
-                            If GetReleaseJson("serverBlocked") = "true" Or GetReleaseJson("teasing") = "true" Then
+                            If GetReleaseJson("serverBlocked") = "true" Or GetReleaseJson("teasing") = "true" Or GetReleaseJson("teasing") = """WAV" Then
                                 LayoutLabel("游戏服务器目前不可用，暂时不可安装汉化")
                                 Exit Sub
                             End If
@@ -775,9 +801,12 @@ Public Class WavenLauncher
                                 LayoutLabel("未检测到本地游戏版本，请打开战网校验游戏文件")
                                 Exit Sub
                             End If
-                            LocalVersion = GetLocalJson("version", 7, 11) '从本地缓存获取本地游戏版本
+                            LocalVersion = GetLocalJson("version", 7, 12) '从本地缓存获取本地游戏版本
+                            If LocalVersion.EndsWith("""") Then
+                                LocalVersion = LocalVersion.Substring(0, 11)
+                            End If
                             If LocalVersion <> CurrentVersion AndAlso CurrentVersion <> "" Then
-                                LayoutLabel($"本地游戏版本为{LocalVersion}，请更新游戏到{CurrentVersion}版本后再安装汉化！")
+                                LayoutLabel($"本地游戏版本为{LocalVersion}，请更新到{CurrentVersion}后再安装汉化！")
                                 Exit Sub
                             End If
                             Dim tempVersionCN As String
@@ -787,16 +816,14 @@ Public Class WavenLauncher
                             Else
                                 tempVersionCN = UpdateCN.Text
                             End If
-                            Dim zhjsonDir As String = GameDataPath & "\zh-cn.json"
-                            If IO.File.Exists(zhjsonDir) Then
-                                Dim CurrentMD5 As String = GetFileMD5(zhjsonDir)
-                                Dim newCNMD5 As String = GetVersion("汉化文件哈希值", 32)
-                                If CurrentMD5 = newCNMD5 Then
-                                    LayoutLabel($"已安装过汉化，版本为【{tempVersionCN}】")
-                                    FinishLocGM = True
-                                    ButtonAction(False)
-                                    Exit Sub
-                                End If
+                            Dim frfrDir As String = GameDataPath & "\Waven_Data\StreamingAssets\AssetBundles\core\localization.fr-fr"
+                            Dim CurrentCNMD5 As String = GetFileMD5(frfrDir)
+                            Dim newCNMD5 As String = GetVersion("localization.fr-fr", 32)
+                            If CurrentCNMD5 = newCNMD5 Then '若fr-fr文件为汉化版
+                                LayoutLabel($"已安装过汉化，版本为【{tempVersionCN}】")
+                                FinishLocGM = True
+                                ButtonAction(False)
+                                Exit Sub
                             End If
                             If CurrentVersion = NewVersionGM Or CurrentVersion = "" Then  '若汉化适用版本与游戏版本一致或未获取到官方游戏版本
                                 If wlneedtoupdate Then '若软件需更新则提示
@@ -817,12 +844,15 @@ Public Class WavenLauncher
                                 VersionMSG = "【注意】检测到汉化适用游戏版本与最新游戏版本不一致，不推荐安装汉化。"
                                 CancelMSG = "取消安装汉化。关注Waven群等待新版补丁吧。"
                                 bFormDragging = False
+                                '对话框
                                 If MsgBox($"{VersionMSG}{vbCrLf}是否仍要尝试安装汉化？可能会无法打开游戏",
-                                                           MsgBoxStyle.Exclamation _
-                                                          + MsgBoxStyle.OkCancel _
-                                                           + MsgBoxStyle.DefaultButton2,
-                                                           "汉化适用游戏版本不一致") _
-                                                           = MsgBoxResult.Ok Then
+                                            MsgBoxStyle.Exclamation _
+                                            + MsgBoxStyle.SystemModal _
+                                            + MsgBoxStyle.MsgBoxSetForeground _
+                                            + MsgBoxStyle.OkCancel _
+                                            + MsgBoxStyle.DefaultButton2,
+                                            "汉化适用游戏版本不一致") _
+                                      = MsgBoxResult.Ok Then
                                     ExZip(DefaultFileAddress, "Waven-zh-cn.zip", GameDataPath)
                                     '调用解压zip方法
                                     LastMsg = "若无法打开游戏请在设置里取消勾选【启用游戏汉化】或使用战网修复游戏"
@@ -923,10 +953,13 @@ Public Class WavenLauncher
                             KillProcess("Waven")
                             gameisrunning = False
                             bFormDragging = False
+                            '对话框
                             MsgBox($"【注意】恢复游戏原版文件需关闭游戏，{vbCrLf}即将卸载当前游戏汉化",
-                                                                MsgBoxStyle.Exclamation _
-                                                                + MsgBoxStyle.OkOnly,
-                                                                "卸载当前游戏汉化")
+                              MsgBoxStyle.Exclamation _
+                              + MsgBoxStyle.SystemModal _
+                              + MsgBoxStyle.MsgBoxSetForeground _
+                              + MsgBoxStyle.OkOnly,
+                              "卸载当前游戏汉化")
                         End If
                         Try
                             If File.Exists(GMDir) Then
@@ -951,8 +984,11 @@ Public Class WavenLauncher
                             LayoutLabel("正在准备安装Ankama战网")
                             bFormDragging = False
                             '添加一步确认，以免误点
+                            '对话框
                             If MsgBox($"【注意】安装Ankama战网将会强制覆盖文件，{vbCrLf}是否要继续Ankama战网硬盘版的安装？",
                                       MsgBoxStyle.Exclamation _
+                                      + MsgBoxStyle.SystemModal _
+                                      + MsgBoxStyle.MsgBoxSetForeground _
                                       + MsgBoxStyle.OkCancel _
                                       + MsgBoxStyle.DefaultButton2,
                                       "Ankama战网硬盘版下载完成") _
@@ -962,6 +998,7 @@ Public Class WavenLauncher
                                 Else
                                     ExZip(DefaultFileAddress, "Ankama-Launcher.zip", DefaultALDataPath)
                                     ALDir = DefaultALDataPath & "Ankama Launcher.exe"
+                                    My.Settings.ALDir = ALDir
                                     LabelDirAL.Text = ALDir
                                     ButtonDirAL.BackColor = Color.Teal
                                     LabelDirGM.Enabled = True
@@ -988,8 +1025,11 @@ Public Class WavenLauncher
                             LayoutLabel("正在准备安装Waven游戏")
                             bFormDragging = False
                             '添加一步确认，以免误点
+                            '对话框
                             If MsgBox($"【注意】安装Waven游戏会强制覆盖文件，{vbCrLf}是否要继续Waven游戏硬盘版的安装？",
                                       MsgBoxStyle.Exclamation _
+                                      + MsgBoxStyle.SystemModal _
+                                      + MsgBoxStyle.MsgBoxSetForeground _
                                       + MsgBoxStyle.OkCancel _
                                       + MsgBoxStyle.DefaultButton2,
                                       "Waven游戏硬盘版下载完成") _
@@ -1076,6 +1116,10 @@ Public Class WavenLauncher
     Private Sub OpenOrSaveSetting(ByVal KeepOpening As Boolean)
         Try
             If PanelVisible = False Then
+                CheckRegValue(fullscreenKey)
+                CheckRegValue(windowWidthKey)
+                CheckRegValue(windowHeightKey)
+                CheckRegValue(graphQualityKey)
                 SettingPanel.Show()  '显示设置面板
                 Checkping()  '开始检测游戏服务器延迟
                 OpenSettings.Text = "保存"
@@ -1091,6 +1135,25 @@ Public Class WavenLauncher
                         LocAL = LocALCheck.Checked
                         LocGM = LocGameCheck.Checked
                         AutoUD = AutoUDCheck.Checked
+                        If GMDir <> "" Then
+                            SetRegValue(graphQualityKey, GraphQualityList.SelectedIndex)
+                            If Val(WindowWidth.Text) <> tempWindowWidth Or Val(WindowHeight.Text) <> tempWindowHeight Then
+                                tempWindowWidth = Val(WindowWidth.Text)
+                                tempWindowHeight = Val(WindowHeight.Text)
+                                SetRegValue(windowWidthKey, tempWindowWidth)
+                                SetRegValue(windowHeightKey, tempWindowHeight)
+                                LayoutLabel($"已设置游戏分辨率为{tempWindowWidth}×{tempWindowHeight}")
+                            End If
+                            If WindowedMode.Checked Then  '如果勾选窗口模式
+                                SetRegValue(fullscreenKey, 3)
+                            Else
+                                SetRegValue(fullscreenKey, 1)
+                            End If
+                            If GMDir <> My.Settings.GMDir Then
+                                '若游戏路径已选择
+                                ButtonAction(False)  '改变按钮状态
+                            End If
+                        End If
                         If LocAL <> My.Settings.LocAL Then
                             '若更改了战网汉化选项，则提示重启战网
                             ButtonAction(False)
@@ -1113,10 +1176,6 @@ Public Class WavenLauncher
                         End If
                         If ALDir <> My.Settings.ALDir AndAlso ALDir <> "" Then
                             '若战网路径已选择且不为空
-                            ButtonAction(False)  '改变按钮状态
-                        End If
-                        If GMDir <> My.Settings.GMDir AndAlso GMDir <> "" Then
-                            '若游戏路径已选择且不为空
                             ButtonAction(False)  '改变按钮状态
                         End If
                         With My.Settings
@@ -1351,6 +1410,10 @@ Public Class WavenLauncher
                     LabelDirGM.Text = GMDir
                     ButtonDirGM.BackColor = Color.Teal
                     LayoutLabel($"已选择Waven游戏路径""{GMDir}""，请点击保存以生效")
+                    CheckRegValue(fullscreenKey)
+                    CheckRegValue(windowWidthKey)
+                    CheckRegValue(windowHeightKey)
+                    CheckRegValue(graphQualityKey)
                 Else
                     LayoutLabel($"所选择路径无Waven游戏程序")
                 End If
@@ -1416,7 +1479,7 @@ Public Class WavenLauncher
                 '获取程序系统进程列表
                 Dim LaunchProcess As Process
                 For Each LaunchProcess In ProcessList
-                    If LaunchProcess IsNot Nothing Then
+                    If LaunchProcess.MainModule.FileName IsNot Nothing Then
                         If LaunchProcess.MainModule.FileName.Equals(ProcessPath, StringComparison.OrdinalIgnoreCase) Then
                             Return True
                             Exit Function
@@ -1429,9 +1492,10 @@ Public Class WavenLauncher
             '32位程序读取64位程序时报错，应将debug中选any cpu，并在项目设置里取消勾选首选32位
             '另外无法获取管理员权限运行进程的路径时也会报错
             '这东西太奇怪了，直接设置不回显了
+            MsgBox("错误详情：" & ex32.ToString, MsgBoxStyle.Exclamation, "查询战网或游戏进程时出错")
             Return False
         Catch ex As Exception
-            MsgBox("错误详情：" & ex.Message, MsgBoxStyle.Exclamation, "查询战网或游戏进程时出错")
+            MsgBox("错误详情：" & ex.ToString, MsgBoxStyle.Exclamation, "查询战网或游戏进程时出错")
             Return False
         End Try
     End Function
@@ -1513,7 +1577,7 @@ Public Class WavenLauncher
             End If
             timeNow = Date.Now
             timeChange = timeNow - lastUpdate
-            If timeChange.TotalMilliseconds > 875 Then  '事件间隔875ms以上输出一次速度
+            If timeChange.TotalMilliseconds > 999 Then  '事件间隔999ms以上输出一次速度
                 If DownloadSpeed = 0 Then  '上次瞬时速度为0时用总体平均速度代替
                     timeTotal = timeNow - timeStart
                     DownloadSpeed = (e.BytesReceived / (timeTotal.TotalMilliseconds / 1000.0#)).ToString("#")
@@ -1581,7 +1645,7 @@ Public Class WavenLauncher
     '转换秒数，用于显示下载所需剩余时间
     Public Function TransTime(ByVal Seconds As Long) As String
         Try
-            If Seconds = -1 Then
+            If Seconds < 0 Then
                 Return "时间未知"
             ElseIf bytesChange = 0 Then
                 Return "时间计算中"
@@ -1685,19 +1749,20 @@ Public Class WavenLauncher
             Select Case INTLine '选择下载线路
                 Case False '默认国内线路走coding网盘
                     If filename = "Ankama-Launcher.zip" Then
-                        DownloadFile($"https://fs.matpool.com/fs?path=%2F{filename}{Authorization}{accessToken}", filename, savepath)
+                        'DownloadFile($"https://fs-{domainNumber}.matpool.com/fs?path=%2F{filename}{Authorization}{accessToken}", filename, savepath)
+                        DownloadFile("http://wx.blockelite.cn:15021/web/client/pubshares/cRXZuvhEWMrejFcMqdXkT5?compress=false", filename, savepath)
                     ElseIf filename = "en.json" And My.Settings.LocAL Then  '战网汉化版文件
-                        DownloadFile($"https://ankamacn.coding.net/p/coding-devops-guide/d/coding-devops-guide/git/raw/master/src/{filename}", filename, savepath)
+                        DownloadFile($"{gitpage}src/{filename}", filename, savepath)
                     Else
-                        DownloadFile($"https://ankamacn.coding.net/p/coding-devops-guide/d/coding-devops-guide/git/raw/master/{filename}", filename, savepath)
+                        DownloadFile($"{gitpage}{filename}", filename, savepath)
                     End If
                 Case True '国际线路走CloudFlare的workers脚本爬谷歌网盘
                     If filename = "Ankama-Launcher.zip" Then
-                        DownloadFile($"https://pan.layah.workers.dev/0:/{filename}", filename, savepath)
+                        DownloadFile($"{clouddrive}0:/{filename}", filename, savepath)
                     ElseIf filename = "en.json" And My.Settings.LocAL Then  '战网汉化版文件
-                        DownloadFile($"https://pan.layah.workers.dev/1:/{filename}", filename, savepath)
+                        DownloadFile($"{clouddrive}1:/{filename}", filename, savepath)
                     Else
-                        DownloadFile($"https://pan.layah.workers.dev/0:/Waven/{filename}", filename, savepath)
+                        DownloadFile($"{clouddrive}0:/Waven/{filename}", filename, savepath)
                     End If
             End Select
         Catch ex As Exception
@@ -1815,8 +1880,11 @@ Public Class WavenLauncher
         '点击游戏版本号
         Try
             If CurrentVersion <> ZipVersionGM AndAlso CurrentVersion <> "" Then
+                '对话框
                 If MsgBox($"【注意】检测到最新游戏版本为{CurrentVersion}，{vbCrLf}是否仍要下载{ZipVersionGM}版本？",
                     MsgBoxStyle.Exclamation _
+                    + MsgBoxStyle.SystemModal _
+                    + MsgBoxStyle.MsgBoxSetForeground _
                     + MsgBoxStyle.OkCancel _
                     + MsgBoxStyle.DefaultButton2,
                     "Waven硬盘版版本不是最新") _
@@ -1826,9 +1894,9 @@ Public Class WavenLauncher
             End If
             OpenOrSaveSetting(False)
             If INTLine Then
-                DownloadFile("https://pan.layah.workers.dev/0:/Waven/Waven.zip", "Waven.zip", DefaultFileAddress)
+                DownloadFile($"{clouddrive}0:/Waven/Waven.zip", "Waven.zip", DefaultFileAddress)
             Else
-                DownloadFile($"https://fs.matpool.com/fs?path=%2FWaven.zip{Authorization}{accessToken}", "Waven.zip", DefaultFileAddress)
+                DownloadFile($"http://wx.blockelite.cn:15021/web/client/pubshares/Uq69RVeNXiHSxs8tjtcQLo?compress=false", "Waven.zip", DefaultFileAddress)
             End If
         Catch ex As Exception
             LayoutLabel("下载失败:" & ex.Message & "。请检查网络连接。")
@@ -1844,7 +1912,7 @@ Public Class WavenLauncher
             End If
             Dim file_stream As FileStream = File.OpenRead(file_path)
             file_stream.Position = 0
-            Dim hash As MD5 = System.Security.Cryptography.MD5.Create() '创建MD5哈希算法实例
+            Dim hash As MD5 = MD5.Create() '创建MD5哈希算法实例
             Dim hashValue() As Byte = hash.ComputeHash(file_stream) '计算文件MD5哈希值
             Dim hash_hex As String = PrintByteArray(hashValue)
             file_stream.Close()
@@ -1913,7 +1981,7 @@ Public Class WavenLauncher
             Else
                 tempVersion = CurrentVersion
             End If
-            Dim JsonSecondHalf As String = $"version"":""5.0_{ZipVersionGM}"",""repositoryVersion"":""5.0_{tempVersion}"",""installedFragments"":[""win32_x64"",""main""],""isInstalling"":false,""isUpdating"":false,""isRepairing"":false,""updateDownloadedSize"":0,""updateDownloadedSizeDate"":0,""isDirty"":false,""_schemaVersion"":1}}"
+            Dim JsonSecondHalf As String = $"version"":""6.0_{ZipVersionGM}"",""repositoryVersion"":""6.0_{tempVersion}"",""installedFragments"":[""configuration"",""win32_x64""],""isInstalling"":false,""isUpdating"":false,""isRepairing"":false,""isDirty"":false,""_schemaVersion"":1}}"
             If File.Exists(LocalJsonFile) AndAlso GetLocalJson("location") <> "fals" Then
                 Dim readtext As String
                 readtext = File.ReadAllText(LocalJsonFile)
@@ -1926,7 +1994,7 @@ Public Class WavenLauncher
                     tempgamepath = Replace(DefaultGameDataPath, "\", "\\")
                     tempgamepath = tempgamepath.Substring(0, tempgamepath.Length - 2)
                 End If
-                JsonFirstHalf = $"{{""id"":""wavenmain"",""gameUid"":""waven"",""gameId"":22,""gameOrder"":6,""gameName"":""Waven"",""name"":""main"",""location"":""{tempgamepath}"","""
+                JsonFirstHalf = $"{{""id"":""wavenmain"",""gameUid"":""waven"",""gameId"":22,""gameOrder"":7,""gameName"":""Waven"",""name"":""main"",""location"":""{tempgamepath}"","""
             End If
             File.WriteAllText(LocalJsonFile, JsonFirstHalf & JsonSecondHalf)
         Catch ex As Exception
@@ -1938,5 +2006,123 @@ Public Class WavenLauncher
         Dim tooltip1 As New ToolTip
         Dim point1 As New Point(5, 30)
         tooltip1.Show("第一次使用请点击上方标题仔细阅读教程", FormTitle, point1)
+    End Sub
+
+    '读取注册表对应键值
+    Private Sub CheckRegValue(key As String)
+        Try
+            Using regKey As RegistryKey = Registry.CurrentUser.OpenSubKey(RegistryPath, False)
+                If regKey IsNot Nothing Then
+                    '读取注册表指定路径子项，并根据键值显示状态
+                    Select Case key
+                        Case fullscreenKey
+                            Select Case regKey.GetValue(key, 1)
+                                Case 1
+                                    WindowedMode.Checked = False
+                                Case 3
+                                    WindowedMode.Checked = True
+                                Case Else
+                                    SetRegValue(key, 1)
+                                    WindowedMode.Checked = False
+                            End Select
+                        Case windowWidthKey
+                            tempWindowWidth = regKey.GetValue(key, 1280)
+                            WindowWidth.Text = tempWindowWidth
+                        Case windowHeightKey
+                            tempWindowHeight = regKey.GetValue(key, 720)
+                            WindowHeight.Text = tempWindowHeight
+                        Case graphQualityKey
+                            GraphQualityList.SelectedIndex = regKey.GetValue(key, 0)
+                    End Select
+                End If
+            End Using
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "GetRegValue Error")
+        End Try
+    End Sub
+
+    '修改注册表对应键值
+    Private Sub SetRegValue(key As String, value As Int32)
+        Try
+            '打开注册表指定路径子项，True表示应用写访问权限
+            Using regKey As RegistryKey = Registry.CurrentUser.OpenSubKey(RegistryPath, True)
+                If regKey IsNot Nothing Then
+                    regKey.SetValue(key, value)
+                End If
+            End Using
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "SetRegValue Error")
+        End Try
+    End Sub
+
+    '限制分辨率输入框只能输入数字或删除键,并且不得超过屏幕分辨率
+    Private Sub WindowWidth_KeyPress(sender As Object, e As KeyPressEventArgs) Handles WindowWidth.KeyPress
+        Try
+            If WindowWidth.SelectionStart.ToString = 0 AndAlso e.KeyChar = Chr(48) Then
+                e.Handled = True
+            End If
+            If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8)) Then
+                e.Handled = True
+            End If
+            If Char.IsDigit(e.KeyChar) AndAlso Val(WindowWidth.Text) = Screen.PrimaryScreen.Bounds.Width.ToString Then
+                WindowWidth.Clear()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Width KeyPress Error")
+        End Try
+    End Sub
+
+    Private Sub WindowWidth_TextChanged(sender As Object, e As EventArgs) Handles WindowWidth.TextChanged
+        If Val(WindowWidth.Text) > Screen.PrimaryScreen.Bounds.Width.ToString Then
+            WindowWidth.Text = Screen.PrimaryScreen.Bounds.Width.ToString
+        End If
+    End Sub
+
+    Private Sub WindowWidth_Leave(sender As Object, e As EventArgs) Handles WindowWidth.Leave
+        WindowWidth.Text = Val(WindowWidth.Text)
+        If Val(WindowWidth.Text) < 100 Then
+            WindowWidth.Text = 100
+        End If
+    End Sub
+
+    Private Sub WindowHeight_KeyPress(sender As Object, e As KeyPressEventArgs) Handles WindowHeight.KeyPress
+        Try
+            If WindowHeight.SelectionStart.ToString = 0 AndAlso e.KeyChar = Chr(48) Then
+                e.Handled = True
+            End If
+            If Not (Char.IsDigit(e.KeyChar) Or e.KeyChar = Chr(8)) Then
+                e.Handled = True
+            End If
+            If Char.IsDigit(e.KeyChar) AndAlso Val(WindowHeight.Text) = Screen.PrimaryScreen.Bounds.Height.ToString Then
+                WindowHeight.Clear()
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Height KeyPress Error")
+        End Try
+    End Sub
+
+    Private Sub WindowHeight_TextChanged(sender As Object, e As EventArgs) Handles WindowHeight.TextChanged
+        If Val(WindowHeight.Text) > Screen.PrimaryScreen.Bounds.Height.ToString Then
+            WindowHeight.Text = Screen.PrimaryScreen.Bounds.Height.ToString
+        End If
+    End Sub
+
+    Private Sub WindowHeight_Leave(sender As Object, e As EventArgs) Handles WindowHeight.Leave
+        If Val(WindowHeight.Text) < 100 Then
+            WindowHeight.Text = 100
+        End If
+    End Sub
+
+    Private Sub WindowedMode_CheckedChanged(sender As Object, e As EventArgs) Handles WindowedMode.CheckedChanged
+        CheckRegValue(windowWidthKey)
+        CheckRegValue(windowHeightKey)
+        CheckRegValue(graphQualityKey)
+    End Sub
+
+    Private Sub WLVersionLabel_Click(sender As Object, e As EventArgs) Handles WLVersionLabel.Click
+        'Process.Start("zaap://app/games/game/waven/main?launch")
+        'Dim versionInfo = FileVersionInfo.GetVersionInfo(ALDir)
+        'Dim version As String = versionInfo.FileVersion
+        'Console.WriteLine(version)
     End Sub
 End Class

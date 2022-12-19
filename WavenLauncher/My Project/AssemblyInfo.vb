@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 '查看程序集特性的值
 
-<Assembly: AssemblyTitle("WavenLauncher")>
+<Assembly: AssemblyTitle("Waven Launcher")>
 <Assembly: AssemblyDescription("Waven汉化启动器")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("WavenLauncher")>
-<Assembly: AssemblyCopyright("layah © 2020-2021")>
+<Assembly: AssemblyProduct("Waven Launcher")>
+<Assembly: AssemblyCopyright("layah © 2020-2022")>
 <Assembly: AssemblyTrademark("盐十汽水™")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 '通过使用 "*"，如下所示:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.3.0.0")>
-<Assembly: AssemblyFileVersion("1.12.22.1")>
+<Assembly: AssemblyVersion("1.4.0.0")>
+<Assembly: AssemblyFileVersion("2.12.13.2")>

@@ -2,11 +2,11 @@
 
 # Waven汉化启动器
 
-![Interface](https://pan.layah.workers.dev/1:/WLpic.png)    
-![汉化启动器版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E5%90%AF%E5%8A%A8%E5%99%A8%E7%89%88%E6%9C%AC-1.12.22.1-brightgreen)
-![汉化补丁包版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E8%A1%A5%E4%B8%81%E5%8C%85%E7%89%88%E6%9C%AC-2021.12.30--V1-red)
-![适用游戏版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%B8%B8%E6%88%8F%E7%89%88%E6%9C%AC-0.9.5.31405-blue)
-![适用战网版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%88%98%E7%BD%91%E7%89%88%E6%9C%AC-3.5.10-orange)
+![Interface](http://pan.layah.tk/1:/WLpic.png)    
+![汉化启动器版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E5%90%AF%E5%8A%A8%E5%99%A8%E7%89%88%E6%9C%AC-2.12.13.2-brightgreen)
+![汉化补丁包版本](https://img.shields.io/badge/%E6%B1%89%E5%8C%96%E8%A1%A5%E4%B8%81%E5%8C%85%E7%89%88%E6%9C%AC-2022.12.19--V1-red)
+![适用游戏版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%B8%B8%E6%88%8F%E7%89%88%E6%9C%AC-0.10.3.35618-blue)
+![适用战网版本](https://img.shields.io/badge/%E9%80%82%E7%94%A8%E6%88%98%E7%BD%91%E7%89%88%E6%9C%AC-3.8.6-orange)
 
 </div>
 
@@ -49,6 +49,8 @@
 > 手动下载`Waven-zh-cn.zip`解压至游戏目录内，询问替换则确定即可。[下载地址一](https://ankamacn.coding.net/p/coding-devops-guide/d/coding-devops-guide/git/raw/master/Waven-zh-cn.zip?download=true)，[下载地址二](http://www.oupai.pw/download/)(Waven文件夹内)
 6. 为什么用汉化启动器安装战网时解压错误，提示拒绝访问？  
 > 退出360等辣鸡安全软件，或将汉化启动器及战网目录加入白名单。  
+7. 为什么战网无法登录，提示Http错误或IP地址隐藏？  
+> 目前战网屏蔽了大陆IP，请使用诸如uu或者雷电等加速器，加速游戏选择Wakfu或沃土，多换几个节点即可。  
 
 ### 【补充说明】
 1. 官方下载途径的战网和游戏可以自行设置安装路径，通过本汉化启动器下载则都是默认装到C盘，安装好的游戏可以通过战网移动到别的盘
@@ -56,10 +58,22 @@
 3. 若汉化出现乱码等问题可点击战网的**修复Repair**或取消勾选汉化启动器的`启用游戏汉化`，此时会下载`Waven-fr-fr.zip`原版游戏文件解压并替换
 4. 游戏里打开设置→社交→表情项旁边有当前已安装的汉化补丁包的版本号，可用于确认是否为最新版
 5. 校验及解压大文件时软件会无响应，这是正常现象，因为没有添加异步处理，目前只有下载和检测更新操作是异步
-6. 国内下载线路服务器为上海市腾讯云，国际下载线路服务器为美国Cloudflare节点
+6. 国内下载线路服务器为上海市腾讯云等，国际下载线路服务器为美国Cloudflare节点
 7. 使用过程中出现任何问题请[提交Issue](https://github.com/layahcn/WavenCN/issues)或[加Waven游戏Q群：820110084](https://jq.qq.com/?_wv=1027&k=NdAUkl52)
 
 ## 汉化启动器更新日志：
+
+### 2.12.13.2
+- 适配游戏Alpha 0.10.3版以及新版战网
+- 添加设置游戏窗口模式及分辨率的功能
+- 添加设置游戏画质的功能
+- 优化是否已安装汉化的判断逻辑
+- 修复游戏版本号读取与显示错误问题
+- 修复安装战网后未保存战网路径的问题
+- 修复窗口置顶状态下的消息框未前置显示的问题
+- 修复国内下载线路子域名更换导致下载失败问题
+- 修复国际下载线路worker.dev及cdn.jsdelivr.net被墙导致下载失败问题
+- 修复未获取到下载文件大小时剩余时间显示负数问题
 
 ### 1.12.22.1
 - 适配游戏Alpha 0.9.1版以及新版战网
@@ -237,5 +251,5 @@
 
 ## 软件及汉化补丁包许可：
 
-![avatar](https://pan.layah.workers.dev/1:/by-nc-sa.png)
+![avatar](http://pan.layah.tk/1:/by-nc-sa.png)
 <br />本软件及汉化补丁采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>进行许可。
