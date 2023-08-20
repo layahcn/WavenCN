@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Waven汉化启动器")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("Waven Launcher")>
-<Assembly: AssemblyCopyright("layah © 2020-2022")>
+<Assembly: AssemblyCopyright("layah © 2020-2023")>
 <Assembly: AssemblyTrademark("盐十汽水™")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 '通过使用 "*"，如下所示:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.4.0.0")>
-<Assembly: AssemblyFileVersion("2.12.13.2")>
+<Assembly: AssemblyVersion("1.5.0.0")>
+<Assembly: AssemblyFileVersion("3.8.20.1")>

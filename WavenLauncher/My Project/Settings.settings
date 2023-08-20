@@ -18,13 +18,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="VersionAL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3.8.5</Value>
+      <Value Profile="(Default)">3.11.4</Value>
     </Setting>
     <Setting Name="AutoUD" Type="System.String" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="VersionGM" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0.10.0.35559</Value>
+      <Value Profile="(Default)">0.12.1.40485</Value>
     </Setting>
     <Setting Name="Valid" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -33,7 +33,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="VersionWL" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">202212132</Value>
+      <Value Profile="(Default)">202308201</Value>
     </Setting>
   </Settings>
 </SettingsFile>

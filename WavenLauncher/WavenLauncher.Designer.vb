@@ -26,23 +26,12 @@ Partial Class WavenLauncher
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WavenLauncher))
         Me.StartButton = New System.Windows.Forms.Button()
         Me.WLVersionLabel = New System.Windows.Forms.Label()
-        Me.ALVersionLabel = New System.Windows.Forms.Label()
         Me.QuitForm = New System.Windows.Forms.Button()
         Me.FormTitle = New System.Windows.Forms.Label()
         Me.IcoPicture = New System.Windows.Forms.PictureBox()
         Me.ShowToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.LabelDirGM = New System.Windows.Forms.Label()
         Me.OpenSettings = New System.Windows.Forms.Button()
-        Me.GMVersionLabel = New System.Windows.Forms.Label()
-        Me.AutoUDCheck = New System.Windows.Forms.CheckBox()
-        Me.UpdateCN = New System.Windows.Forms.Button()
-        Me.ButtonDirGM = New System.Windows.Forms.Button()
-        Me.LocGameCheck = New System.Windows.Forms.CheckBox()
-        Me.LocALCheck = New System.Windows.Forms.CheckBox()
-        Me.CloseAction = New System.Windows.Forms.GroupBox()
-        Me.CloseForm2 = New System.Windows.Forms.RadioButton()
-        Me.CloseForm1 = New System.Windows.Forms.RadioButton()
-        Me.CloseForm0 = New System.Windows.Forms.RadioButton()
         Me.SysTrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.SysTrayMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -58,28 +47,55 @@ Partial Class WavenLauncher
         Me.PanelProgressBar = New System.Windows.Forms.Panel()
         Me.PanelProgress = New System.Windows.Forms.Panel()
         Me.Timer_ShowDSpeed = New System.Windows.Forms.Timer(Me.components)
-        Me.ButtonSwitchLine = New System.Windows.Forms.Button()
-        Me.LabelSwitchLine = New System.Windows.Forms.Label()
         Me.Timer_CheckVersion = New System.Windows.Forms.Timer(Me.components)
         Me.SettingPanel = New System.Windows.Forms.Panel()
-        Me.GraphQualityList = New System.Windows.Forms.ComboBox()
-        Me.WindowHeight = New System.Windows.Forms.TextBox()
-        Me.WindowWidth = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.WindowResolution = New System.Windows.Forms.Label()
-        Me.PingLabel = New System.Windows.Forms.Label()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.GMVersionLabel = New System.Windows.Forms.Label()
+        Me.ButtonSwitchLine = New System.Windows.Forms.Button()
+        Me.ALVersionLabel = New System.Windows.Forms.Label()
+        Me.LabelSwitchLine = New System.Windows.Forms.Label()
+        Me.LocalGMVersionLabel = New System.Windows.Forms.Label()
+        Me.LocalALVersionLabel = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.AutoUDCheck = New System.Windows.Forms.CheckBox()
+        Me.UpdateCN = New System.Windows.Forms.Button()
+        Me.LocGameCheck = New System.Windows.Forms.CheckBox()
+        Me.LocALCheck = New System.Windows.Forms.CheckBox()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.CloseAction = New System.Windows.Forms.GroupBox()
+        Me.CloseForm2 = New System.Windows.Forms.RadioButton()
+        Me.CloseForm1 = New System.Windows.Forms.RadioButton()
+        Me.CloseForm0 = New System.Windows.Forms.RadioButton()
+        Me.ButtonDirGM = New System.Windows.Forms.Button()
         Me.ButtonDirAL = New System.Windows.Forms.Button()
         Me.LabelDirAL = New System.Windows.Forms.Label()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.WindowedMode = New System.Windows.Forms.CheckBox()
+        Me.PingLabel = New System.Windows.Forms.Label()
+        Me.WindowHeight = New System.Windows.Forms.TextBox()
+        Me.WindowWidth = New System.Windows.Forms.TextBox()
+        Me.WindowResolution = New System.Windows.Forms.Label()
+        Me.GraphQualityList = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.MiniForm = New System.Windows.Forms.Button()
         Me.Timer_HideForm = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Ping = New System.Windows.Forms.Timer(Me.components)
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.CloseAction.SuspendLayout()
         Me.SysTrayMenu.SuspendLayout()
         Me.StatusPanel.SuspendLayout()
         Me.PanelProgressBar.SuspendLayout()
         Me.SettingPanel.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
+        Me.CloseAction.SuspendLayout()
+        Me.TabPage4.SuspendLayout()
         Me.SuspendLayout()
         '
         'StartButton
@@ -108,20 +124,6 @@ Partial Class WavenLauncher
         Me.WLVersionLabel.TabIndex = 3
         Me.WLVersionLabel.Text = "软件版本号："
         Me.WLVersionLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft
-        '
-        'ALVersionLabel
-        '
-        Me.ALVersionLabel.AutoSize = True
-        Me.ALVersionLabel.BackColor = System.Drawing.Color.Teal
-        Me.ALVersionLabel.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ALVersionLabel.Enabled = False
-        Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.ALVersionLabel.Location = New System.Drawing.Point(16, 17)
-        Me.ALVersionLabel.Name = "ALVersionLabel"
-        Me.ALVersionLabel.Size = New System.Drawing.Size(92, 17)
-        Me.ALVersionLabel.TabIndex = 4
-        Me.ALVersionLabel.Text = "适用战网版本："
         '
         'QuitForm
         '
@@ -178,7 +180,7 @@ Partial Class WavenLauncher
         Me.LabelDirGM.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.LabelDirGM.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LabelDirGM.ForeColor = System.Drawing.Color.Black
-        Me.LabelDirGM.Location = New System.Drawing.Point(15, 101)
+        Me.LabelDirGM.Location = New System.Drawing.Point(34, 59)
         Me.LabelDirGM.Name = "LabelDirGM"
         Me.LabelDirGM.Size = New System.Drawing.Size(307, 21)
         Me.LabelDirGM.TabIndex = 10
@@ -199,152 +201,6 @@ Partial Class WavenLauncher
         Me.OpenSettings.TabIndex = 23
         Me.OpenSettings.Text = "设置"
         Me.OpenSettings.UseVisualStyleBackColor = False
-        '
-        'GMVersionLabel
-        '
-        Me.GMVersionLabel.AutoSize = True
-        Me.GMVersionLabel.BackColor = System.Drawing.Color.Teal
-        Me.GMVersionLabel.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.GMVersionLabel.Enabled = False
-        Me.GMVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.GMVersionLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.GMVersionLabel.Location = New System.Drawing.Point(16, 74)
-        Me.GMVersionLabel.Name = "GMVersionLabel"
-        Me.GMVersionLabel.Size = New System.Drawing.Size(92, 17)
-        Me.GMVersionLabel.TabIndex = 9
-        Me.GMVersionLabel.Text = "适用游戏版本："
-        '
-        'AutoUDCheck
-        '
-        Me.AutoUDCheck.AutoSize = True
-        Me.AutoUDCheck.BackColor = System.Drawing.Color.Teal
-        Me.AutoUDCheck.Checked = True
-        Me.AutoUDCheck.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AutoUDCheck.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.AutoUDCheck.Enabled = False
-        Me.AutoUDCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.AutoUDCheck.ForeColor = System.Drawing.Color.Yellow
-        Me.AutoUDCheck.Location = New System.Drawing.Point(339, 70)
-        Me.AutoUDCheck.Name = "AutoUDCheck"
-        Me.AutoUDCheck.Size = New System.Drawing.Size(99, 21)
-        Me.AutoUDCheck.TabIndex = 17
-        Me.AutoUDCheck.Text = "自动安装汉化"
-        Me.AutoUDCheck.UseVisualStyleBackColor = False
-        '
-        'UpdateCN
-        '
-        Me.UpdateCN.BackColor = System.Drawing.Color.Teal
-        Me.UpdateCN.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.UpdateCN.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.UpdateCN.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.UpdateCN.ForeColor = System.Drawing.Color.Yellow
-        Me.UpdateCN.Location = New System.Drawing.Point(337, 167)
-        Me.UpdateCN.Name = "UpdateCN"
-        Me.UpdateCN.Size = New System.Drawing.Size(101, 25)
-        Me.UpdateCN.TabIndex = 22
-        Me.UpdateCN.Text = "强制下载汉化"
-        Me.UpdateCN.UseVisualStyleBackColor = False
-        '
-        'ButtonDirGM
-        '
-        Me.ButtonDirGM.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.ButtonDirGM.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonDirGM.Font = New System.Drawing.Font("宋体", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.ButtonDirGM.ForeColor = System.Drawing.Color.White
-        Me.ButtonDirGM.Location = New System.Drawing.Point(297, 102)
-        Me.ButtonDirGM.Name = "ButtonDirGM"
-        Me.ButtonDirGM.Size = New System.Drawing.Size(24, 19)
-        Me.ButtonDirGM.TabIndex = 6
-        Me.ButtonDirGM.Text = "…"
-        Me.ButtonDirGM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ButtonDirGM.UseVisualStyleBackColor = True
-        '
-        'LocGameCheck
-        '
-        Me.LocGameCheck.AutoSize = True
-        Me.LocGameCheck.BackColor = System.Drawing.Color.Teal
-        Me.LocGameCheck.Checked = True
-        Me.LocGameCheck.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.LocGameCheck.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.LocGameCheck.Enabled = False
-        Me.LocGameCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LocGameCheck.ForeColor = System.Drawing.Color.Yellow
-        Me.LocGameCheck.Location = New System.Drawing.Point(339, 43)
-        Me.LocGameCheck.Name = "LocGameCheck"
-        Me.LocGameCheck.Size = New System.Drawing.Size(99, 21)
-        Me.LocGameCheck.TabIndex = 16
-        Me.LocGameCheck.Text = "启用游戏汉化"
-        Me.LocGameCheck.UseVisualStyleBackColor = False
-        '
-        'LocALCheck
-        '
-        Me.LocALCheck.AutoSize = True
-        Me.LocALCheck.BackColor = System.Drawing.Color.Teal
-        Me.LocALCheck.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.LocALCheck.Enabled = False
-        Me.LocALCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LocALCheck.ForeColor = System.Drawing.Color.Yellow
-        Me.LocALCheck.Location = New System.Drawing.Point(339, 16)
-        Me.LocALCheck.Name = "LocALCheck"
-        Me.LocALCheck.Size = New System.Drawing.Size(99, 21)
-        Me.LocALCheck.TabIndex = 15
-        Me.LocALCheck.Text = "启用战网汉化"
-        Me.LocALCheck.UseVisualStyleBackColor = False
-        '
-        'CloseAction
-        '
-        Me.CloseAction.BackColor = System.Drawing.Color.Teal
-        Me.CloseAction.Controls.Add(Me.CloseForm2)
-        Me.CloseAction.Controls.Add(Me.CloseForm1)
-        Me.CloseAction.Controls.Add(Me.CloseForm0)
-        Me.CloseAction.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.CloseAction.ForeColor = System.Drawing.Color.Yellow
-        Me.CloseAction.Location = New System.Drawing.Point(15, 138)
-        Me.CloseAction.Name = "CloseAction"
-        Me.CloseAction.Size = New System.Drawing.Size(306, 56)
-        Me.CloseAction.TabIndex = 7
-        Me.CloseAction.TabStop = False
-        Me.CloseAction.Text = "点击汉化启动器关闭按钮时"
-        '
-        'CloseForm2
-        '
-        Me.CloseForm2.AutoSize = True
-        Me.CloseForm2.BackColor = System.Drawing.Color.Teal
-        Me.CloseForm2.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.CloseForm2.Location = New System.Drawing.Point(195, 22)
-        Me.CloseForm2.Name = "CloseForm2"
-        Me.CloseForm2.Size = New System.Drawing.Size(110, 21)
-        Me.CloseForm2.TabIndex = 9
-        Me.CloseForm2.TabStop = True
-        Me.CloseForm2.Text = "隐藏至系统托盘"
-        Me.CloseForm2.UseVisualStyleBackColor = False
-        '
-        'CloseForm1
-        '
-        Me.CloseForm1.AutoSize = True
-        Me.CloseForm1.BackColor = System.Drawing.Color.Teal
-        Me.CloseForm1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.CloseForm1.Location = New System.Drawing.Point(85, 22)
-        Me.CloseForm1.Name = "CloseForm1"
-        Me.CloseForm1.Size = New System.Drawing.Size(110, 21)
-        Me.CloseForm1.TabIndex = 8
-        Me.CloseForm1.TabStop = True
-        Me.CloseForm1.Text = "最小化到任务栏"
-        Me.CloseForm1.UseVisualStyleBackColor = False
-        '
-        'CloseForm0
-        '
-        Me.CloseForm0.AutoSize = True
-        Me.CloseForm0.BackColor = System.Drawing.Color.Teal
-        Me.CloseForm0.Checked = True
-        Me.CloseForm0.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.CloseForm0.Location = New System.Drawing.Point(11, 22)
-        Me.CloseForm0.Name = "CloseForm0"
-        Me.CloseForm0.Size = New System.Drawing.Size(74, 21)
-        Me.CloseForm0.TabIndex = 7
-        Me.CloseForm0.TabStop = True
-        Me.CloseForm0.Text = "退出程序"
-        Me.CloseForm0.UseVisualStyleBackColor = False
         '
         'SysTrayIcon
         '
@@ -453,19 +309,94 @@ Partial Class WavenLauncher
         'Timer_ShowDSpeed
         '
         '
+        'Timer_CheckVersion
+        '
+        Me.Timer_CheckVersion.Interval = 50
+        '
+        'SettingPanel
+        '
+        Me.SettingPanel.BackColor = System.Drawing.Color.Teal
+        Me.SettingPanel.Controls.Add(Me.TabControl1)
+        Me.SettingPanel.Location = New System.Drawing.Point(305, 140)
+        Me.SettingPanel.Name = "SettingPanel"
+        Me.SettingPanel.Size = New System.Drawing.Size(381, 202)
+        Me.SettingPanel.TabIndex = 25
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.TabPage4)
+        Me.TabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed
+        Me.TabControl1.Font = New System.Drawing.Font("微软雅黑", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TabControl1.Location = New System.Drawing.Point(-3, 0)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(387, 205)
+        Me.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
+        Me.TabControl1.TabIndex = 23
+        '
+        'TabPage1
+        '
+        Me.TabPage1.BackColor = System.Drawing.Color.Teal
+        Me.TabPage1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TabPage1.Controls.Add(Me.GMVersionLabel)
+        Me.TabPage1.Controls.Add(Me.ButtonSwitchLine)
+        Me.TabPage1.Controls.Add(Me.ALVersionLabel)
+        Me.TabPage1.Controls.Add(Me.LabelSwitchLine)
+        Me.TabPage1.Controls.Add(Me.LocalGMVersionLabel)
+        Me.TabPage1.Controls.Add(Me.LocalALVersionLabel)
+        Me.TabPage1.Controls.Add(Me.Label2)
+        Me.TabPage1.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TabPage1.Location = New System.Drawing.Point(4, 28)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(379, 173)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "下载"
+        '
+        'GMVersionLabel
+        '
+        Me.GMVersionLabel.AutoSize = True
+        Me.GMVersionLabel.BackColor = System.Drawing.Color.Teal
+        Me.GMVersionLabel.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.GMVersionLabel.Enabled = False
+        Me.GMVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.GMVersionLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.GMVersionLabel.Location = New System.Drawing.Point(187, 79)
+        Me.GMVersionLabel.Name = "GMVersionLabel"
+        Me.GMVersionLabel.Size = New System.Drawing.Size(106, 17)
+        Me.GMVersionLabel.TabIndex = 9
+        Me.GMVersionLabel.Text = "★ 点击下载游戏："
+        '
         'ButtonSwitchLine
         '
         Me.ButtonSwitchLine.Cursor = System.Windows.Forms.Cursors.Hand
         Me.ButtonSwitchLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonSwitchLine.Font = New System.Drawing.Font("宋体", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ButtonSwitchLine.ForeColor = System.Drawing.Color.White
-        Me.ButtonSwitchLine.Location = New System.Drawing.Point(297, 16)
+        Me.ButtonSwitchLine.Location = New System.Drawing.Point(230, 30)
         Me.ButtonSwitchLine.Name = "ButtonSwitchLine"
         Me.ButtonSwitchLine.Size = New System.Drawing.Size(24, 19)
         Me.ButtonSwitchLine.TabIndex = 4
         Me.ButtonSwitchLine.Text = "…"
         Me.ButtonSwitchLine.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ButtonSwitchLine.UseVisualStyleBackColor = True
+        '
+        'ALVersionLabel
+        '
+        Me.ALVersionLabel.AutoSize = True
+        Me.ALVersionLabel.BackColor = System.Drawing.Color.Teal
+        Me.ALVersionLabel.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ALVersionLabel.Enabled = False
+        Me.ALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ALVersionLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.ALVersionLabel.Location = New System.Drawing.Point(24, 79)
+        Me.ALVersionLabel.Name = "ALVersionLabel"
+        Me.ALVersionLabel.Size = New System.Drawing.Size(106, 17)
+        Me.ALVersionLabel.TabIndex = 4
+        Me.ALVersionLabel.Text = "★ 点击下载战网："
         '
         'LabelSwitchLine
         '
@@ -474,118 +405,233 @@ Partial Class WavenLauncher
         Me.LabelSwitchLine.Cursor = System.Windows.Forms.Cursors.Hand
         Me.LabelSwitchLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.LabelSwitchLine.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.LabelSwitchLine.Location = New System.Drawing.Point(202, 15)
+        Me.LabelSwitchLine.Location = New System.Drawing.Point(135, 29)
         Me.LabelSwitchLine.Name = "LabelSwitchLine"
         Me.LabelSwitchLine.Size = New System.Drawing.Size(119, 21)
         Me.LabelSwitchLine.TabIndex = 5
         Me.LabelSwitchLine.Text = "国内下载线路"
         Me.LabelSwitchLine.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Timer_CheckVersion
+        'LocalGMVersionLabel
         '
-        Me.Timer_CheckVersion.Interval = 50
+        Me.LocalGMVersionLabel.AutoSize = True
+        Me.LocalGMVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LocalGMVersionLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.LocalGMVersionLabel.Location = New System.Drawing.Point(187, 125)
+        Me.LocalGMVersionLabel.Name = "LocalGMVersionLabel"
+        Me.LocalGMVersionLabel.Size = New System.Drawing.Size(106, 17)
+        Me.LocalGMVersionLabel.TabIndex = 15
+        Me.LocalGMVersionLabel.Text = "★ 本地游戏版本："
         '
-        'SettingPanel
+        'LocalALVersionLabel
         '
-        Me.SettingPanel.BackColor = System.Drawing.Color.Teal
-        Me.SettingPanel.Controls.Add(Me.GraphQualityList)
-        Me.SettingPanel.Controls.Add(Me.WindowHeight)
-        Me.SettingPanel.Controls.Add(Me.WindowWidth)
-        Me.SettingPanel.Controls.Add(Me.Label1)
-        Me.SettingPanel.Controls.Add(Me.WindowResolution)
-        Me.SettingPanel.Controls.Add(Me.PingLabel)
-        Me.SettingPanel.Controls.Add(Me.ButtonSwitchLine)
-        Me.SettingPanel.Controls.Add(Me.CloseAction)
-        Me.SettingPanel.Controls.Add(Me.ALVersionLabel)
-        Me.SettingPanel.Controls.Add(Me.LabelSwitchLine)
-        Me.SettingPanel.Controls.Add(Me.GMVersionLabel)
-        Me.SettingPanel.Controls.Add(Me.LocALCheck)
-        Me.SettingPanel.Controls.Add(Me.LocGameCheck)
-        Me.SettingPanel.Controls.Add(Me.ButtonDirAL)
-        Me.SettingPanel.Controls.Add(Me.ButtonDirGM)
-        Me.SettingPanel.Controls.Add(Me.LabelDirAL)
-        Me.SettingPanel.Controls.Add(Me.LabelDirGM)
-        Me.SettingPanel.Controls.Add(Me.UpdateCN)
-        Me.SettingPanel.Controls.Add(Me.WindowedMode)
-        Me.SettingPanel.Controls.Add(Me.AutoUDCheck)
-        Me.SettingPanel.Location = New System.Drawing.Point(229, 133)
-        Me.SettingPanel.Name = "SettingPanel"
-        Me.SettingPanel.Size = New System.Drawing.Size(457, 209)
-        Me.SettingPanel.TabIndex = 25
+        Me.LocalALVersionLabel.AutoSize = True
+        Me.LocalALVersionLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LocalALVersionLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.LocalALVersionLabel.Location = New System.Drawing.Point(24, 125)
+        Me.LocalALVersionLabel.Name = "LocalALVersionLabel"
+        Me.LocalALVersionLabel.Size = New System.Drawing.Size(106, 17)
+        Me.LocalALVersionLabel.TabIndex = 15
+        Me.LocalALVersionLabel.Text = "★ 本地战网版本："
         '
-        'GraphQualityList
+        'Label2
         '
-        Me.GraphQualityList.BackColor = System.Drawing.Color.Teal
-        Me.GraphQualityList.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.GraphQualityList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.GraphQualityList.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.GraphQualityList.ForeColor = System.Drawing.Color.Yellow
-        Me.GraphQualityList.FormattingEnabled = True
-        Me.GraphQualityList.ItemHeight = 17
-        Me.GraphQualityList.Items.AddRange(New Object() {"极低", "低", "中等", "高", "极致"})
-        Me.GraphQualityList.Location = New System.Drawing.Point(387, 138)
-        Me.GraphQualityList.Name = "GraphQualityList"
-        Me.GraphQualityList.Size = New System.Drawing.Size(51, 25)
-        Me.GraphQualityList.TabIndex = 21
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.Yellow
+        Me.Label2.Location = New System.Drawing.Point(24, 30)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(106, 17)
+        Me.Label2.TabIndex = 15
+        Me.Label2.Text = "★ 设置下载线路："
         '
-        'WindowHeight
+        'TabPage2
         '
-        Me.WindowHeight.BackColor = System.Drawing.SystemColors.Window
-        Me.WindowHeight.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.WindowHeight.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.WindowHeight.Location = New System.Drawing.Point(403, 119)
-        Me.WindowHeight.MaxLength = 5
-        Me.WindowHeight.Name = "WindowHeight"
-        Me.WindowHeight.ShortcutsEnabled = False
-        Me.WindowHeight.Size = New System.Drawing.Size(35, 16)
-        Me.WindowHeight.TabIndex = 20
-        Me.WindowHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TabPage2.BackColor = System.Drawing.Color.Teal
+        Me.TabPage2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TabPage2.Controls.Add(Me.Label4)
+        Me.TabPage2.Controls.Add(Me.Label3)
+        Me.TabPage2.Controls.Add(Me.AutoUDCheck)
+        Me.TabPage2.Controls.Add(Me.UpdateCN)
+        Me.TabPage2.Controls.Add(Me.LocGameCheck)
+        Me.TabPage2.Controls.Add(Me.LocALCheck)
+        Me.TabPage2.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TabPage2.Location = New System.Drawing.Point(4, 28)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(379, 173)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "汉化"
         '
-        'WindowWidth
+        'Label4
         '
-        Me.WindowWidth.BackColor = System.Drawing.SystemColors.Window
-        Me.WindowWidth.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.WindowWidth.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.WindowWidth.Location = New System.Drawing.Point(354, 119)
-        Me.WindowWidth.MaxLength = 5
-        Me.WindowWidth.Name = "WindowWidth"
-        Me.WindowWidth.ShortcutsEnabled = False
-        Me.WindowWidth.Size = New System.Drawing.Size(35, 16)
-        Me.WindowWidth.TabIndex = 19
-        Me.WindowWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label4.ForeColor = System.Drawing.Color.Yellow
+        Me.Label4.Location = New System.Drawing.Point(30, 73)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(82, 17)
+        Me.Label4.TabIndex = 24
+        Me.Label4.Text = "★ 游戏汉化："
         '
-        'Label1
+        'Label3
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.Label1.ForeColor = System.Drawing.Color.Yellow
-        Me.Label1.Location = New System.Drawing.Point(334, 142)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(56, 17)
-        Me.Label1.TabIndex = 14
-        Me.Label1.Text = "游戏画质"
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label3.ForeColor = System.Drawing.Color.Yellow
+        Me.Label3.Location = New System.Drawing.Point(30, 37)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(82, 17)
+        Me.Label3.TabIndex = 23
+        Me.Label3.Text = "★ 战网汉化："
         '
-        'WindowResolution
+        'AutoUDCheck
         '
-        Me.WindowResolution.AutoSize = True
-        Me.WindowResolution.Font = New System.Drawing.Font("微软雅黑", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.WindowResolution.ForeColor = System.Drawing.Color.Yellow
-        Me.WindowResolution.Location = New System.Drawing.Point(386, 115)
-        Me.WindowResolution.Name = "WindowResolution"
-        Me.WindowResolution.Size = New System.Drawing.Size(22, 22)
-        Me.WindowResolution.TabIndex = 14
-        Me.WindowResolution.Text = "×"
+        Me.AutoUDCheck.AutoSize = True
+        Me.AutoUDCheck.BackColor = System.Drawing.Color.Teal
+        Me.AutoUDCheck.Checked = True
+        Me.AutoUDCheck.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AutoUDCheck.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.AutoUDCheck.Enabled = False
+        Me.AutoUDCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.AutoUDCheck.ForeColor = System.Drawing.Color.Yellow
+        Me.AutoUDCheck.Location = New System.Drawing.Point(241, 73)
+        Me.AutoUDCheck.Name = "AutoUDCheck"
+        Me.AutoUDCheck.Size = New System.Drawing.Size(99, 21)
+        Me.AutoUDCheck.TabIndex = 17
+        Me.AutoUDCheck.Text = "自动安装汉化"
+        Me.AutoUDCheck.UseVisualStyleBackColor = False
         '
-        'PingLabel
+        'UpdateCN
         '
-        Me.PingLabel.AutoSize = True
-        Me.PingLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
-        Me.PingLabel.ForeColor = System.Drawing.Color.Yellow
-        Me.PingLabel.Location = New System.Drawing.Point(202, 74)
-        Me.PingLabel.Name = "PingLabel"
-        Me.PingLabel.Size = New System.Drawing.Size(95, 17)
-        Me.PingLabel.TabIndex = 14
-        Me.PingLabel.Text = "游戏延迟：- ms"
+        Me.UpdateCN.BackColor = System.Drawing.Color.Teal
+        Me.UpdateCN.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.UpdateCN.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.UpdateCN.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.UpdateCN.ForeColor = System.Drawing.Color.Yellow
+        Me.UpdateCN.Location = New System.Drawing.Point(118, 110)
+        Me.UpdateCN.Name = "UpdateCN"
+        Me.UpdateCN.Size = New System.Drawing.Size(101, 25)
+        Me.UpdateCN.TabIndex = 22
+        Me.UpdateCN.Text = "强制下载汉化"
+        Me.UpdateCN.UseVisualStyleBackColor = False
+        '
+        'LocGameCheck
+        '
+        Me.LocGameCheck.AutoSize = True
+        Me.LocGameCheck.BackColor = System.Drawing.Color.Teal
+        Me.LocGameCheck.Checked = True
+        Me.LocGameCheck.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.LocGameCheck.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.LocGameCheck.Enabled = False
+        Me.LocGameCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LocGameCheck.ForeColor = System.Drawing.Color.Yellow
+        Me.LocGameCheck.Location = New System.Drawing.Point(118, 73)
+        Me.LocGameCheck.Name = "LocGameCheck"
+        Me.LocGameCheck.Size = New System.Drawing.Size(99, 21)
+        Me.LocGameCheck.TabIndex = 16
+        Me.LocGameCheck.Text = "启用游戏汉化"
+        Me.LocGameCheck.UseVisualStyleBackColor = False
+        '
+        'LocALCheck
+        '
+        Me.LocALCheck.AutoSize = True
+        Me.LocALCheck.BackColor = System.Drawing.Color.Teal
+        Me.LocALCheck.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.LocALCheck.Enabled = False
+        Me.LocALCheck.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.LocALCheck.ForeColor = System.Drawing.Color.Yellow
+        Me.LocALCheck.Location = New System.Drawing.Point(118, 36)
+        Me.LocALCheck.Name = "LocALCheck"
+        Me.LocALCheck.Size = New System.Drawing.Size(99, 21)
+        Me.LocALCheck.TabIndex = 15
+        Me.LocALCheck.Text = "启用战网汉化"
+        Me.LocALCheck.UseVisualStyleBackColor = False
+        '
+        'TabPage3
+        '
+        Me.TabPage3.BackColor = System.Drawing.Color.Teal
+        Me.TabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TabPage3.Controls.Add(Me.CloseAction)
+        Me.TabPage3.Controls.Add(Me.ButtonDirGM)
+        Me.TabPage3.Controls.Add(Me.ButtonDirAL)
+        Me.TabPage3.Controls.Add(Me.LabelDirAL)
+        Me.TabPage3.Controls.Add(Me.LabelDirGM)
+        Me.TabPage3.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TabPage3.Location = New System.Drawing.Point(4, 28)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(379, 173)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "启动"
+        '
+        'CloseAction
+        '
+        Me.CloseAction.BackColor = System.Drawing.Color.Teal
+        Me.CloseAction.Controls.Add(Me.CloseForm2)
+        Me.CloseAction.Controls.Add(Me.CloseForm1)
+        Me.CloseAction.Controls.Add(Me.CloseForm0)
+        Me.CloseAction.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.CloseAction.ForeColor = System.Drawing.Color.Yellow
+        Me.CloseAction.Location = New System.Drawing.Point(34, 100)
+        Me.CloseAction.Name = "CloseAction"
+        Me.CloseAction.Size = New System.Drawing.Size(306, 56)
+        Me.CloseAction.TabIndex = 7
+        Me.CloseAction.TabStop = False
+        Me.CloseAction.Text = "点击汉化启动器关闭按钮时"
+        '
+        'CloseForm2
+        '
+        Me.CloseForm2.AutoSize = True
+        Me.CloseForm2.BackColor = System.Drawing.Color.Teal
+        Me.CloseForm2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.CloseForm2.Location = New System.Drawing.Point(195, 22)
+        Me.CloseForm2.Name = "CloseForm2"
+        Me.CloseForm2.Size = New System.Drawing.Size(110, 21)
+        Me.CloseForm2.TabIndex = 9
+        Me.CloseForm2.TabStop = True
+        Me.CloseForm2.Text = "隐藏至系统托盘"
+        Me.CloseForm2.UseVisualStyleBackColor = False
+        '
+        'CloseForm1
+        '
+        Me.CloseForm1.AutoSize = True
+        Me.CloseForm1.BackColor = System.Drawing.Color.Teal
+        Me.CloseForm1.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.CloseForm1.Location = New System.Drawing.Point(85, 22)
+        Me.CloseForm1.Name = "CloseForm1"
+        Me.CloseForm1.Size = New System.Drawing.Size(110, 21)
+        Me.CloseForm1.TabIndex = 8
+        Me.CloseForm1.TabStop = True
+        Me.CloseForm1.Text = "最小化到任务栏"
+        Me.CloseForm1.UseVisualStyleBackColor = False
+        '
+        'CloseForm0
+        '
+        Me.CloseForm0.AutoSize = True
+        Me.CloseForm0.BackColor = System.Drawing.Color.Teal
+        Me.CloseForm0.Checked = True
+        Me.CloseForm0.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.CloseForm0.Location = New System.Drawing.Point(11, 22)
+        Me.CloseForm0.Name = "CloseForm0"
+        Me.CloseForm0.Size = New System.Drawing.Size(74, 21)
+        Me.CloseForm0.TabIndex = 7
+        Me.CloseForm0.TabStop = True
+        Me.CloseForm0.Text = "退出程序"
+        Me.CloseForm0.UseVisualStyleBackColor = False
+        '
+        'ButtonDirGM
+        '
+        Me.ButtonDirGM.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.ButtonDirGM.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonDirGM.Font = New System.Drawing.Font("宋体", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.ButtonDirGM.ForeColor = System.Drawing.Color.White
+        Me.ButtonDirGM.Location = New System.Drawing.Point(316, 60)
+        Me.ButtonDirGM.Name = "ButtonDirGM"
+        Me.ButtonDirGM.Size = New System.Drawing.Size(24, 19)
+        Me.ButtonDirGM.TabIndex = 6
+        Me.ButtonDirGM.Text = "…"
+        Me.ButtonDirGM.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ButtonDirGM.UseVisualStyleBackColor = True
         '
         'ButtonDirAL
         '
@@ -593,7 +639,7 @@ Partial Class WavenLauncher
         Me.ButtonDirAL.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ButtonDirAL.Font = New System.Drawing.Font("宋体", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.ButtonDirAL.ForeColor = System.Drawing.Color.White
-        Me.ButtonDirAL.Location = New System.Drawing.Point(297, 44)
+        Me.ButtonDirAL.Location = New System.Drawing.Point(316, 22)
         Me.ButtonDirAL.Name = "ButtonDirAL"
         Me.ButtonDirAL.Size = New System.Drawing.Size(24, 19)
         Me.ButtonDirAL.TabIndex = 5
@@ -609,12 +655,42 @@ Partial Class WavenLauncher
         Me.LabelDirAL.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.LabelDirAL.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.LabelDirAL.ForeColor = System.Drawing.Color.Black
-        Me.LabelDirAL.Location = New System.Drawing.Point(15, 43)
+        Me.LabelDirAL.Location = New System.Drawing.Point(34, 21)
         Me.LabelDirAL.Name = "LabelDirAL"
         Me.LabelDirAL.Size = New System.Drawing.Size(307, 21)
         Me.LabelDirAL.TabIndex = 7
         Me.LabelDirAL.Text = "选择Ankama战网路径"
         Me.LabelDirAL.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'TabPage4
+        '
+        Me.TabPage4.BackColor = System.Drawing.Color.Teal
+        Me.TabPage4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.TabPage4.Controls.Add(Me.Label5)
+        Me.TabPage4.Controls.Add(Me.WindowedMode)
+        Me.TabPage4.Controls.Add(Me.PingLabel)
+        Me.TabPage4.Controls.Add(Me.WindowHeight)
+        Me.TabPage4.Controls.Add(Me.WindowWidth)
+        Me.TabPage4.Controls.Add(Me.WindowResolution)
+        Me.TabPage4.Controls.Add(Me.GraphQualityList)
+        Me.TabPage4.Controls.Add(Me.Label1)
+        Me.TabPage4.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.TabPage4.Location = New System.Drawing.Point(4, 28)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(379, 173)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "游戏"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.Yellow
+        Me.Label5.Location = New System.Drawing.Point(37, 35)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(70, 17)
+        Me.Label5.TabIndex = 24
+        Me.Label5.Text = "★ 分辨率："
         '
         'WindowedMode
         '
@@ -624,12 +700,88 @@ Partial Class WavenLauncher
         Me.WindowedMode.Enabled = False
         Me.WindowedMode.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
         Me.WindowedMode.ForeColor = System.Drawing.Color.Yellow
-        Me.WindowedMode.Location = New System.Drawing.Point(339, 96)
+        Me.WindowedMode.Location = New System.Drawing.Point(236, 35)
         Me.WindowedMode.Name = "WindowedMode"
         Me.WindowedMode.Size = New System.Drawing.Size(99, 21)
         Me.WindowedMode.TabIndex = 18
         Me.WindowedMode.Text = "窗口模式游戏"
         Me.WindowedMode.UseVisualStyleBackColor = False
+        '
+        'PingLabel
+        '
+        Me.PingLabel.AutoSize = True
+        Me.PingLabel.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.PingLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.PingLabel.Location = New System.Drawing.Point(37, 120)
+        Me.PingLabel.Name = "PingLabel"
+        Me.PingLabel.Size = New System.Drawing.Size(109, 17)
+        Me.PingLabel.TabIndex = 14
+        Me.PingLabel.Text = "★ 游戏延迟：- ms"
+        '
+        'WindowHeight
+        '
+        Me.WindowHeight.BackColor = System.Drawing.SystemColors.Window
+        Me.WindowHeight.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.WindowHeight.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.WindowHeight.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.WindowHeight.Location = New System.Drawing.Point(155, 36)
+        Me.WindowHeight.MaxLength = 5
+        Me.WindowHeight.Name = "WindowHeight"
+        Me.WindowHeight.ShortcutsEnabled = False
+        Me.WindowHeight.Size = New System.Drawing.Size(35, 16)
+        Me.WindowHeight.TabIndex = 20
+        Me.WindowHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'WindowWidth
+        '
+        Me.WindowWidth.BackColor = System.Drawing.SystemColors.Window
+        Me.WindowWidth.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.WindowWidth.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.WindowWidth.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.WindowWidth.Location = New System.Drawing.Point(106, 36)
+        Me.WindowWidth.MaxLength = 5
+        Me.WindowWidth.Name = "WindowWidth"
+        Me.WindowWidth.ShortcutsEnabled = False
+        Me.WindowWidth.Size = New System.Drawing.Size(35, 16)
+        Me.WindowWidth.TabIndex = 19
+        Me.WindowWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'WindowResolution
+        '
+        Me.WindowResolution.AutoSize = True
+        Me.WindowResolution.Font = New System.Drawing.Font("微软雅黑", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.WindowResolution.ForeColor = System.Drawing.Color.Yellow
+        Me.WindowResolution.Location = New System.Drawing.Point(138, 32)
+        Me.WindowResolution.Name = "WindowResolution"
+        Me.WindowResolution.Size = New System.Drawing.Size(22, 22)
+        Me.WindowResolution.TabIndex = 14
+        Me.WindowResolution.Text = "×"
+        '
+        'GraphQualityList
+        '
+        Me.GraphQualityList.BackColor = System.Drawing.Color.Teal
+        Me.GraphQualityList.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.GraphQualityList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.GraphQualityList.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.GraphQualityList.ForeColor = System.Drawing.Color.Yellow
+        Me.GraphQualityList.FormattingEnabled = True
+        Me.GraphQualityList.ItemHeight = 17
+        Me.GraphQualityList.Items.AddRange(New Object() {"极低", "低", "中等", "高", "极致"})
+        Me.GraphQualityList.Location = New System.Drawing.Point(117, 73)
+        Me.GraphQualityList.Name = "GraphQualityList"
+        Me.GraphQualityList.Size = New System.Drawing.Size(73, 25)
+        Me.GraphQualityList.TabIndex = 21
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("微软雅黑", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(134, Byte))
+        Me.Label1.ForeColor = System.Drawing.Color.Yellow
+        Me.Label1.Location = New System.Drawing.Point(37, 77)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(82, 17)
+        Me.Label1.TabIndex = 14
+        Me.Label1.Text = "★ 游戏画质："
         '
         'MiniForm
         '
@@ -680,66 +832,84 @@ Partial Class WavenLauncher
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Waven汉化启动器 by layah"
         CType(Me.IcoPicture, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.CloseAction.ResumeLayout(False)
-        Me.CloseAction.PerformLayout()
         Me.SysTrayMenu.ResumeLayout(False)
         Me.StatusPanel.ResumeLayout(False)
         Me.StatusPanel.PerformLayout()
         Me.PanelProgressBar.ResumeLayout(False)
         Me.SettingPanel.ResumeLayout(False)
-        Me.SettingPanel.PerformLayout()
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.CloseAction.ResumeLayout(False)
+        Me.CloseAction.PerformLayout()
+        Me.TabPage4.ResumeLayout(False)
+        Me.TabPage4.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents StartButton As Button
     Friend WithEvents WLVersionLabel As Label
-    Friend WithEvents ALVersionLabel As Label
     Friend WithEvents QuitForm As Button
     Friend WithEvents FormTitle As Label
     Friend WithEvents IcoPicture As PictureBox
     Friend WithEvents ShowToolTip As ToolTip
     Friend WithEvents OpenSettings As Button
-    Friend WithEvents LocGameCheck As CheckBox
-    Friend WithEvents LocALCheck As CheckBox
-    Friend WithEvents CloseAction As GroupBox
-    Friend WithEvents CloseForm2 As RadioButton
-    Friend WithEvents CloseForm1 As RadioButton
-    Friend WithEvents CloseForm0 As RadioButton
     Friend WithEvents SysTrayIcon As NotifyIcon
     Friend WithEvents Timer_ShowForm As Timer
     Friend WithEvents SysTrayMenu As ContextMenuStrip
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-    Friend WithEvents ButtonDirGM As Button
-    Friend WithEvents LabelDirGM As Label
     Friend WithEvents SelectDirDialog As OpenFileDialog
     Friend WithEvents StatusLabel As Label
     Friend WithEvents StatusPanel As Panel
-    Friend WithEvents UpdateCN As Button
     Friend WithEvents WLVerStatus As Label
     Friend WithEvents Timer_NewVersionNeon As Timer
-    Friend WithEvents AutoUDCheck As CheckBox
     Friend WithEvents PanelProgressBar As Panel
     Friend WithEvents PanelProgress As Panel
     Friend WithEvents Timer_ShowDSpeed As Timer
-    Friend WithEvents GMVersionLabel As Label
     Friend WithEvents ToolStripMenuItem3 As ToolStripMenuItem
     Friend WithEvents Timer_CheckVersion As Timer
-    Friend WithEvents LabelSwitchLine As Label
-    Friend WithEvents ButtonSwitchLine As Button
     Friend WithEvents SettingPanel As Panel
-    Friend WithEvents LabelDirAL As Label
-    Friend WithEvents ButtonDirAL As Button
     Friend WithEvents MiniForm As Button
     Friend WithEvents Timer_HideForm As Timer
-    Friend WithEvents PingLabel As Label
     Friend WithEvents Timer_Ping As Timer
-    Friend WithEvents WindowResolution As Label
+    Friend WithEvents TabControl1 As TabControl
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents GMVersionLabel As Label
+    Friend WithEvents ButtonSwitchLine As Button
+    Friend WithEvents ALVersionLabel As Label
+    Friend WithEvents LabelSwitchLine As Label
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents AutoUDCheck As CheckBox
+    Friend WithEvents UpdateCN As Button
+    Friend WithEvents LocGameCheck As CheckBox
+    Friend WithEvents LocALCheck As CheckBox
+    Friend WithEvents TabPage3 As TabPage
+    Friend WithEvents CloseAction As GroupBox
+    Friend WithEvents CloseForm2 As RadioButton
+    Friend WithEvents CloseForm1 As RadioButton
+    Friend WithEvents CloseForm0 As RadioButton
+    Friend WithEvents ButtonDirGM As Button
+    Friend WithEvents ButtonDirAL As Button
+    Friend WithEvents LabelDirAL As Label
+    Friend WithEvents LabelDirGM As Label
+    Friend WithEvents TabPage4 As TabPage
     Friend WithEvents WindowedMode As CheckBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents PingLabel As Label
     Friend WithEvents WindowHeight As TextBox
     Friend WithEvents WindowWidth As TextBox
-    Friend WithEvents Label1 As Label
+    Friend WithEvents WindowResolution As Label
     Friend WithEvents GraphQualityList As ComboBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents LocalGMVersionLabel As Label
+    Friend WithEvents LocalALVersionLabel As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label5 As Label
 End Class
